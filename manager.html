@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גישת מנהל</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .admin-page {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 5%;
+        }
+
+        .admin-page button {
+            flex: 1 1 calc(25% - 10px);
+            padding: 15px;
+            border: 2px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+
+        .admin-page button:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transition: 0.3s;
+        }
+
+        .home-link {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bolder;
+            padding: 10px;
+            border: 2px solid white;
+            margin: 2%;
+            border-radius: 5px;
+        }
+
+        .home-link:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-link">חזרה לדף הבית</a>
+    <h1>גישת מנהל</h1>
+
+    <div class="admin-page">
+
+        <button onclick="showAlert('עריכת זמני תפילות')">ערוך זמני תפילות</button>
+        <button onclick="showAlert('הוספת אירוע')">הוסף אירוע</button>
+        <button onclick="showAlert('מחיקת אירוע')">מחק אירוע</button>
+        <button onclick="showAlert('עדכון פרטי אירוע')">עדכן פרטי אירוע</button>
+        <button onclick="showAlert('הוספת איחול')">הוסף איחול</button>
+        <button onclick="showAlert('מחיקת איחול')">מחק איחול</button>
+        <button onclick="showAlert('שינוי תמונות אולם')">שנה תמונות אולם</button>
+        <button onclick="showAlert('שינוי תמונות בית הכנסת')">שנה תמונות בית הכנסת</button>
+        <button onclick="showAlert('שינוי פרטי אולם')">שנה פרטי אולם</button>
+        <button onclick="showAlert('שינוי פרטי יצירת קשר')">שנה פרטי יצירת קשר</button>
+        <button onclick="showAlert('שינוי פרטים לתרומות')">שנה פרטים לתרומות</button>
+    </div>
+
+    <script>
+        function showAlert(action) {
+            alert(`תמיכה בפונקציה "${action}" תתמך בקרוב!`);
+        }
+    </script>
+
+</body>
+</html>
