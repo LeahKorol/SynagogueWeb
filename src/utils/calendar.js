@@ -1,7 +1,7 @@
 import { HebrewCalendar, Location } from '@hebcal/core';
-import { getJerusalemDate } from './JerusalemDate.js';
+import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
-const hd_start = getJerusalemDate();
+const hd_start = getCurrentJerusalemDate();
 const hd_end = hd_start.add(12, "months");
 
 export function getEventsCalendar() {
