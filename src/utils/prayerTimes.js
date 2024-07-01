@@ -1,4 +1,4 @@
-import { GeoLocation, Zmanim } from '@hebcal/core';
+import { GeoLocation, Zmanim, HebrewCalendar, flags } from '@hebcal/core';
 import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
 const latitude = 31.821074;
@@ -8,17 +8,27 @@ const today = getCurrentJerusalemDate();
 const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
 const zmanim = new Zmanim(gloc, today, false);
 
-function isDaylightSavingTimeForIsrael() {
+
+/**
+ * Checks if a given date is during daylight saving time in Israel.
+ * @param {Date} date - The date to check.
+ * @returns {boolean} True if the date is during daylight saving time in Israel, false otherwise.
+ */
+function isDaylightSavingTimeForIsrael(date) {
     const SDT = '+02:00';
     const DST = '+03:00';
-    const offset = Zmanim.timeZoneOffset(tzid, today.greg());
+    const offset = Zmanim.timeZoneOffset(tzid, date);
     return offset === DST;
 }
 
-// Function to find the earliest tzeit in this week
-function getEarliestTzeit() {
-    const currDay = today.getDay();
-    let day = today.subtract(currDay, "days"); // Start from Sunday
+/**
+ * finds the earliest tzeit in this week
+ * @param {Hdate} - The date to check
+ * @return {Date} - the date in this week the Zteit is the earliest
+ */
+function getEarliestTzeit(hdate) {
+    const currDay = hdate.getDay();
+    let day = hdate.subtract(currDay, "days"); // Start from Sunday
 
     let minTzeit = zmanim.tzeit();
     let tZmanim, tzeit;
@@ -45,28 +55,53 @@ function getEarliestTzeit() {
     return minTzeit;
 }
 
+/**
+ * Formats a given date into a HH:mm time format. 
+ * If the seconds part of the date is greater than 0, the returned time will be one minute after the original time.
+ * @param {Date} date - The date object to format.
+ * @returns {string} The formatted time string in HH:mm format.
+ */
 function formatTime(date) {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-
-    if (seconds > 0) {
-        minutes += 1;
-
-        if (minutes === 60) {
-            hours += 1;
-            minutes = 0;
-        }
+    let tempDate = new Date(date);
+    if (tempDate.getSeconds() > 0) {
+        tempDate.setMinutes(tempDate.getMinutes() + 1);
     }
+    let hours = tempDate.getHours();
+    let minutes = tempDate.getMinutes();
+
     hours = String(hours).padStart(2, '0');
     minutes = String(minutes).padStart(2, '0');
 
     return `${hours}:${minutes}`;
 }
 
-export function getArvitTime(){
-    const arvitTime = getEarliestTzeit();
+/**
+ * Gets the earliest Arvit time based on the given Hebrew date.
+ * @param {HDate} hdate - The Hebrew date to calculate Arvit time for.
+ * @returns {string} The formatted Arvit time in HH:mm format.
+ */
+function getArvitTime(hdate) {
+    const arvitTime = getEarliestTzeit(hdate);
     return formatTime(arvitTime);
+}
+
+/**
+ * Gets Mincha time based on the given Hebrew date.
+ * @param {HDate} hdate - The Hebrew date to calculate Mincha time for.
+ * @returns {string} The formatted Arvit time in HH:mm format.
+ */
+function getMinchaTime(hdate) {
+    let minchaTime = new Date(getEarliestTzeit(hdate));
+    minchaTime.setMinutes(minchaTime.getMinutes() - 35);
+
+    const events = HebrewCalendar.getHolidaysOnDate(hdate) || [];// Default to empty array if no events
+    for (let event of events) {
+        if (event.getFlags() === flags.MINOR_FAST || event.getFlags() === flags.MAJOR_FAST) {
+            minchaTime.setMinutes(minchaTime.getMinutes() - 15);
+            break;
+        }
+    }
+    return formatTime(minchaTime);
 }
 
 const candleLighting = zmanim.sunsetOffset(-40, true);
@@ -74,12 +109,9 @@ const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
 
 const sunrise = zmanim.alotHaShachar();
 
-console.log(candleLighting.toLocaleTimeString('IL-en'));
-console.log(sunrise.toLocaleTimeString('IL-en'));
+// console.log(candleLighting.toLocaleTimeString('IL-en'));
+// console.log(sunrise.toLocaleTimeString('IL-en'));
 
-console.log(isDaylightSavingTimeForIsrael());
+// console.log(isDaylightSavingTimeForIsrael(today.greg()));
 
-console.log('Earliest tzeit:', getEarliestTzeit().toString());
-console.log(`Arvit time:`, getArvitTime());
-
-export { formatTime };
+export { formatTime, getEarliestTzeit, getMinchaTime, getArvitTime };
