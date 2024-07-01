@@ -146,13 +146,86 @@ header {
 }
 
 
-.prayersTime {
+.prayersTime, .lessons-activities {
     width: 75%;
     height: fit-content;
     margin: 0 auto;
     padding: 40px;
     background-color: var(--primary-color);
 }
+
+.prayersTime, .calendar, .announcements, .lessons-activities {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.prayersTime .box-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.prayersTime .schedule, .lessons-container .lesson {
+    flex: 1;
+    margin: 0 20px;
+}
+
+
+.lessons-activities {
+    border-radius: 10px;
+    border: 10px double white;
+    margin-top: 10%;
+}
+
+.lessons-activities .heading {
+    margin: 0;
+}
+
+.lessons-activities .lessons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; 
+    padding: 40px; 
+}
+
+.lessons-container .lesson {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.lessons-container .lesson .title-lesson {
+    color: #7fb2d6;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    position: relative;
+}
+
+.lessons-container .lesson .title-lesson::after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    height: 4px;
+    width: 0;
+    background-color: #7fb2d6;
+    transition: transform 0.3s ease, width 0.3s ease;
+    transform-origin: center right;
+}
+
+.lessons-container .lesson .title-lesson:hover::after {
+    transform: translateX(-50%) scaleX(1);
+    width: 80%;
+}
+
+
+.lessons-activities .lesson i {
+    margin-left: 7px; 
+}
+
+
 
 .heading, h2 {
     text-align: center;
@@ -289,17 +362,19 @@ h1 {
 }
 
 .calendar-events {
+    display: flex;
     height: 90vh;
     width: 100%;
-    margin: 4%;
     align-items: center;
-    justify-content: center;
+    justify-content: center;   
+    margin-top: 2%;
 }
 
 .calendar-events img {
-    width: 90%;
-    height: 90%;
+    max-width: 100%;
+    max-height: 100%;
 }
+
 
 
 
@@ -352,4 +427,107 @@ footer p {
 .social-media a:hover {
     color: var(--secondary-color); 
     cursor: pointer;
+}
+
+
+.defibrillator {
+    position: fixed;
+    bottom: 10px;
+    left: 10px; 
+    width: 130px;
+    height: 50px; 
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    text-align: center;
+}
+
+.defibrillator:hover {
+    left: 0; 
+    width: auto;
+    height: auto;
+}
+
+.material-symbols-rounded {
+    font-size: 24px;
+    color: white; 
+}
+
+.defib-text {
+    font-size: 18px;
+    transition: opacity 0.3s; 
+}
+
+.defib-info {
+    display: none; 
+}
+
+.defibrillator:hover .defib-text {
+    display: none; 
+}
+
+.defibrillator:hover .defib-info {
+    display: block; 
+    width: fit-content;
+    height: fit-content;
+    bottom: 10px;
+    left: 10px; 
+    background-color: red; 
+    color: white; 
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 18px; 
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    header ul {
+        float: none;
+        overflow: hidden;
+        background-color: #333;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    header li {
+        display: block;
+        margin-right: 20px;
+        margin-bottom: 10px;
+    }
+
+    header .logo img {
+        display: block;
+        margin: auto;
+        float: none;
+    }
+
+    header .manager {
+        float: none;
+        display: block;
+        margin: auto;
+    }
+
+    .buttons a {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .prayersTime .box-container, .lessons-container {
+        flex-direction: column;
+    }
 }
