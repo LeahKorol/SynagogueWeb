@@ -1,11 +1,10 @@
-import { HebrewCalendar, HDate, Location, Event, RoshChodeshEvent, Locale, HebrewDateEvent, CandleLightingEvent, HolidayEvent, holidayDesc } from '@hebcal/core';
+import { HebrewCalendar, HDate, Location, Locale} from '@hebcal/core';
+import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
-const now = new Date(); // Current system time
-const jerusalemDate = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
-const today = new HDate(jerusalemDate);
+const today = getCurrentJerusalemDate();
 
-function getCurrentDateInJerusalem() {
-  const gregorianDate = today.greg().toLocaleDateString('IL-en');
+function formatCurrentJerusalemDate() {
+  const gregorianDate = today.greg().toLocaleDateString('IL-en');  //MUST add .toLocaleDateString('IL-en')!!
   const hebrewDateGematria = today.renderGematriya();
 
   return {
@@ -54,8 +53,8 @@ export function getHallel() {
   return hallel;
 }
 
-console.log(getCurrentDateInJerusalem().gregorianDate);
-console.log(getCurrentDateInJerusalem().hebrewDateGematria);
+console.log(formatCurrentJerusalemDate().gregorianDate);
+console.log(formatCurrentJerusalemDate().hebrewDateGematria);
 
 console.log(getEventsDescriptions());
 
