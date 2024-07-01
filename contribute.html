@@ -11,8 +11,6 @@
 
     <!-- icon link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-
 </head>
 <body>
 
@@ -21,28 +19,29 @@
             <img src="" alt="">
         </div>
 
-        <ul class="nav-links">
-            <li><a href="index.html">בית</a></li>
-            <li><a href="index.html#calendar">פרסומים</a></li>
-            <li><a href="event-hall.html">אולם</a></li>
-            <li><a href="about-contact.html">אודות</a></li>
-            <li><a href="about-contact.html#contact-div">צור קשר</a></li>
-            <li class="current-page"><a href="">תרומות</a></li>
-        </ul>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">בית</a></li>
+                <li><a href="index.html#calendar">יומן פעילות</a></li>
+                <li><a href="event-hall.html">אולם</a></li>
+                <li><a href="about-contact.html">אודות</a></li>
+                <li><a href="about-contact.html#contact-div">צור קשר</a></li>
+                <li class="current-page"><a href="">תרומות</a></li>
+            </ul>
+
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
 
         <a class="manager" href="admin-login.html">כניסת מנהל</a>
     </header>
 
-
-
     <main>
-
         <h1>תרומות</h1>
-
         <p class="quote">
             "ר' יהושוע בן לוי אמר: גדולה צדקה שמקרבת את הגאולה" (מסכת בבא בתרא י' א')
         </p>
-
 
         <div class="qr-code">
             <div class="bit-qr">
@@ -50,14 +49,12 @@
                 <img src="images/QR-payment-bit.png" alt="Bit QR Code">
                 <p>ביט</p>
             </div>
-
             <div class="paybox-qr">
                 <img class="image" src="images/paybox-icon.jfif" alt="">
                 <img src="images/QR-payment-bit.png" alt="Paybox QR Code">
                 <p>פייבוקס</p>
             </div>
         </div>
-
 
         <div class="details">
             <div class="bank-account">
@@ -72,37 +69,36 @@
                     שם בעל החשבון : עמותת "פאתי מזרח" ע"ר
                 </p>
             </div>
-
             <div class="phone-number">
                 <h3> מספר טלפון להעברה ב bit / paybox </h3>
-                <p>050-4355468</p>
+                <p>052-6039150  -  אבי מוסקוביץ'</p>
             </div>
-
         </div>
-
     </main>
-
 
     <footer>
         <div class="map-container">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3381.708390016436!2d35.25142531511759!3d31.821167981294044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x150329e2e5f6c3f5%3A0x2d33d03abf98e106!2sDovid%20Friedman%20St%2C%20Jerusalem!5e0!3m2!1sen!2sil!4v1634660743292!5m2!1sen!2sil" allowfullscreen="" loading="lazy"></iframe>
         </div>
-
         <div class="social-media">
-
             <h3>רשתות חברתיות</h3>
-
             <a class="whatsapp" href="https://he-il.facebook.com/public/Paatey-Mizrach/" target="_blank"><i class="fab fa-whatsapp"></i></a>
             <a class="facebook" href="https://he-il.facebook.com/public/Paatey-Mizrach/" target="_blank"><i class="fab fa-facebook"></i></a>
             <a class="youtube" href="https://he-il.facebook.com/public/Paatey-Mizrach/" target="_blank"><i class="fab fa-youtube"></i></a>
         </div>
-
         <p>&copy;  כל הזכויות שמורות לבית הכנסת "פאתי מזרח"</p>
     </footer>
 
+    <div class="defibrillator">
+        <i class="fas fa-heartbeat"></i>
+        <p class="defib-text">דיפריבלטור</p>
+        <div class="defib-info">
+            <p>הדיפריבלטור ממוקם בחדר לימודים ובאולם השמחות</p>
+        </div>
+    </div>
 
     <!-- JS files links -->
     <script src="script.js"></script>
-    
+
 </body>
 </html>
