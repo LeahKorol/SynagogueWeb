@@ -2,6 +2,7 @@ import { HebrewCalendar, HDate, Location, Locale} from '@hebcal/core';
 import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
 const today = getCurrentJerusalemDate();
+//const today = new HDate(new Date(2024,9,12));//yom kipur 2024
 
 function formatCurrentJerusalemDate() {
   const gregorianDate = today.greg().toLocaleDateString('IL-en');  //MUST add .toLocaleDateString('IL-en')!!
