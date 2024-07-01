@@ -185,6 +185,10 @@ h1 {
     color: #333;
 }
 
+.box .count-people {
+  font-size: 0.9rem;
+}
+
 .box p {
     margin: 5px 0 0;
     color: #666;
@@ -210,4 +214,11 @@ h1 {
     background-color: white;
     border: 2px solid var(--primary-color);
     transition: 0.3s;
+}
+
+
+
+.defib-text, 
+.defibrillator:hover .defib-info p {
+    color: white;
 }
