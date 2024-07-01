@@ -1,4 +1,4 @@
-import {HebrewCalendar, HDate, Location, Event, RoshChodeshEvent, Locale, HebrewDateEvent, CandleLightingEvent} from '@hebcal/core';
+import { HebrewCalendar, HDate, Location, Event, RoshChodeshEvent, Locale, HebrewDateEvent, CandleLightingEvent, HolidayEvent, holidayDesc } from '@hebcal/core';
 
 const now = new Date(); // Current system time
 const jerusalemDate = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
@@ -7,7 +7,7 @@ const today = new HDate(jerusalemDate);
 function getCurrentDateInJerusalem() {
   const gregorianDate = today.greg().toLocaleDateString('IL-en');
   const hebrewDateGematria = today.renderGematriya();
-  
+
   return {
     gregorianDate,
     hebrewDateGematria
@@ -15,7 +15,7 @@ function getCurrentDateInJerusalem() {
 }
 
 export function getEventsDescriptions() {
- const options = {
+  const options = {
     start: today,
     end: today,
     isHebrewYear: true,
@@ -30,18 +30,18 @@ export function getEventsDescriptions() {
 
   const events = HebrewCalendar.calendar(options);
   const descriptions = events.map(ev => ev.render('he-x-NoNikud'));
-  
+
   return descriptions;
 }
 
 export function getParasha() {
-  const parasha = HebrewCalendar.getSedra(today.getFullYear(),true).lookup(today);
-  const parashaName = Locale.lookupTranslation(parasha['parsha'][0],'he');
-  const chag=parasha['chag'];
-  return{
+  const parasha = HebrewCalendar.getSedra(today.getFullYear(), true).lookup(today);
+  const parashaName = Locale.lookupTranslation(parasha['parsha'][0], 'he');
+  const chag = parasha['chag'];
+  return {
     parashaName,
     chag,
-    };
+  };
 }
 
 export function getTachanun() {
@@ -57,7 +57,7 @@ export function getHallel() {
 console.log(getCurrentDateInJerusalem().gregorianDate);
 console.log(getCurrentDateInJerusalem().hebrewDateGematria);
 
-console.log(getEventsDescriptions() );
+console.log(getEventsDescriptions());
 
 console.log(getParasha());
 
