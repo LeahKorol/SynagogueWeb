@@ -1,11 +1,12 @@
-import { GeoLocation, Zmanim, HebrewCalendar, flags } from '@hebcal/core';
+import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
 import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
-const latitude = 31.821074;
-const longitude = 35.253573;
+const latitude = 31.821240;
+const longitude = 35.253677;
+const elevation = 750;
 const tzid = 'Asia/Jerusalem';
 const today = getCurrentJerusalemDate();
-const gloc = new GeoLocation(null, latitude, longitude, 0, tzid);
+const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
 const zmanim = new Zmanim(gloc, today, false);
 
 
@@ -86,7 +87,6 @@ function getArvitTime(hdate) {
 }
 
 /**
- * Gets Mincha time based on the given Hebrew date.
  * @param {HDate} hdate - The Hebrew date to calculate Mincha time for.
  * @returns {string} The formatted Arvit time in HH:mm format.
  */
@@ -104,14 +104,81 @@ function getMinchaTime(hdate) {
     return formatTime(minchaTime);
 }
 
-const candleLighting = zmanim.sunsetOffset(-40, true);
-const timeStr = Zmanim.formatISOWithTimeZone(tzid, candleLighting);
+/**
+ * Calculates Candle Lighting time for upcoming Friday based on seen sunset.
+ * @param {HDate} hdate 
+ * @returns {Date} candleLighting
+ */
+function nextFridayCandleLighting(hdate) {
+    const CloseFriday = hdate.onOrAfter(5);
+    const FridayZmanim = new Zmanim(gloc, CloseFriday, true);// Enable elevation 
 
-const sunrise = zmanim.alotHaShachar();
+    // Calculate the candle lighting time in Jerusalem for seen sunset
+    const candleLighting = FridayZmanim.sunsetOffset(-40, true);
 
-// console.log(candleLighting.toLocaleTimeString('IL-en'));
-// console.log(sunrise.toLocaleTimeString('IL-en'));
+    // Log candle lighting and actual sunset times for reference
+    console.log("Candle Lighting:", candleLighting.toLocaleTimeString('IL-en'));
+    console.log("Sunset:", FridayZmanim.shkiah().toLocaleTimeString('IL-en'));
 
-// console.log(isDaylightSavingTimeForIsrael(today.greg()));
+    return candleLighting;
+}
 
-export { formatTime, getEarliestTzeit, getMinchaTime, getArvitTime };
+/**
+ * Calculates the early Mincha time for upcoming Friday based on daylight saving time.
+ * @param {HDate} hdate 
+ * @returns {string} The formatted Mincha time in HH:mm format.
+ */
+function EearlyMinchaTimeForFriday(hdate) {
+    let minchaTime = nextFridayCandleLighting(hdate);
+    if (isDaylightSavingTimeForIsrael(hdate.greg())) {
+        minchaTime.setHours(minchaTime.getHours() - 1);
+        return formatTime(minchaTime);
+    }
+    return null;
+}
+
+/**
+ * Calculates Mincha Ketana time for upcoming Friday based on daylight saving time
+ * @param {HDate} hdate 
+ * @returns {string} The formatted Mincha time in HH:mm format.
+ */
+function MinchaKetanaForFriday(hdate) {
+    let minchaTime = nextFridayCandleLighting(hdate);
+    if (isDaylightSavingTimeForIsrael(hdate.greg())) {
+        minchaTime.setMinutes(minchaTime.getMinutes() - 10);
+    }
+    return formatTime(minchaTime);
+}
+
+/**
+ * @param {HDate} hdate 
+ * @returns {string} The formatted Mincha time in HH:mm format.
+ */
+function minchaForFriday(hdate) {
+    let minchaTime = nextFridayCandleLighting(hdate);
+    minchaTime.setMinutes(minchaTime.getMinutes() + 25);
+    return formatTime(minchaTime);
+}
+
+/**
+ * Calculates Arvit time for upcoming Shabbat: 40 minutes after seen sunset
+ * @param {HDate} hdate 
+ * @returns {string} The formatted Arvit time in HH:mm format.
+ */
+function arvitAfterShabbat(hdate) {
+    const CloseShabbat = hdate.onOrAfter(6);
+    const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// unnable elevation 
+    const arvitTime = ShabbatZmanim.sunsetOffset(40, true);
+    return formatTime(arvitTime);
+}
+
+export {
+    formatTime,
+    getEarliestTzeit,
+    getMinchaTime,
+    getArvitTime,
+    EearlyMinchaTimeForFriday,
+    MinchaKetanaForFriday,
+    minchaForFriday,
+    arvitAfterShabbat
+};
