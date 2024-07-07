@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import './App.css';
 import './styles/try.css';
 import Header from './components/Header';
+import PrayerTimes from './components/PrayerTimes';
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           </div>
         </div>
       </section>
+
+      <PrayerTimes />
     </div>
   );
 }

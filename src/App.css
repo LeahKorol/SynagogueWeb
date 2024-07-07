@@ -102,3 +102,28 @@
   background-color: white;
   color: var(--primary-color);
 }
+
+
+.prayersTime, .lessons-activities {
+  width: 75%;
+  height: fit-content;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: var(--primary-color);
+}
+
+.prayersTime, .calendar, .announcements, .lessons-activities {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.prayersTime .box-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.prayersTime .schedule, .lessons-container .lesson {
+  flex: 1;
+  margin: 0 20px;
+}
