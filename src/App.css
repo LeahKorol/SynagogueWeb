@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   direction: rtl; 
+  background-color: var(--primary-color);
 }
 
 .App-logo {
@@ -14,8 +15,21 @@
   }
 }
 
+:root {
+  --primary-color: #212032;
+  --secondary-color: #0041a8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Calibri, sans-serif;
+}
+
+
 .App-header {
-  background-color: #282c34;
+  background-color: var(--primary-color);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,6 +56,7 @@
 /* homepage section */
 .hero {
   flex: 1;
+  background-color: var(--primary-color);
   /* background: url('images/1.jfif') no-repeat center center/cover; */
   background-size: cover;
   background-attachment: fixed;
@@ -72,18 +87,20 @@
 
 .content h1 {
   font-size: 50px;
+  color: white;
 }
 
 .content p {
   font-size: 24px;
   margin-bottom: 5vh;
+  color: white;
 }
 
 
 .buttons {
   display: flex;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: left;
 }
 
 .buttons a {
@@ -201,10 +218,124 @@
 }
 
 
-/* responsive screen for iphons and smart-phones principly */
+/* header section */
+header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.logo {
+  /* Add logo styling here */
+}
+
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+}
+
+.hamburger-menu .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 2px 0;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin: 0 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}
+
+.manager {
+  text-decoration: none;
+  color: white;
+  border: 1px solid white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+
+/* matching for smartphones - responsivity */
 @media (max-width: 768px) {
-  .prayersTime .box-container {
+  .App {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--primary-color);
+  }
+
+  .hamburger-menu {
     display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
     flex-direction: column;
+    background-color: var(--primary-color);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+
+  .hero {
+    padding: 2vh 2vw;
+    align-items: left;
+  }
+
+  .hero h1 {
+    font-size: 10vw;
+    text-align: left;
+    color: white;
+  }
+
+  .hero p {
+    font-size: 4.5vw;
+    text-align: left;
+    margin-bottom: 2vh;
+    padding-right: 5vw; 
+    color: white;
+  }
+
+  .hero .buttons {
+    
+  }
+
+  h1 {
+    font-size: 5vh;
+  }
+
+  .prayersTime .box-container {
+    flex-direction: column;
+  }
+
+  .lessons-activities .lessons-container {
+    grid-template-columns: 1fr;
   }
 }

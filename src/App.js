@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import './App.css';
-import './styles/try.css';
 import Header from './components/Header';
 import PrayerTimes from './components/PrayerTimes';
 import LessonsActivities from './components/LessonsActivities';
