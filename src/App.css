@@ -16,7 +16,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,8 +66,8 @@
 .content {
   position: relative;
   z-index: 1;
-  top: 60%;
-  left: 10%;
+  top: 60vh;
+  left: 10vw;
 }
 
 .content h1 {
@@ -76,7 +76,7 @@
 
 .content p {
   font-size: 24px;
-  margin-bottom: 5%;
+  margin-bottom: 5vh;
 }
 
 
@@ -105,10 +105,10 @@
 
 
 .prayersTime, .lessons-activities {
-  width: 75%;
+  width: 75vw;
   height: fit-content;
   margin: 0 auto;
-  padding: 40px;
+  padding: 10vw;
   background-color: var(--primary-color);
 }
 
@@ -126,4 +126,85 @@
 .prayersTime .schedule, .lessons-container .lesson {
   flex: 1;
   margin: 0 20px;
+}
+
+
+.lessons-activities {
+  border-radius: 10px;
+  border: 10px double white;
+  margin-top: 10%;
+}
+
+.lessons-activities .heading {
+  margin: 0;
+}
+
+.lessons-activities .lessons-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px; 
+  padding: 40px; 
+}
+
+.lessons-container .lesson {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.lessons-container .lesson .title-lesson {
+  color: #7fb2d6;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  position: relative;
+}
+
+.lessons-container .lesson .title-lesson::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  height: 4px;
+  width: 0;
+  background-color: #7fb2d6;
+  transition: transform 0.3s ease, width 0.3s ease;
+  transform-origin: center right;
+}
+
+.lessons-container .lesson .title-lesson:hover::after {
+  transform: translateX(-50%) scaleX(1);
+  width: 80%;
+}
+
+
+.lessons-activities .lesson i {
+  margin-left: 7px; 
+}
+
+.heading, h2 {
+  text-align: center;
+  color: var(--primary-color);
+  background-color: white;
+  padding: 10px;
+}
+
+.box-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 20px;
+}
+
+
+/* responsive screen for iphons and smart-phones principly */
+@media (max-width: 768px) {
+  .prayersTime .box-container {
+    display: flex;
+    flex-direction: column;
+  }
 }

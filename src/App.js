@@ -4,6 +4,7 @@ import './App.css';
 import './styles/try.css';
 import Header from './components/Header';
 import PrayerTimes from './components/PrayerTimes';
+import LessonsActivities from './components/LessonsActivities';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       </section>
 
       <PrayerTimes />
+      <LessonsActivities />
     </div>
   );
 }
