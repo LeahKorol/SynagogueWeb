@@ -103,15 +103,11 @@
 
 .prayersTime, .lessons-activities {
   width: 75vw;
-  min-height: 100vh;
+  min-height: 90vh;
   margin: 0 auto;
   padding: 10vw;
   background-color: var(--primary-color);
-  text-align: center;
-  align-self: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
+  text-align: center;  
 }
 
 .prayersTime, .calendar, .announcements, .lessons-activities {
@@ -248,17 +244,21 @@ header {
 .nav-links {
   display: flex;
   list-style: none;
+  padding: 0;
 }
 
 .nav-links li {
-  margin: 0 10px;
+  margin: 0 1vw; 
 }
 
 .nav-links a {
   text-decoration: none;
   color: white;
-  font-size: 18px;
+  font-size: 1.5vw;
+  font-weight: bolder;
+  padding: 1vw;
 }
+
 
 .manager {
   text-decoration: none;
@@ -324,12 +324,20 @@ header {
     
   }
 
-  h1 {
-    font-size: 5vh;
+  .prayersTime, .lessons-activities {
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
   }
 
   .prayersTime .box-container {
     flex-direction: column;
+  }
+
+  .lessons-activities {
+    margin-top: 0;
   }
 
   .lessons-activities .lessons-container {
