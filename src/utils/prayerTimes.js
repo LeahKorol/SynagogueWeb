@@ -24,7 +24,7 @@ function isDaylightSavingTimeForIsrael(date) {
 
 /**
  * finds the earliest tzeit in this week
- * @param {Hdate} - The date to check
+ * @param {HDate} - The date to check
  * @return {Date} - the date in this week the Zteit is the earliest
  */
 function getEarliestTzeit(hdate) {
