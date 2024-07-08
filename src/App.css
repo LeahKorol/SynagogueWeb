@@ -17,36 +17,74 @@
   font-family: Calibri, sans-serif;
 }
 
-
-.App-header {
+header {
   background-color: var(--primary-color);
-  height: 100vh;
+  padding: 20px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.hamburger-menu {
+  cursor: pointer;
+  display: none;
   flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger-menu .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-links a:hover {
+  color: var(--secondary-color);
+}
+
+.manager {
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.manager:hover {
+  background-color: white;
+  color: var(--primary-color);
+}
+
+.hero {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-
-/* homepage section */
-.hero {
-  flex: 1;
+  height: 100vh;
   background-color: var(--primary-color);
-  /* background: url('images/1.jfif') no-repeat center center/cover; */
-  background-size: cover;
-  background-attachment: fixed;
-  display: flex;
-  align-items: left;
-  justify-content: left;
+  /* background: url('path-to-your-image') no-repeat center center/cover; */
   position: relative;
-  text-align: center;
-  height: 100vh; 
+  color: white;
 }
 
 .hero::before {
@@ -59,29 +97,26 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-.content {
+.hero .content {
   position: relative;
   z-index: 1;
-  top: 60vh;
-  left: 10vw;
+  text-align: center;
 }
 
-.content h1 {
+.hero .content h1 {
   font-size: 50px;
-  color: white;
+  background-color: aqua;
 }
 
-.content p {
+.hero .content p {
   font-size: 24px;
-  margin-bottom: 5vh;
-  color: white;
+  margin-bottom: 20px;
 }
-
 
 .buttons {
   display: flex;
   gap: 20px;
-  justify-content: left;
+  justify-content: center;
 }
 
 .buttons a {
@@ -101,6 +136,26 @@
   color: var(--primary-color);
 }
 
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+}
 
 .prayersTime, .lessons-activities {
   width: 75vw;
@@ -142,7 +197,6 @@
 .lessons-activities {
   border-radius: 10px;
   border: 10px double white;
-  /* margin-top: 10vh; */
   align-items: center;
 }
 
@@ -196,7 +250,6 @@
   width: 80%;
 }
 
-
 .lessons-activities .lesson i {
   margin-left: 7px; 
 }
@@ -218,7 +271,6 @@
   padding: 20px;
 }
 
-
 /* header section */
 header {
   position: relative;
@@ -228,10 +280,6 @@ header {
   padding: 10px 20px;
   background-color: var(--primary-color);
   color: white;
-}
-
-.logo {
-  /* Add logo styling here */
 }
 
 .hamburger-menu {
@@ -267,7 +315,6 @@ header {
   padding: 1vw;
 }
 
-
 .manager {
   text-decoration: none;
   color: white;
@@ -275,7 +322,6 @@ header {
   padding: 5px 10px;
   border-radius: 5px;
 }
-
 
 /* matching for smartphones - responsivity */
 @media (max-width: 768px) {
@@ -310,7 +356,6 @@ header {
   }
 
   .hero {
-    /* height: 50vh; */
     padding: 2vh 2vw;
     align-items: left;
   }
@@ -327,10 +372,6 @@ header {
     margin-bottom: 2vh;
     padding-right: 5vw; 
     color: white;
-  }
-
-  .hero .buttons {
-    
   }
 
   .prayersTime, .lessons-activities {

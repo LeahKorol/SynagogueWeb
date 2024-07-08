@@ -22,12 +22,12 @@ function Header() {
       <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
         <li className="current-page"><Link to="/">בית</Link></li>
         <li><Link to="#calendar">יומן פעילות</Link></li>
-        <li><Link to="event-hall">אולם</Link></li>
-        <li><Link to="about-contact">אודות</Link></li>
-        <li><Link to="about-contact#contact-div">צור קשר</Link></li>
-        <li><Link to="contribute">תרומות</Link></li>
+        <li><Link to="/event-hall">אולם</Link></li>
+        <li><Link to="/about-contact">אודות</Link></li>
+        <li><Link to="/about-contact#contact-div">צור קשר</Link></li>
+        <li><Link to="/contribute">תרומות</Link></li>
       </ul>
-      <Link className="manager" to="admin-login">כניסת מנהל</Link>
+      <Link className="manager" to="/admin-login">כניסת מנהל</Link>
     </header>
   );
 }
