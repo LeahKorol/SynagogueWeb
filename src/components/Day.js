@@ -6,7 +6,7 @@ const Day = ({ day, month, events }) => {
     const formattedDate = gregorianDate.toISOString().split('T')[0]; // Match the format in eventsCalendar
     const dayEvents = events.filter(event => event.date === formattedDate);
     const hebrewDate = getHebrewDate(gregorianDate);
-
+    
     return (
         <div className={`day ${day ? '' : 'empty'}`}>
             {day && (
