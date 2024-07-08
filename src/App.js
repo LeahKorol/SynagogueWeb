@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Helmet>
-        <title>פאתי מזרח קדימה | דף בית</title>
+        <title>פאתי מזרח | דף בית</title>
       </Helmet>
       <Header />
       <section id="hero" className="hero">
