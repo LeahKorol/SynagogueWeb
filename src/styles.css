@@ -1,0 +1,49 @@
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .month {
+    flex: 1 0 30%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .days {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .day {
+    width: calc(100% / 7);
+    height: 120px; /* הגדלת הגובה של המשבצות */
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  
+  .day .date {
+    font-size: 16px; /* הגדלת גודל הגופן של התאריך */
+    color: #333;
+    display: block;
+    margin-bottom: 5px; /* הוספת מרווח תחתון לתאריך */
+  }
+  
+  .day .event {
+    background-color: transparent; /* ביטול רקע הצהוב */
+    color: #0000ff; /* שינוי צבע לטקסט כחול */
+    font-size: 14px;
+    padding: 2px 0; /* הוספת מרווח עליון ותחתון */
+    box-sizing: border-box;
+    border: none; /* ביטול קו תחתון */
+  }
+  
+  .day.empty {
+    background-color: #f0f0f0;
+    border: none;
+  }
