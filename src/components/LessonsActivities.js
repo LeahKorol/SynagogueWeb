@@ -15,11 +15,6 @@ const LessonsActivities = () => {
           <p><i className="fas fa-clock"></i> כל יום שלישי בשעה 20:00</p>
           <p><i className="fas fa-building"></i>בחדר הלימודים</p>
         </div>
-        <div className="lesson">
-          <h2 className="title-lesson">שיעור בגמרא</h2>
-          <p><i className="fas fa-clock"></i>כל שבת בשעה 17:00</p>
-          <p><i className="fas fa-building"></i>בחדר הלימודים</p>
-        </div>
       </div>
     </section>
   );
