@@ -13,7 +13,7 @@ const LessonsActivities = () => {
         <div className="lesson">
           <h2 className="title-lesson">שיעור בספר שופטים</h2>
           <p><i className="fas fa-clock"></i> כל יום שלישי בשעה 20:00</p>
-          <p><i className="fas fa-building"></i>בבית המדרש</p>
+          <p><i className="fas fa-building"></i>בחדר הלימודים</p>
         </div>
         <div className="lesson">
           <h2 className="title-lesson">שיעור בגמרא</h2>

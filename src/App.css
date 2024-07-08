@@ -230,30 +230,34 @@ header {
   }
 }
 
+
 .lessons-activities {
-  border-radius: 10px;
-  border: 10px double white;
+  border-radius: 1vw;
+  border: 1vw double white;
   align-items: center;
+  padding: 2vh 2vw;
+  width: 75vw;
+  height: fit-content;
 }
 
 .lessons-activities .heading {
-  margin: 0;
+  margin: 0 0 2vh 0;
   color: white;
   font-size: 4vh;
   background-color: var(--primary-color);
+  padding: 2vh 1vw;
 }
 
 .lessons-activities .lessons-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px; 
-  padding: 40px; 
+  /* display: grid; */
+  grid-template-columns: repeat(3, minmax(10vw, 1fr));
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .lessons-container .lesson {
   background-color: var(--primary-color);
-  border-radius: 10px;
-  padding: 20px;
+  padding: 2vh 2vw;
   text-align: center;
 }
 
@@ -262,49 +266,85 @@ header {
   background-color: var(--primary-color);
   cursor: pointer;
   position: relative;
+  font-size: 2.5vh;
+  margin-bottom: 2vh;
 }
 
 .lessons-container .lesson .title-lesson::after {
   content: "";
   position: absolute;
-  bottom: 5px;
+  bottom: 0.5vh;
   left: 50%;
   transform: translateX(-50%) scaleX(0);
-  height: 4px;
+  height: 0.4vh;
   width: 0;
   background-color: #7fb2d6;
   transition: transform 0.3s ease, width 0.3s ease;
-  transform-origin: center right;
+  transform-origin: center;
 }
 
 .lessons-container .lesson p {
   color: white;
+  font-size: 2vh;
+  margin: 1vh 0;
 }
 
 .lessons-container .lesson .title-lesson:hover::after {
   transform: translateX(-50%) scaleX(1);
-  width: 80%;
+  width: 30%;
 }
 
 .lessons-activities .lesson i {
-  margin-left: 7px; 
+  margin-left: 1vw;
 }
 
 .heading, h2 {
   text-align: center;
   color: var(--primary-color);
   background-color: white;
-  padding: 10px;
+  padding: 1vh 1vw;
 }
 
 .box-container {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 2vw;
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 20px;
+  padding: 2vh 2vw;
+}
+
+
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: 1fr;
+  }
+
+  .lessons-container .lesson .title-lesson {
+    font-size: 3vh;
+  }
+
+  .lessons-container .lesson p {
+    font-size: 2.2vh;
+  }
+
+  .lessons-activities .heading {
+    font-size: 4vh;
+  }
 }
 
 /* header section */
