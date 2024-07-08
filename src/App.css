@@ -2,6 +2,7 @@
   text-align: center;
   direction: rtl; 
   background-color: var(--primary-color);
+  overflow-x: hidden;
 }
 
 :root {
@@ -302,6 +303,7 @@ header {
   }
 
   .hero {
+    height: 50vh;
     padding: 2vh 2vw;
     align-items: left;
   }
