@@ -142,12 +142,15 @@
 .lessons-activities {
   border-radius: 10px;
   border: 10px double white;
-  margin-top: 10vh;
+  /* margin-top: 10vh; */
   align-items: center;
 }
 
 .lessons-activities .heading {
   margin: 0;
+  color: white;
+  font-size: 4vh;
+  background-color: var(--primary-color);
 }
 
 .lessons-activities .lessons-container {
@@ -182,6 +185,10 @@
   background-color: #7fb2d6;
   transition: transform 0.3s ease, width 0.3s ease;
   transform-origin: center right;
+}
+
+.lessons-container .lesson p {
+  color: white;
 }
 
 .lessons-container .lesson .title-lesson:hover::after {
@@ -303,7 +310,7 @@ header {
   }
 
   .hero {
-    height: 50vh;
+    /* height: 50vh; */
     padding: 2vh 2vw;
     align-items: left;
   }
