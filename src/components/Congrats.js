@@ -40,7 +40,7 @@ const Congrats = () => {
         {data.map((item) => (
           <li key={item.id}>
             {Object.entries(item).map(([key, value]) => (
-              <div key={key}>
+               <div key={key} style={{ color: 'white' }}>
                 <strong>{key}</strong>: {value}
               </div>
             ))}
