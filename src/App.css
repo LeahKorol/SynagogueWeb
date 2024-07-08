@@ -104,7 +104,7 @@
 
 .prayersTime, .lessons-activities {
   width: 75vw;
-  min-height: 90vh;
+  min-height: 85vh;
   margin: 0 auto;
   padding: 10vw;
   background-color: var(--primary-color);
