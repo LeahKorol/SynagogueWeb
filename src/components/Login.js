@@ -1,10 +1,11 @@
+// src/components/Login.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth} from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import '../AdminLogin.css'
 
-function AdminLogin(){
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +17,7 @@ function AdminLogin(){
     try {
       // נסה להתחבר עם שם המשתמש והסיסמא שהוזנו
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/Manager'); // נווט לעמוד המנהל לאחר התחברות מוצלחת
+      navigate('/admin'); // נווט לעמוד המנהל לאחר התחברות מוצלחת
     } catch (error) {
       console.error("Error logging in with email and password:", error);
       setError('Invalid email or password.'); // הצגת הודעת שגיאה
@@ -24,8 +25,8 @@ function AdminLogin(){
   };
 
   return (
-    <div className="admin-login-container">
-      <h2>כניסת מנהל</h2>
+    <div>
+      <h2>Login</h2>
       <form onSubmit={handleEmailPasswordLogin}>
         <input
           type="email"
@@ -44,6 +45,6 @@ function AdminLogin(){
       {error && <p>{error}</p>}
     </div>
   );
-}
+};
 
-export default AdminLogin;
+export default Login;
