@@ -39,19 +39,22 @@ function App() {
           <Helmet>
             <title>פאתי מזרח | דף בית</title>
           </Helmet>
-          <Header />
-          <Announcements />
-          {/* <Routes>
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/manager" element={<Manager />} />
-          </Routes> */}
-          <Hero />
-          <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
-          <LessonsActivities />
-          <Announcements />
-          <div className="App">
-            <MapEmbed />
-          </div>
+          <Routes>
+
+            <Route path="/" element={ //homepage
+              <main>
+                <Header />
+                <Hero />
+                <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
+                <LessonsActivities />
+                <Announcements />
+                <MapEmbed />
+              </main>
+            } />
+
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/manager" element={<Manager />} />
+          </Routes>
         </div>
       </Router>
     </HelmetProvider>
@@ -59,3 +62,4 @@ function App() {
 }
 
 export default App;
+
