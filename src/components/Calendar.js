@@ -3,7 +3,8 @@ import { getEventsCalendar } from '../utils/calendar';
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 import Month from './Month';
 import '../styles.css';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate()); // החודש הנוכחי
@@ -30,16 +31,20 @@ const Calendar = () => {
     const filteredMonths = months.filter(month => month.getMonth() === currentMonth.getMonth());
 
     return (
-        <div>
+        <div className="calendarCenter">
             <h1>לוח שנה עברי</h1>
-            <div className="calendar">
-                <div>
-                    <button onClick={prevMonth}>החודש הקודם</button>
-                    <button onClick={nextMonth}>החודש הבא</button>
+            <div className="calendar-container">
+                <button className="arrow-button left-arrow" onClick={nextMonth}>
+                     <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <div className="calendar">
+                    {filteredMonths.map((month, index) => (
+                        <Month key={index} month={month} events={events} />
+                    ))}
                 </div>
-                {filteredMonths.map((month, index) => (
-                    <Month key={index} month={month} events={events} />
-                ))}
+                <button className="arrow-button right-arrow" onClick={prevMonth}>
+                     <FontAwesomeIcon icon={faChevronRight} />
+                </button>
             </div>
         </div>
     );

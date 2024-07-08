@@ -2,6 +2,8 @@ import React from 'react';
 import Day from './Day';
 import { getHebrewDate } from '../utils/calendar';
 
+const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+
 const Month = ({ month, events }) => {
     const startDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
     const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
@@ -50,6 +52,11 @@ const Month = ({ month, events }) => {
             <h2>
                 {title}
             </h2>
+            <div className="week-days">
+                {daysOfWeek.map((day, index) => (
+                    <div key={index} className="week-day">{day}</div>
+                ))}
+            </div>
             <div className="days">
                 {days.map((day, index) => (
                     <Day key={index} day={day} month={month} events={monthEvents} isPreviousMonth={index < startDay} />

@@ -10,13 +10,16 @@ const Day = ({ day, month, events, isPreviousMonth }) => {
     // Get only the day of the Gregorian date
     const gregorianDay = gregorianDate.getDate();
 
+    // Check if the current day is today
+    const isToday = new Date().toDateString() === gregorianDate.toDateString();
+
     return (
-        <div className={`day ${isPreviousMonth ? 'previous-month' : ''}`}>
+        <div className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isToday ? 'today' : ''}`}>
             {day && (
                 <>
                     <div className='datehebrewandforeign'>
-                    <span className="date">{hebrewDate.split(' ')[0]}</span>
-                    <span className="gregorian-date">{gregorianDay}</span>
+                        <span className="date">{hebrewDate.split(' ')[0]}</span>
+                        <span className="gregorian-date">{gregorianDay}</span>
                     </div>
                     {dayEvents.map((event, index) => (
                         <div key={index} className="event">

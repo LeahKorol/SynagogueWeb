@@ -1,57 +1,119 @@
 .calendar {
-    display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .month {
-    flex: 1 0 30%;
-    margin: 10px;
+    justify-content: space-around;
+}
+
+.month {
+    flex: 1 0 calc(30% - 20px);
     padding: 10px;
+    margin: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
-  }
-  
-  .days {
+}
+
+.week-day {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.days {
     display: flex;
     flex-wrap: wrap;
-  }
-  
-  .day {
-    width: calc(100% / 7);
-    height: 120px; /* הגדלת הגובה של המשבצות */
+    flex-direction: row-reverse;
+}
+
+.week-days {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.day {
+    width: calc(100% / 7); /* לחלק כל יום לרוחב המתאים */
+    height: 120px; 
     padding: 10px;
     box-sizing: border-box;
     border: 1px solid #eee;
     position: relative;
-  }
-  
-  .day .date {
+}
+
+.day .date {
     font-size: 16px; /* הגדלת גודל הגופן של התאריך */
     color: #333;
     display: block;
     margin-bottom: 5px; /* הוספת מרווח תחתון לתאריך */
-  }
-  
-  .day .event {
+}
+
+.day .event {
     background-color: transparent; /* ביטול רקע הצהוב */
     color: #0000ff; /* שינוי צבע לטקסט כחול */
     font-size: 14px;
     padding: 2px 0; /* הוספת מרווח עליון ותחתון */
     box-sizing: border-box;
     border: none; /* ביטול קו תחתון */
-  }
-  
-  .day.empty {
+}
+
+.day.empty {
     background-color: #f0f0f0;
     border: none;
-  }
-  .datehebrewandforeign{
+}
+
+.datehebrewandforeign {
     display: flex;
     justify-content: space-between;
-  }
-  .previous-month .date,
+}
+
+.previous-month .date,
 .previous-month .gregorian-date {
     color: gray;
+}
+
+.today {
+    border: 2px solid black;
+}
+
+.calendarCenter {
+    text-align: center;
+}
+
+.calendar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.icon {
+    color: #333;
+    font-size: 25px;
+}
+
+.arrow-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* הוספת z-index גבוה */
+}
+
+.arrow-button i {
+    font-size: 1.5em;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
 }
