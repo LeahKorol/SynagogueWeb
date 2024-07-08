@@ -399,7 +399,6 @@ header {
   border-radius: 5px;
 }
 
-/* matching for smartphones - responsivity */
 @media (max-width: 768px) {
   .App {
     width: 100vw;
@@ -468,5 +467,63 @@ header {
 
   .lessons-activities .lessons-container {
     grid-template-columns: 1fr;
+  }
+}
+
+
+.announcements {
+  margin-top: 10vh;
+  padding: 50px 20px;
+  background-color: var(--primary-color) ;
+  text-align: center;
+  color: white;
+}
+
+.slideshow-container {
+  position: relative;
+  margin: auto;
+  margin-top: 5vh;
+}
+
+.mySlides {
+  display: none;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from { opacity: .4 } 
+  to { opacity: 1 }
+}
+
+.dot {
+  height: 1.75vh;
+  width: 1vw;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171 ;
+}
+
+.numbertext {
+  color: #f2f2f2 ;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+@media (max-width: 768px) { 
+  .dot {
+    height: 0.5vh;
+    width: 1vw;
   }
 }

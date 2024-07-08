@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import PrayerTimes from './components/PrayerTimes';
 import LessonsActivities from './components/LessonsActivities';
+import Announcements from './components/Announcements';
 // import AdminLogin from './components/AdminLogin';
 // import Manager from './components/Manager';
 
@@ -43,6 +44,7 @@ function App() {
           <Hero />
           <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
           <LessonsActivities />
+          <Announcements />
         </div>
       </Router>
     </HelmetProvider>
