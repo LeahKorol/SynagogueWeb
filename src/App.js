@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
-// import Manager from './components/Hero';
+
 import Hero from './components/Hero';
 import PrayerTimes from './components/PrayerTimes';
 import LessonsActivities from './components/LessonsActivities';
@@ -40,12 +40,13 @@ function App() {
             <title>פאתי מזרח | דף בית</title>
           </Helmet>
           <Header />
-          <Routes>
+          <Announcements />
+          {/* <Routes>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/manager" element={<Manager />} />
-          </Routes>
+          </Routes> */}
           <Hero />
-          {/* <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} /> */}
+          <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
           <LessonsActivities />
           <Announcements />
           <div className="App">
