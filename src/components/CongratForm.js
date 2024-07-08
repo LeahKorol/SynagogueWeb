@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { addDoc, collection } from 'firebase/firestore';
 
-import db from '../firebase';
+import {db} from '../firebase';
 function CongratForm() {
 
     const [congrat, setCongrat] = useState({ title: "", content: "" });
@@ -11,15 +12,22 @@ function CongratForm() {
         console.log("update", e.target.name, e.target.value);
     };
 
-    const submitCongrat = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Saving :", congrat)
-    }
+    
+        try {
+          await addDoc(collection(db, "congrats"), congrat);
+          console.log("Document successfully written!");
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      };
+    
 
 
 
     return (
-        <form onSubmit={submitCongrat}>
+        <form onSubmit={handleSubmit}>
         <label>
             Title
             <input
