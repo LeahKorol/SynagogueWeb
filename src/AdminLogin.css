@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.admin-login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.admin-login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.admin-login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-login-container input[type="text"],
+.admin-login-container input[type="password"],
+.admin-login-container button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.admin-login-container button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-login-container button:hover {
+  background-color: #0056b3;
+}
+
+.google-login {
+  margin-top: 20px;
+}
+
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  border: 5px solid transparent;
+  border-image: linear-gradient(to right, #4285F4, #DB4437, #F4B400, #0F9D58);
+  border-image-slice: 1;
+  color: var(--primary-color);
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.google-login-button:hover {
+  background-color: linear-gradient(to right, #4285F4, #DB4437, #F4B400, #0F9D58);
+  border-color: transparent;
+  color: black;
+}
+
+.google-login-button i {
+  margin-left: 20px;
+}
+
+.home-link {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bolder;
+  padding: 10px;
+  border: 2px solid white;
+  margin: 2%;
+  border-radius: 5px;
+}
+
+.home-link:hover {
+  background-color: white;
+  color: var(--primary-color);
+  transition: 0.3s;
+}
