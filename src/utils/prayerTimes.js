@@ -3,7 +3,7 @@ import { getCurrentJerusalemDate } from './JerusalemDate.js';
 
 const latitude = 31.821240;
 const longitude = 35.253677;
-const elevation = 750;
+const elevation = 700;
 const tzid = 'Asia/Jerusalem';
 const today = getCurrentJerusalemDate();
 const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
