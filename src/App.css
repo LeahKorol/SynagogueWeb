@@ -164,17 +164,17 @@ header {
 }
 
 .prayersTime, .lessons-activities {
-  width: 75vw;
+  width: 90vw;
   min-height: 85vh;
   margin: 0 auto;
-  padding: 10vw;
+  padding: 5vw;
   background-color: var(--primary-color);
-  text-align: center;  
+  text-align: center;
 }
 
 .prayersTime, .calendar, .announcements, .lessons-activities {
   text-align: center;
-  padding: 50px 0;
+  padding: 5vh 0;
 }
 
 .prayersTime .box-container {
@@ -185,19 +185,49 @@ header {
 
 .prayersTime .schedule, .lessons-container .lesson {
   flex: 1;
-  margin: 0 20px;
+  margin: 0 2vw;
+  min-width: 40vw;
 }
 
 .prayersTime .schedule h2 {
   color: var(--primary-color);
   font-weight: bolder;
-  font-size: 2vh;
+  font-size: 3.5vh;
+}
+
+.prayersTime .schedule ul {
+  padding: 0;
 }
 
 .prayersTime .schedule ul li {
   list-style: none;
   text-align: right;
-  font-size: 1.5vh;
+  font-size: 3vh;
+  margin-bottom: 1vh;
+}
+
+.heading {
+  font-size: 4vh;
+  margin-bottom: 3vh;
+}
+
+@media (max-width: 768px) {
+  .prayersTime .schedule, .lessons-container .lesson {
+    min-width: 80vw;
+    margin-bottom: 5vh;
+  }
+
+  .prayersTime .schedule h2 {
+    font-size: 2.5vh;
+  }
+
+  .prayersTime .schedule ul li {
+    font-size: 2vh;
+  }
+
+  .heading {
+    font-size: 3.5vh;
+  }
 }
 
 .lessons-activities {
