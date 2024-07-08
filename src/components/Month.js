@@ -17,7 +17,15 @@ const Month = ({ month, events }) => {
         return eventDate.getMonth() === month.getMonth() && eventDate.getFullYear() === month.getFullYear();
     });
 
-    const days = [...Array(startDay).fill(null), ...Array(daysInMonth).keys()].map(day => day + 1);
+    // Calculate days from the previous month to display
+    const previousMonthDays = Array.from(
+        { length: startDay },
+        (_, i) => new Date(month.getFullYear(), month.getMonth(), -(startDay - i - 1))
+    );
+
+    const days = previousMonthDays.concat(
+        Array.from({ length: daysInMonth }, (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1))
+    );
 
     // Extracting Hebrew month name and year from hebrewStartDate
     const hebrewStartDateParts = hebrewStartMonth.split(' ');
@@ -44,7 +52,7 @@ const Month = ({ month, events }) => {
             </h2>
             <div className="days">
                 {days.map((day, index) => (
-                    <Day key={index} day={day} month={month} events={monthEvents} />
+                    <Day key={index} day={day} month={month} events={monthEvents} isPreviousMonth={index < startDay} />
                 ))}
             </div>
         </div>

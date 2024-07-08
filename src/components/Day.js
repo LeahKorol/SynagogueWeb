@@ -1,8 +1,8 @@
 import React from 'react';
 import { getHebrewDate } from '../utils/calendar';
 
-const Day = ({ day, month, events }) => {
-    const gregorianDate = new Date(month.getFullYear(), month.getMonth(), day);
+const Day = ({ day, month, events, isPreviousMonth }) => {
+    const gregorianDate = new Date(day);
     const formattedDate = gregorianDate.toISOString().split('T')[0]; // Match the format in eventsCalendar
     const dayEvents = events.filter(event => event.date === formattedDate);
     const hebrewDate = getHebrewDate(gregorianDate);
@@ -11,7 +11,7 @@ const Day = ({ day, month, events }) => {
     const gregorianDay = gregorianDate.getDate();
 
     return (
-        <div className={`day ${day ? '' : 'empty'}`}>
+        <div className={`day ${isPreviousMonth ? 'previous-month' : ''}`}>
             {day && (
                 <>
                     <div className='datehebrewandforeign'>
