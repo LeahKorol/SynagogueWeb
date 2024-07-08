@@ -1,33 +1,50 @@
-// src/App.js
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Header from './components/Header';
+import PrayerTimes from './components/PrayerTimes';
+import LessonsActivities from './components/LessonsActivities';
+import AdminLogin from './components/AdminLogin';
+import Manager from './components/Manager';
 
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { auth } from './firebase';
-import Login from './components/Login';
-import Admin from './components/Admin';
-
-const App = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
+function App() {
   return (
     <Router>
-      <div>
+      <div className="App">
+        <Helmet>
+          <title>פאתי מזרח | דף בית</title>
+        </Helmet>
+        <Header />
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={user ? <Admin /> : <Navigate to="/login" />} />
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <section id="hero" className="hero">
+                  <div className="content">
+                    <h1>"שויתי ה' לנגדי תמיד"</h1>
+                    <p>
+                      ברוכים הבאים לאתר של קהילת פאתי מזרח.
+                      <br />
+                      כאן תמצאו מידע על זמני תפילות, אירועים קרובים ושיעורי תורה
+                    </p>
+                    <div className="buttons">
+                      <a href="about-contact.html">עוד קצת עלינו</a>
+                    </div>
+                  </div>
+                </section>
+                <PrayerTimes />
+                <LessonsActivities />
+              </>
+            }
+          />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/manager" element={<Manager />} />
         </Routes>
       </div>
     </Router>
   );
-};
+}
 
 export default App;
