@@ -7,6 +7,8 @@ import Hero from './components/Hero';
 import PrayerTimes from './components/PrayerTimes';
 import LessonsActivities from './components/LessonsActivities';
 import Announcements from './components/Announcements';
+import MapEmbed from './components/MapEmbed';
+
 // import AdminLogin from './components/AdminLogin';
 // import Manager from './components/Manager';
 
@@ -45,6 +47,9 @@ function App() {
           <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
           <LessonsActivities />
           <Announcements />
+          <div className="App">
+            <MapEmbed />
+          </div>
         </div>
       </Router>
     </HelmetProvider>
