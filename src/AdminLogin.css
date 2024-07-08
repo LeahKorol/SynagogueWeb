@@ -28,7 +28,7 @@ body {
   flex-direction: column;
 }
 
-.admin-login-container input[type="text"],
+.admin-login-container input[type="email"],
 .admin-login-container input[type="password"],
 .admin-login-container button {
   width: 100%;
