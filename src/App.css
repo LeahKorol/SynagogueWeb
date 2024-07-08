@@ -79,7 +79,7 @@ header {
 .hero {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   height: 100vh;
   background-color: var(--primary-color);
   /* background: url('path-to-your-image') no-repeat center center/cover; */
@@ -95,17 +95,19 @@ header {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .hero .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
+  top: 25vh;
+  margin: 0 0 2vh 2vw;
 }
 
 .hero .content h1 {
-  font-size: 50px;
-  background-color: aqua;
+  font-size: 10vh;
 }
 
 .hero .content p {
@@ -116,7 +118,7 @@ header {
 .buttons {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .buttons a {
@@ -155,69 +157,121 @@ header {
   .hamburger-menu {
     display: flex;
   }
+
+  .hero .content h1 {
+    font-size: 5vh;
+  }
 }
 
-.prayersTime, .lessons-activities {
-  width: 75vw;
-  min-height: 85vh;
-  margin: 0 auto;
-  padding: 10vw;
-  background-color: var(--primary-color);
-  text-align: center;  
-}
 
-.prayersTime, .calendar, .announcements, .lessons-activities {
+.prayersTime {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 100vw;
+  margin: 10vh 14vw;
   text-align: center;
-  padding: 50px 0;
+}
+
+.prayersTime .heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
 }
 
 .prayersTime .box-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
+  gap: 20px;
+  align-items: stretch;
 }
 
-.prayersTime .schedule, .lessons-container .lesson {
-  flex: 1;
-  margin: 0 20px;
+.prayersTime .schedule {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .prayersTime .schedule h2 {
-  color: var(--primary-color);
-  font-weight: bolder;
-  font-size: 2vh;
+  font-size: 3.5vh;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.prayersTime .schedule ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: right;
+  direction: rtl;
+  flex-grow: 1; 
 }
 
 .prayersTime .schedule ul li {
-  list-style: none;
-  text-align: right;
-  font-size: 1.5vh;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: black;
 }
 
+.prayersTime .schedule ul li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .prayersTime .schedule, .lessons-container .lesson {
+    min-width: 80vw;
+    margin-bottom: 5vh;
+  }
+
+  .prayersTime .schedule h2 {
+    font-size: 2.5vh;
+  }
+
+  .prayersTime .schedule ul li {
+    font-size: 2vh;
+  }
+
+  .heading {
+    font-size: 3.5vh;
+  }
+}
+
+
 .lessons-activities {
-  border-radius: 10px;
-  border: 10px double white;
+  border-radius: 1vw;
+  border: 1vw double white;
   align-items: center;
+  padding: 2vh 2vw;
+  width: 75vw;
+  margin: 10vh 12vw;
+  height: fit-content;
 }
 
 .lessons-activities .heading {
-  margin: 0;
+  margin: 0 0 2vh 0;
   color: white;
   font-size: 4vh;
   background-color: var(--primary-color);
+  padding: 2vh 1vw;
 }
 
 .lessons-activities .lessons-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px; 
-  padding: 40px; 
+  /* display: grid; */
+  grid-template-columns: repeat(3, minmax(10vw, 1fr));
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .lessons-container .lesson {
   background-color: var(--primary-color);
-  border-radius: 10px;
-  padding: 20px;
+  padding: 2vh 2vw;
   text-align: center;
 }
 
@@ -226,49 +280,85 @@ header {
   background-color: var(--primary-color);
   cursor: pointer;
   position: relative;
+  font-size: 2.5vh;
+  margin-bottom: 2vh;
 }
 
 .lessons-container .lesson .title-lesson::after {
   content: "";
   position: absolute;
-  bottom: 5px;
+  bottom: 0.5vh;
   left: 50%;
   transform: translateX(-50%) scaleX(0);
-  height: 4px;
+  height: 0.4vh;
   width: 0;
   background-color: #7fb2d6;
   transition: transform 0.3s ease, width 0.3s ease;
-  transform-origin: center right;
+  transform-origin: center;
 }
 
 .lessons-container .lesson p {
   color: white;
+  font-size: 2vh;
+  margin: 1vh 0;
 }
 
 .lessons-container .lesson .title-lesson:hover::after {
   transform: translateX(-50%) scaleX(1);
-  width: 80%;
+  width: 15%;
 }
 
 .lessons-activities .lesson i {
-  margin-left: 7px; 
+  margin-left: 1vw;
 }
 
 .heading, h2 {
   text-align: center;
   color: var(--primary-color);
   background-color: white;
-  padding: 10px;
+  padding: 1vh 1vw;
 }
 
 .box-container {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 2vw;
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 20px;
+  padding: 2vh 2vw;
+}
+
+
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lessons-activities .lessons-container {
+    grid-template-columns: 1fr;
+  }
+
+  .lessons-container .lesson .title-lesson {
+    font-size: 3vh;
+  }
+
+  .lessons-container .lesson p {
+    font-size: 2.2vh;
+  }
+
+  .lessons-activities .heading {
+    font-size: 4vh;
+  }
 }
 
 /* header section */
@@ -323,7 +413,6 @@ header {
   border-radius: 5px;
 }
 
-/* matching for smartphones - responsivity */
 @media (max-width: 768px) {
   .App {
     width: 100vw;
@@ -393,4 +482,133 @@ header {
   .lessons-activities .lessons-container {
     grid-template-columns: 1fr;
   }
+}
+
+
+.announcements {
+  margin-top: 10vh;
+  padding: 50px 20px;
+  background-color: var(--primary-color) ;
+  text-align: center;
+  color: white;
+}
+
+.slideshow-container {
+  position: relative;
+  margin: auto;
+  margin-top: 5vh;
+}
+
+.mySlides {
+  display: none;
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from { opacity: .4 } 
+  to { opacity: 1 }
+}
+
+.dot {
+  height: 1.75vh;
+  width: 1vw;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171 ;
+}
+
+.numbertext {
+  color: #f2f2f2 ;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+@media (max-width: 768px) { 
+  .dot {
+    height: 0.5vh;
+    width: 1vw;
+  }
+}
+
+
+
+.map-container {
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.map-frame {
+  position: relative;
+  width: 30vw;
+  height: 30vh;
+  overflow: hidden;
+  background: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.defibrillator-button {
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.social-networks {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.social-networks h3 {
+  margin-bottom: 10px;
+}
+
+.social-networks div {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-networks a {
+  font-size: 24px;
+  text-decoration: none;
+  color: #000;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
 }

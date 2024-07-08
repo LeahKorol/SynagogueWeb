@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import backgroundImage from '../1.jfif';
 
 function Hero({ title, welcomeMessage, description }) {
+  const heroStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  };
+
   return (
-    <section id="hero" className="hero">
+    <section id="hero" className="hero" style={heroStyle}>
       <div className="content">
         <h1>{title}</h1>
         <p>
@@ -12,7 +21,7 @@ function Hero({ title, welcomeMessage, description }) {
           {description}
         </p>
         <div className="buttons">
-          {/* Buttons or links to other parts of the website can be added here */}
+          <Link to="/about-contact">עוד קצת עלינו</Link>
         </div>
       </div>
     </section>
