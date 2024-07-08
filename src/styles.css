@@ -47,3 +47,8 @@
     background-color: #f0f0f0;
     border: none;
   }
+  .datehebrewandforeign{
+    display: flex;
+    justify-content: space-between;
+  }
+  
