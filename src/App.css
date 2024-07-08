@@ -79,7 +79,7 @@ header {
 .hero {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   height: 100vh;
   background-color: var(--primary-color);
   /* background: url('path-to-your-image') no-repeat center center/cover; */
@@ -95,17 +95,19 @@ header {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .hero .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
+  top: 25vh;
+  margin: 0 0 2vh 2vw;
 }
 
 .hero .content h1 {
-  font-size: 50px;
-  background-color: aqua;
+  font-size: 10vh;
 }
 
 .hero .content p {
@@ -116,7 +118,7 @@ header {
 .buttons {
   display: flex;
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .buttons a {
@@ -154,6 +156,10 @@ header {
 
   .hamburger-menu {
     display: flex;
+  }
+
+  .hero .content h1 {
+    font-size: 5vh;
   }
 }
 
