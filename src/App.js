@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -9,11 +9,18 @@ import LessonsActivities from './components/LessonsActivities';
 import Announcements from './components/Announcements';
 import MapEmbed from './components/MapEmbed';
 import DefibrillatorInfo from './components/DefibrillatorInfo';
+import AnnouncementForm from './components/AnnouncementForm';
 
-// import AdminLogin from './components/AdminLogin';
-// import Manager from './components/Manager';
 
 function App() {
+  const [announcements, setAnnouncements] = useState([]);
+
+  const handleFormSubmit = (formData) => {
+    setAnnouncements([...announcements, formData]);
+    console.log('New announcement added:', formData);
+  };
+
+
   // זמני תפילות ליום חול
   const weekdayTimes = {
     shacharit: "06:15",
@@ -40,18 +47,13 @@ function App() {
             <title>פאתי מזרח | דף בית</title>
           </Helmet>
           <Header />
-          {/* <Routes>
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/manager" element={<Manager />} />
-          </Routes> */}
           <Hero />
-           <DefibrillatorInfo />
           <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
           <LessonsActivities />
+          <DefibrillatorInfo />
           <Announcements />
-          <div className="App">
-            <MapEmbed />
-          </div>
+          <AnnouncementForm onSubmit={handleFormSubmit} />
+          <MapEmbed />
         </div>
       </Router>
     </HelmetProvider>

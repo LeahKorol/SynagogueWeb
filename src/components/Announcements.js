@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css';
 
 function Announcements() {
   const [slideIndex, setSlideIndex] = useState(0);
