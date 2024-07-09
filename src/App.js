@@ -3,12 +3,12 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
-
 import Hero from './components/Hero';
 import PrayerTimes from './components/PrayerTimes';
 import LessonsActivities from './components/LessonsActivities';
 import Announcements from './components/Announcements';
 import MapEmbed from './components/MapEmbed';
+import DefibrillatorInfo from './components/DefibrillatorInfo';
 
 // import AdminLogin from './components/AdminLogin';
 // import Manager from './components/Manager';
@@ -45,6 +45,7 @@ function App() {
             <Route path="/manager" element={<Manager />} />
           </Routes> */}
           <Hero />
+           <DefibrillatorInfo />
           <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
           <LessonsActivities />
           <Announcements />
