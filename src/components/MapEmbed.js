@@ -18,7 +18,7 @@ const MapEmbed = () => {
           <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-youtube"></i>
           </a>
-          <a href="https://he-il.facebook.com/public/Paatey-Mizrach/" target="_blank" rel="noopener noreferrer">
+          <a href="https://he-il.facebook.com/paatey.mizrach" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-facebook"></i>
           </a>
           <a href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer">

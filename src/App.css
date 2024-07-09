@@ -82,7 +82,6 @@ header {
   justify-content: left;
   height: 100vh;
   background-color: var(--primary-color);
-  /* background: url('path-to-your-image') no-repeat center center/cover; */
   position: relative;
   color: white;
 }
@@ -226,8 +225,15 @@ header {
 
 @media (max-width: 768px) {
   .prayersTime .schedule, .lessons-container .lesson {
-    min-width: 80vw;
-    margin-bottom: 5vh;
+    width: 60vw;
+  }
+
+  .prayersTime {
+    margin-bottom: 10vw; 
+  }
+
+  .lessons-activities {
+    margin-top: 15vw;
   }
 
   .prayersTime .schedule h2 {
@@ -242,6 +248,7 @@ header {
     font-size: 3.5vh;
   }
 }
+
 
 
 .lessons-activities {
@@ -361,7 +368,7 @@ header {
   }
 }
 
-/* header section */
+
 header {
   position: relative;
   display: flex;
@@ -469,6 +476,7 @@ header {
     justify-content: center;
     display: flex;
     flex-direction: column;
+    margin-bottom: 0;
   }
 
   .prayersTime .box-container {
@@ -611,4 +619,11 @@ header {
 .footer {
   text-align: center;
   margin-top: 20px;
+}
+
+
+@media (max-width: 768px) { 
+  .map-frame {
+    width: 75vw;
+  }
 }
