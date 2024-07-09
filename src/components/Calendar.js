@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { getDocs, collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { getEventsCalendar } from '../utils/calendar';
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 import Month from './Month';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
-import { addDoc } from 'firebase/firestore';
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
@@ -19,9 +19,17 @@ const Calendar = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "evenes"));
-                const eventsList = querySnapshot.docs.map(doc => doc.data());
+                // Fetch events from Firebase Firestore
+                const eventsList = [];
+                const querySnapshot = await getDocs(collection(db, "events"));
+                querySnapshot.forEach(doc => {
+                    eventsList.push(doc.data());
+                });
                 setEvents(eventsList);
+
+                // Fetch events from external calendar source (if needed)
+                const eventsCalendar = await getEventsCalendar();
+                setEvents(prevEvents => [...prevEvents, ...eventsCalendar]);
             } catch (error) {
                 console.error("Error fetching events: ", error);
             }
@@ -39,19 +47,18 @@ const Calendar = () => {
     };
 
     const handleInputChange = (e) => {
-        e.preventDefault();
         setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
     };
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
         try {
-            const docRef = await addDoc(collection(db, "evenes"), newEvent);
+            const docRef = await addDoc(collection(db, "events"), newEvent);
             console.log("Document successfully written!", docRef.id);
-            setEvents(prevEvents => [...prevEvents, newEvent]);
-            setNewEvent({ date: '', description: '' });
-        } catch (e) {
-            console.error("Error adding document: ", e);
+            setEvents(prevEvents => [...prevEvents, newEvent]); // Add the new event to the events state
+            setNewEvent({ date: '', description: '' }); // Clear the form
+        } catch (error) {
+            console.error("Error adding document: ", error);
         }
     };
 
