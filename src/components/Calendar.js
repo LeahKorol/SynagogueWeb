@@ -5,7 +5,7 @@ import Month from './Month';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { collection, addDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const Calendar = () => {
@@ -34,18 +34,18 @@ const Calendar = () => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewEvent(prevState => ({ ...prevState, [name]: value }));
+        e.preventDefault();
+        setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
+        console.log("update", e.target.name, e.target.value);
     };
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
         try {
-            await addDoc(collection(db, 'events'), newEvent);
-            setEvents(prevEvents => [...prevEvents, newEvent]);
-            setNewEvent({ date: '', description: '' });
-        } catch (error) {
-            console.error('Error adding event: ', error);
+            await addDoc(collection(db, "evenes"), newEvent);
+            console.log("Document successfully written!");
+        } catch (e) {
+            console.error("Error adding document: ", e);
         }
     };
 
@@ -55,16 +55,16 @@ const Calendar = () => {
         <div className="calendarCenter">
             <h1>לוח שנה עברי</h1>
             <div className="calendar-container">
-                <button className="arrow-button left-arrow" onClick={nextMonth}>
-                     <FontAwesomeIcon icon={faChevronLeft} />
+                <button className="arrow-button left-arrow" onClick={prevMonth}>
+                    <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
                 <div className="calendar">
                     {filteredMonths.map((month, index) => (
                         <Month key={index} month={month} events={events} />
                     ))}
                 </div>
-                <button className="arrow-button right-arrow" onClick={prevMonth}>
-                     <FontAwesomeIcon icon={faChevronRight} />
+                <button className="arrow-button right-arrow" onClick={nextMonth}>
+                    <FontAwesomeIcon icon={faChevronRight} />
                 </button>
             </div>
             <form onSubmit={handleAddEvent} className="event-form">
