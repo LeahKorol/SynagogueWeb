@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getDocs, collection, addDoc } from 'firebase/firestore';
+import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getEventsCalendar } from '../utils/calendar';
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
@@ -11,30 +11,32 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate());
-    const [newEvent, setNewEvent] = useState({ date: '', description: '' });
+    const [selectedDay, setSelectedDay] = useState(null);
 
     const currentYear = currentMonth.getFullYear();
     const months = [...Array(12).keys()].map(i => new Date(currentYear, i, 1));
 
+    const fetchEvents = async () => {
+        try {
+            const eventsList = [];
+            const querySnapshot = await getDocs(collection(db, "events"));
+            querySnapshot.forEach(doc => {
+                eventsList.push({ id: doc.id, ...doc.data() });
+            });
+            const eventsCalendar = await getEventsCalendar();
+            setEvents([...eventsList, ...eventsCalendar]);
+        } catch (error) {
+            console.error("Error fetching events: ", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const eventsList = [];
-                const querySnapshot = await getDocs(collection(db, "events"));
-                querySnapshot.forEach(doc => {
-                    eventsList.push(doc.data());
-                });
-                setEvents(eventsList);
-
-                const eventsCalendar = await getEventsCalendar();
-                setEvents(prevEvents => [...prevEvents, ...eventsCalendar]);
-            } catch (error) {
-                console.error("Error fetching events: ", error);
-            }
-        };
-
         fetchEvents();
     }, []);
+
+    const handleEventChange = () => {
+        fetchEvents();
+    };
 
     const prevMonth = () => {
         setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() - 1, 1));
@@ -44,27 +46,8 @@ const Calendar = () => {
         setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
     };
 
-    const handleInputChange = (e) => {
-        setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
-    };
-
-    const handleAddEvent = async (e) => {
-        e.preventDefault();
-        try {
-            // התאמת התאריך לאזור הזמן של ישראל
-            const eventDate = new Date(newEvent.date + 'T00:00:00+03:00');
-            const eventWithAdjustedDate = {
-                date: eventDate.toISOString().split('T')[0],
-                description: newEvent.description
-            };
-
-            const docRef = await addDoc(collection(db, "events"), eventWithAdjustedDate);
-            console.log("Document successfully written!", docRef.id);
-            setEvents(prevEvents => [...prevEvents, eventWithAdjustedDate]);
-            setNewEvent({ date: '', description: '' });
-        } catch (error) {
-            console.error("Error adding document: ", error);
-        }
+    const handleDayClick = (day) => {
+        setSelectedDay(day);
     };
 
     const filteredMonths = months.filter(month => month.getMonth() === currentMonth.getMonth());
@@ -78,31 +61,20 @@ const Calendar = () => {
                 </button>
                 <div className="calendar">
                     {filteredMonths.map((month, index) => (
-                        <Month key={index} month={month} events={events} />
+                        <Month 
+                            key={index} 
+                            month={month} 
+                            events={events} 
+                            onEventChange={handleEventChange}
+                            onDayClick={handleDayClick}
+                            selectedDay={selectedDay}
+                        />
                     ))}
                 </div>
                 <button className="arrow-button right-arrow" onClick={nextMonth}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </button>
             </div>
-            <form onSubmit={handleAddEvent} className="event-form">
-                <input
-                    type="date"
-                    name="date"
-                    value={newEvent.date}
-                    onChange={handleInputChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="description"
-                    value={newEvent.description}
-                    onChange={handleInputChange}
-                    placeholder="תיאור אירוע"
-                    required
-                />
-                <button type="submit">הוסף אירוע</button>
-            </form>
         </div>
     );
 };
