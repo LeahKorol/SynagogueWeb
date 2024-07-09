@@ -5,9 +5,14 @@ import Month from './Month';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+
 const Calendar = () => {
     const [events, setEvents] = useState([]);
-    const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate()); // החודש הנוכחי
+    const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate());
+    const [newEvent, setNewEvent] = useState({ date: '', description: '' });
+
     const currentYear = currentMonth.getFullYear();
     const months = [...Array(12).keys()].map(i => new Date(currentYear, i, 1));
 
@@ -28,6 +33,22 @@ const Calendar = () => {
         setCurrentMonth(prevMonth => new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 1));
     };
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewEvent(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleAddEvent = async (e) => {
+        e.preventDefault();
+        try {
+            await addDoc(collection(db, 'events'), newEvent);
+            setEvents(prevEvents => [...prevEvents, newEvent]);
+            setNewEvent({ date: '', description: '' });
+        } catch (error) {
+            console.error('Error adding event: ', error);
+        }
+    };
+
     const filteredMonths = months.filter(month => month.getMonth() === currentMonth.getMonth());
 
     return (
@@ -46,6 +67,24 @@ const Calendar = () => {
                      <FontAwesomeIcon icon={faChevronRight} />
                 </button>
             </div>
+            <form onSubmit={handleAddEvent} className="event-form">
+                <input
+                    type="date"
+                    name="date"
+                    value={newEvent.date}
+                    onChange={handleInputChange}
+                    required
+                />
+                <input
+                    type="text"
+                    name="description"
+                    value={newEvent.description}
+                    onChange={handleInputChange}
+                    placeholder="תיאור אירוע"
+                    required
+                />
+                <button type="submit">הוסף אירוע</button>
+            </form>
         </div>
     );
 };
