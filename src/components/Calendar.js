@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getEventsCalendar } from '../utils/calendar'; 
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 import Month from './Month';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { addDoc, collection } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { addDoc } from 'firebase/firestore';
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
@@ -18,8 +18,13 @@ const Calendar = () => {
 
     useEffect(() => {
         const fetchEvents = async () => {
-            const eventsCalendar = await getEventsCalendar();
-            setEvents(eventsCalendar);
+            try {
+                const querySnapshot = await getDocs(collection(db, "evenes"));
+                const eventsList = querySnapshot.docs.map(doc => doc.data());
+                setEvents(eventsList);
+            } catch (error) {
+                console.error("Error fetching events: ", error);
+            }
         };
 
         fetchEvents();
@@ -36,14 +41,15 @@ const Calendar = () => {
     const handleInputChange = (e) => {
         e.preventDefault();
         setNewEvent({ ...newEvent, [e.target.name]: e.target.value });
-        console.log("update", e.target.name, e.target.value);
     };
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
         try {
-            await addDoc(collection(db, "evenes"), newEvent);
-            console.log("Document successfully written!");
+            const docRef = await addDoc(collection(db, "evenes"), newEvent);
+            console.log("Document successfully written!", docRef.id);
+            setEvents(prevEvents => [...prevEvents, newEvent]);
+            setNewEvent({ date: '', description: '' });
         } catch (e) {
             console.error("Error adding document: ", e);
         }
