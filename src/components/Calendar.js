@@ -19,7 +19,6 @@ const Calendar = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                // Fetch events from Firebase Firestore
                 const eventsList = [];
                 const querySnapshot = await getDocs(collection(db, "events"));
                 querySnapshot.forEach(doc => {
@@ -27,7 +26,6 @@ const Calendar = () => {
                 });
                 setEvents(eventsList);
 
-                // Fetch events from external calendar source (if needed)
                 const eventsCalendar = await getEventsCalendar();
                 setEvents(prevEvents => [...prevEvents, ...eventsCalendar]);
             } catch (error) {
@@ -53,10 +51,17 @@ const Calendar = () => {
     const handleAddEvent = async (e) => {
         e.preventDefault();
         try {
-            const docRef = await addDoc(collection(db, "events"), newEvent);
+            // התאמת התאריך לאזור הזמן של ישראל
+            const eventDate = new Date(newEvent.date + 'T00:00:00+03:00');
+            const eventWithAdjustedDate = {
+                date: eventDate.toISOString().split('T')[0],
+                description: newEvent.description
+            };
+
+            const docRef = await addDoc(collection(db, "events"), eventWithAdjustedDate);
             console.log("Document successfully written!", docRef.id);
-            setEvents(prevEvents => [...prevEvents, newEvent]); // Add the new event to the events state
-            setNewEvent({ date: '', description: '' }); // Clear the form
+            setEvents(prevEvents => [...prevEvents, eventWithAdjustedDate]);
+            setNewEvent({ date: '', description: '' });
         } catch (error) {
             console.error("Error adding document: ", error);
         }
