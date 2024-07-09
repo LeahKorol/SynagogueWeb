@@ -59,7 +59,8 @@ header {
 }
 
 .nav-links a:hover {
-  color: var(--secondary-color);
+  color: #7fb2d6;
+  transition: 0.3s;
 }
 
 .manager {
