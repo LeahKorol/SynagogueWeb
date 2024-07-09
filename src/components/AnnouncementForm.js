@@ -48,14 +48,14 @@ function AnnouncementForm({ onSubmit }) {
         />
       </div>
       <div className="time-container">
-        <label htmlFor="startTime">בין השעות:</label>
+        <label htmlFor="startTime">שעת התחלה:</label>
         <input
           type="time"
           id="startTime"
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
         />
-        <span>עד</span>
+        <label htmlFor="endTime">שעת סיום:</label>
         <input
           type="time"
           id="endTime"
@@ -95,6 +95,5 @@ function AnnouncementForm({ onSubmit }) {
     </form>
   );
 }
-
 
 export default AnnouncementForm;
