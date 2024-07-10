@@ -89,16 +89,17 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  
-  @media (max-width: 767px) {
-    .lessons-activities .lessons-container {
-      grid-template-columns: 1fr;
-    }
-  }
+
   
   @media (max-width: 768px) {
     .lessons-activities {
         margin-top: 15vw;
+        text-align: center;
+        align-self: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
     }
 
     .lessons-activities .lessons-container {

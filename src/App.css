@@ -225,7 +225,7 @@ header {
 }
 
 @media (max-width: 768px) {
-  .prayersTime .schedule, .lessons-container .lesson {
+  .prayersTime .schedule {
     width: 60vw;
   }
 
@@ -348,7 +348,7 @@ header {
     color: white;
   }
 
-  .prayersTime, .lessons-activities {
+  .prayersTime {
     text-align: center;
     align-self: center;
     justify-content: center;
@@ -359,13 +359,5 @@ header {
 
   .prayersTime .box-container {
     flex-direction: column;
-  }
-
-  .lessons-activities {
-    margin-top: 0;
-  }
-
-  .lessons-activities .lessons-container {
-    grid-template-columns: 1fr;
   }
 }
