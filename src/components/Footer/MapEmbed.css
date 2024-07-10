@@ -67,3 +67,8 @@
     margin-top: 20px;
   }
   
+  @media (max-width: 768px) { 
+    .map-frame {
+      width: 75vw;
+    }
+  }

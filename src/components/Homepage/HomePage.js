@@ -3,7 +3,7 @@ import Header from '../Header';
 import Hero from '../Hero';
 import PrayerTimes from '../PrayerTimes';
 import LessonsActivities from '../LessonsActivities';
-import Announcements from '../Announcements';
+import Announcements from './Announcements';
 import MapEmbed from '../Footer/MapEmbed';
 
 function HomePage() {
