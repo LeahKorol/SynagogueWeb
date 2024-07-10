@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../Header';
-import Hero from '../Hero';
-import PrayerTimes from '../PrayerTimes';
-import LessonsActivities from '../LessonsActivities';
-import Announcements from '../Announcements';
-import MapEmbed from '../MapEmbed';
+import Header from '../Header/Header';
+import Hero from './Hero';
+import PrayerTimes from './PrayerTimes';
+import LessonsActivities from './LessonsActivities';
+import Announcements from './Announcements';
+import MapEmbed from '../Footer/MapEmbed';
 
 function HomePage() {
     // זמני תפילות ליום חול
