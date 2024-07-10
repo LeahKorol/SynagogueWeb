@@ -1,4 +1,5 @@
 import React from 'react';
+import './LessonsActivities.css'
 
 const LessonsActivities = () => {
   return (
