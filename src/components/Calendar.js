@@ -4,14 +4,16 @@ import { db } from '../firebase';
 import { getEventsCalendar } from '../utils/calendar';
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 import Month from './Month';
+import RangeEventPopup from './RangeEventPopup';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate());
     const [selectedDay, setSelectedDay] = useState(null);
+    const [showRangePopup, setShowRangePopup] = useState(false);
 
     const currentYear = currentMonth.getFullYear();
     const months = [...Array(12).keys()].map(i => new Date(currentYear, i, 1));
@@ -50,6 +52,10 @@ const Calendar = () => {
         setSelectedDay(day);
     };
 
+    const handleAddRangeEvent = () => {
+        setShowRangePopup(true);
+    };
+
     const filteredMonths = months.filter(month => month.getMonth() === currentMonth.getMonth());
 
     return (
@@ -75,6 +81,15 @@ const Calendar = () => {
                     <FontAwesomeIcon icon={faChevronRight} />
                 </button>
             </div>
+            <button className="add-range-event-button" onClick={handleAddRangeEvent}>
+                <FontAwesomeIcon icon={faCalendarPlus} /> הוסף אירוע לטווח תאריכים
+            </button>
+            {showRangePopup && (
+                <RangeEventPopup
+                    onClose={() => setShowRangePopup(false)}
+                    onEventChange={handleEventChange}
+                />
+            )}
         </div>
     );
 };

@@ -10,9 +10,8 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
     }, [isSelected]);
 
     const gregorianDate = new Date(day);
-    const formattedDate = gregorianDate.toISOString().split('T')[0];
-    const dayEvents = events.filter(event => event.date === formattedDate);
     const hebrewDate = getHebrewDate(gregorianDate);
+    const dayEvents = events.filter(event => event.hebrewDate === hebrewDate);
 
     const gregorianDay = gregorianDate.getDate();
     const isToday = new Date().toDateString() === gregorianDate.toDateString();
