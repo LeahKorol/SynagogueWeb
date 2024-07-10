@@ -1,13 +1,31 @@
-// firestoreService.js
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css';
+import HomePage from './components/Homepage/HomePage';
+import EventHall from './components/EventHall/EventHall';
+import AboutContact from './components/About-Contact/AboutContact';
+import Contributes from './components/Contributes/Contributes';
+import AdminLogin from './components/Admin/AdminLogin';
+import Manager from './components/Manager';
+import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
 
-const fetchTimesCollection = async () => {
-  const timesCollection = collection(db, "times");
-  const timesSnapshot = await getDocs(timesCollection);
-  const timesList = timesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  return timesList;
-};
+function App() {
+  return (
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/event-hall" element={<EventHall />} />
+            <Route path="/about" element={<AboutContact />} />
+            <Route path="/contact" element={<AboutContact />} />
+            <Route path="/contributes" element={<Contributes />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/manager" element={<Manager />} />
+          </Routes>
 
-export { fetchTimesCollection };
+          <DefibrillatorInfo />
+        </div>
+      </Router>
+  );
+}
 
