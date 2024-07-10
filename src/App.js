@@ -4,7 +4,7 @@ import './App.css';
 import HomePage from './components/Homepage/HomePage';
 import EventHall from './components/EventHall/EventHall';
 import AboutContact from './components/About-Contact/AboutContact';
-import Contributes from './components/Contributes/Contributes';
+import Contributes from './components/Contributes/ContributesPage';
 import AdminLogin from './components/Admin/AdminLogin';
 import Manager from './components/Manager';
 import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
