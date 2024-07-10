@@ -1,0 +1,95 @@
+.prayersTime {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 100vw;
+    margin: 10vh 14vw;
+    text-align: center;
+  }
+  
+  .prayersTime .heading {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+  }
+  
+  .prayersTime .box-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: stretch;
+  }
+  
+  .prayersTime .schedule {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+  
+  .prayersTime .schedule h2 {
+    font-size: 3.5vh;
+    margin-bottom: 10px;
+    color: black;
+  }
+  
+  .prayersTime .schedule ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: right;
+    direction: rtl;
+    flex-grow: 1; 
+  }
+  
+  .prayersTime .schedule ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: black;
+  }
+  
+  .prayersTime .schedule ul li:last-child {
+    margin-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .prayersTime {
+        text-align: center;
+        align-self: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+    
+    .prayersTime .box-container {
+        flex-direction: column;
+    }
+
+    .prayersTime .schedule {
+      width: 60vw;
+    }
+  
+    .prayersTime {
+      margin-bottom: 10vw; 
+    }
+  
+    .prayersTime .schedule h2 {
+      font-size: 2.5vh;
+    }
+  
+    .prayersTime .schedule ul li {
+      font-size: 2vh;
+    }
+  
+    .prayersTime .heading {
+      font-size: 3.5vh;
+    }
+  }
+  
