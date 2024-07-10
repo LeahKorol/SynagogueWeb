@@ -28,19 +28,6 @@
     border: 0;
   }
   
-  .defibrillator-button {
-    background-color: red;
-    color: white;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  
   .social-networks {
     text-align: center;
     margin-top: 20px;

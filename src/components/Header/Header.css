@@ -136,7 +136,6 @@ header {
     .App {
       width: 100vw;
       height: auto;
-      min-height: 100vh;
       overflow-x: hidden;
       background-color: var(--primary-color);
     }

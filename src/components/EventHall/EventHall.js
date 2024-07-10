@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../Header/Header';
+import Gallery from './Gallery'
 import MapEmbed from '../Footer/MapEmbed';
 
 function EventHall() {
@@ -12,6 +13,8 @@ function EventHall() {
                 </Helmet>
 
                 <Header />
+
+                <Gallery />
                 
                 <div className="App">
                     <MapEmbed />
