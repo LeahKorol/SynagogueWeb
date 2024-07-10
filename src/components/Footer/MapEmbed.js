@@ -1,4 +1,5 @@
 import React from 'react';
+import './MapEmbed.css'
 
 const MapEmbed = () => {
   return (
