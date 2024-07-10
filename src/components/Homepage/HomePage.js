@@ -52,6 +52,7 @@ function HomePage() {
             <div id="calendar">
               <Calendar />
             </div>
+            
             <Announcements />
             <div className="App">
               <MapEmbed />

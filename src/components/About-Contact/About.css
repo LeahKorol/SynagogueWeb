@@ -24,7 +24,7 @@
 
 .about-div img {
     flex: 1;
-    max-width: 50%;
+    width: auto;
     height: auto;
 }
 

@@ -24,7 +24,7 @@ function Header() {
         <li><NavLink to="/" state={{ scrollTo: 'calendar' }}>יומן פעילות</NavLink></li>
         <li><NavLink to="/event-hall">אולם</NavLink></li>
         <li><NavLink to="/about-contact">אודות</NavLink></li>
-        <li><NavLink to="/about-contact#contact-div">צור קשר</NavLink></li>
+        <li><NavLink to="/about-contact" state={{ scrollTo: 'contact' }}>צור קשר</NavLink></li>
         <li><NavLink to="/contribute">תרומות</NavLink></li>
       </ul>
       <NavLink className="manager" to="/admin-login">כניסת מנהל</NavLink>
