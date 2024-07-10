@@ -3,6 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from './components/Homepage/HomePage';
+import EventHall from './components/EventHall/EventHall';
 import AdminLogin from './components/Admin/AdminLogin';
 import Manager from './components/Manager';
 import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
@@ -17,6 +18,7 @@ function App() {
           </Helmet>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/event-hall" element={<EventHall />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/manager" element={<Manager />} />
           </Routes>
