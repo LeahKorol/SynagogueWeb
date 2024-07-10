@@ -1,7 +1,5 @@
-// src/components/Admin.js
-
 import React from 'react';
-import { auth, signOut } from '../../firebase';
+import { auth, signOut } from '../../../firebase';
 
 const Admin = () => {
   const handleLogout = () => {

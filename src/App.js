@@ -3,7 +3,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from './components/Homepage/HomePage';
-import AdminLogin from './components/AdminLogin';
+import AdminLogin from './components/Admin/AdminLogin';
 import Manager from './components/Manager';
 
 function App() {
