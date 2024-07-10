@@ -2,6 +2,8 @@ import React from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../Header/Header';
 import MapEmbed from '../Footer/MapEmbed';
+import About from './About';
+import Contact from './Contact';
 
 function AboutContact() {
     return (
@@ -12,6 +14,10 @@ function AboutContact() {
                 </Helmet>
 
                 <Header />
+
+
+                <About />
+                <Contact />
                 
                 <div className="App">
                     <MapEmbed />
