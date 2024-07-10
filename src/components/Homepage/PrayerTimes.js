@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './PrayerTimes.css'
 
 function PrayerTimes({ weekdayTimes, shabbatTimes }) {
   return (

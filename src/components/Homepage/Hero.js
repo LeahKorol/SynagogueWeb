@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import backgroundImage from '../1.jfif';
+import backgroundImage from '../../images/1.jfif';
+import './Hero.css'
 
 function Hero({ title, welcomeMessage, description }) {
   const heroStyle = {
