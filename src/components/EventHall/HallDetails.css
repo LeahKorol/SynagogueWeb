@@ -1,8 +1,6 @@
 .details-hall {
     background-color: var(--primary-color);
     padding: 50px;
-    margin-top: 8%;
-    margin-bottom: 8%;
     align-items: center;
     justify-content: center;
 }
@@ -67,6 +65,7 @@
 
 
 .more-details {
+    height: fit-content;
     text-decoration: none;
     color: white;
     background-color: var(--primary-color);
