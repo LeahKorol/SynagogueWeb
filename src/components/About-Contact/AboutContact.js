@@ -3,12 +3,12 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../Header/Header';
 import MapEmbed from '../Footer/MapEmbed';
 
-function EventHall() {
+function AboutContact() {
     return (
         <main>
             <HelmetProvider>
                 <Helmet>
-                    <title>פאתי מזרח | אולם אירועים</title>
+                    <title>פאתי מזרח | אודות</title>
                 </Helmet>
 
                 <Header />
@@ -21,4 +21,4 @@ function EventHall() {
     );
 }
 
-export default EventHall;
+export default AboutContact;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Header from '../Header/Header';
 import Hero from './Hero';
 import PrayerTimes from './PrayerTimes';
@@ -27,14 +28,20 @@ function HomePage() {
 
     return (
         <main>
-            <Header />
-            <Hero />
-            <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
-            <LessonsActivities />
-            <Announcements />
-            <div className="App">
-                <MapEmbed />
-            </div>
+            <HelmetProvider>
+                <Helmet>
+                    <title>פאתי מזרח | דף בית</title>
+                </Helmet>
+
+                <Header />
+                <Hero />
+                <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
+                <LessonsActivities />
+                <Announcements />
+                <div className="App">
+                    <MapEmbed />
+                </div>
+            </HelmetProvider>
         </main>
     );
 }
