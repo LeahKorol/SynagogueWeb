@@ -17,7 +17,8 @@
 }
   
 .lessons-activities .lessons-container {
-    grid-template-columns: repeat(3, minmax(10vw, 1fr));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(10vw, 1fr));
     justify-content: center;
     margin: 0 auto;
 }

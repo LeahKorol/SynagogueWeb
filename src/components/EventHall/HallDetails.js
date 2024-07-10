@@ -27,6 +27,7 @@ function HallDetails() {
                 <p>ברית מילה, אירוסין, ועוד</p>
             </div>
             </div>
+
             <a className="more-details" href="about-contact.html#contact-div">
                 לפרטים נוספים שלומי לוי: 0506277146
             </a>
