@@ -223,3 +223,107 @@
     width: 14.28%;
     text-align: center;
 }
+.event-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.event-popup {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.event-popup h3 {
+    margin-top: 0;
+}
+
+.event-popup h4 {
+    margin-bottom: 20px;
+}
+
+.event-popup form {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-popup label {
+    margin-bottom: 10px;
+}
+
+.event-popup input,
+.event-popup select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.event-popup .button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-popup .button-group button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.event-popup .save-button {
+    background-color: #4CAF50;
+}
+
+.event-popup .delete-button {
+    background-color: #F44336;
+}
+
+.event-popup .delete-all-button {
+    background-color: #F44336;
+}
+
+.event-popup .close-button {
+    background-color: #999;
+}
+
+.event-popup .new-event-button {
+    background-color: #2196F3;
+}
+
+.event-popup .event-select-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.event-popup .event-select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.event-popup .new-event-button {
+    margin-left: 10px;
+}

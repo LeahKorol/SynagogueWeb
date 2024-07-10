@@ -4,6 +4,7 @@ import { db } from '../firebase';
 import { getHebrewDate } from '../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { v4 as uuidv4 } from 'uuid';
 
 const RangeEventPopup = ({ onClose, onEventChange }) => {
     const [startDate, setStartDate] = useState('');
@@ -15,12 +16,15 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
         try {
             const start = new Date(startDate);
             const end = new Date(endDate);
+            const idevent = uuidv4(); // יצירת אידנטיפיקטור ייחודי לאירוע
             for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
                 const hebrewDate = getHebrewDate(date);
                 await addDoc(collection(db, "events"), {
                     date: date.toISOString().split('T')[0],
                     description: description,
-                    hebrewDate: hebrewDate
+                    hebrewDate: hebrewDate,
+                    rangeDescription: `${description} (${startDate} - ${endDate})`,
+                    idevent: idevent // הוספת שדה idevent לאירוע
                 });
             }
             onEventChange();
