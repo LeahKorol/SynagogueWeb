@@ -5,6 +5,7 @@ import './App.css';
 import HomePage from './components/Homepage/HomePage';
 import AdminLogin from './components/Admin/AdminLogin';
 import Manager from './components/Manager';
+import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/manager" element={<Manager />} />
           </Routes>
+
+          <DefibrillatorInfo />
         </div>
       </Router>
     </HelmetProvider>
