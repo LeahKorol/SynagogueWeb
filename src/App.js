@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from './components/Homepage/HomePage';
+import Calendar from './components/Homepage/Calendar';
 import EventHall from './components/EventHall/EventHall';
 import AboutContact from './components/About-Contact/AboutContact';
 import Contributes from './components/Contributes/Contributes';
@@ -15,6 +16,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/event-hall" element={<EventHall />} />
             <Route path="/about" element={<AboutContact />} />
             <Route path="/contact" element={<AboutContact />} />
