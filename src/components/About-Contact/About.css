@@ -1,8 +1,13 @@
+.about-section {
+    align-items: center;
+    justify-content: center;
+}
+
 .heading-about {
-    margin-top: 7%;
     color: white;
     text-align: center;
-    font-size: 40px;
+    padding: 5vh;
+    font-size: 7vh;
     font-weight: bolder;
 }
 
@@ -10,10 +15,8 @@
     display: flex;
     flex-direction: row;
     gap: 3rem;
-    width: 85%;
+    width: 85vw;
     height: fit-content;
-    margin-top: 5%;
-    margin-right: 5%;
     align-items: center;
     justify-content: center;
     align-items: stretch;

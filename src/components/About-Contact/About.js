@@ -8,7 +8,7 @@ import image from '../../images/1.jfif';
 
 function AboutUs() {
     return (
-        <main>
+        <main className='about-section'>
             <h1 className="heading-about">מי אנחנו?</h1>
             <div className="about-div">
                 <img src={image} alt=""/>

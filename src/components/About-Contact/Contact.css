@@ -1,0 +1,52 @@
+.contact-div {
+    background-color: white;
+    color: var(--primary-color);
+    padding: 5%;
+    margin: 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+.heading-contact {
+    margin-top: 2%;
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 40px;
+    font-weight: bolder;
+}
+
+.contact-details {
+    margin-top: 7%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10rem;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: 24px;
+    align-items: center;
+}
+
+.box:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.box i {
+    font-size: 34px;
+    color: var(--primary-color);
+}
+
+.box p {
+    text-align: center;
+}
+
+.box .detail-phone {
+    font-size: 28px;
+}
