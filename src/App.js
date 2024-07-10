@@ -1,15 +1,13 @@
-import './App.css';
-import HebrewEventsList from './components/HebrewEventsList';
+// firestoreService.js
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to the Hebrew Calendar App</h1>
-        <HebrewEventsList />
-      </header>
-    </div>
-  );
-}
+const fetchTimesCollection = async () => {
+  const timesCollection = collection(db, "times");
+  const timesSnapshot = await getDocs(timesCollection);
+  const timesList = timesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return timesList;
+};
 
-export default App;
+export { fetchTimesCollection };
+
