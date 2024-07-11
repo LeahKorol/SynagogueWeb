@@ -6,7 +6,7 @@ import EventHall from './components/EventHall/EventHall';
 import AboutContact from './components/About-Contact/AboutContact';
 import Contributes from './components/Contributes/ContributesPage';
 import AdminLogin from './components/Admin/AdminLogin';
-import Manager from './components/Manager';
+import Manager from './components/Admin/Manager';
 import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
 
 

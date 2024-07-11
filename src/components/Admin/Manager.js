@@ -1,11 +1,10 @@
-
 import React from 'react';
-import CongratForm from './CongratForm';
-import LessonsForm from './LessonsForm';
-import EventGalleryForm from './EventGalleryForm';
-import ContactForm from './ContactForm'; 
-import AboutForm from './AboutForm';
-import ContributesForm from './ContributesForm';
+import CongratForm from './Forms/CongratForm';
+import LessonsForm from './Forms/LessonsForm';
+import EventGalleryForm from './Forms/EventGalleryForm';
+import ContactForm from './Forms/ContactForm'; 
+import AboutForm from './Forms/AboutForm';
+import ContributesForm from './Forms/ContributesForm';
 
 function Manager() {
   return (

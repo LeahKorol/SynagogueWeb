@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../../firebase';
 
 function ContributesForm() {
   const [contributesData, setContributesData] = useState({
