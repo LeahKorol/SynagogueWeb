@@ -5,6 +5,7 @@ import LessonsForm from './LessonsForm';
 import EventGalleryForm from './EventGalleryForm';
 import ContactForm from './ContactForm'; 
 import AboutForm from './AboutForm';
+import ContributesForm from './ContributesForm';
 
 function Manager() {
   return (
@@ -16,6 +17,7 @@ function Manager() {
       <EventGalleryForm />
       <ContactForm /> 
       <AboutForm /> 
+      <ContributesForm />
     </div>
   );
 }
