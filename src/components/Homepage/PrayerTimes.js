@@ -43,7 +43,7 @@ const PrayerTimes = () => {
 
         <div className="schedule">
           <h2>זמני שבת קודש</h2>
-          <h3>ערב שבת:</h3>
+          <h2>ערב שבת:</h2>
           <ul>
             {scheduleItems.filter(item => item.day === 'Friday').map((item, index) => (
               <li key={index}>
@@ -51,7 +51,7 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
-          <h3>שבת:</h3>
+          <h2>שבת:</h2>
           <ul>
             {scheduleItems.filter(item => item.day === 'Shabbat').map((item, index) => (
               <li key={index}>
