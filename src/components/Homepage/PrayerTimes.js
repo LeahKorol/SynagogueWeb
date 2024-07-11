@@ -2,6 +2,7 @@ import './PrayerTimes.css';
 import React, { useEffect, useState } from 'react';
 import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
 import { processScheduleItems } from '../../utils/timeUtils';
+import {formatCurrentJerusalemDate, getParasha } from '../../utils/dateFunctions';
 
 const PrayerTimes = () => {
   // State to hold schedule items
@@ -27,12 +28,21 @@ const PrayerTimes = () => {
     return () => unsubscribe();
   }, []);
 
+  let formatDate = formatCurrentJerusalemDate();
+  
+  const parasha = getParasha();
+  let parashaName=parasha.parashaName;
+  if(!parasha.chag){
+    parashaName=' פרשת ' + parashaName;
+  }
+
   return (
     <section className="prayersTime">
       <h1 className="heading">זמני תפילות</h1>
       <div className="box-container">
         <div className="schedule">
-          <h2>זמני יום חול</h2>
+          <h2>זמני  חול</h2>
+          <h2>יום {formatDate.day} - {formatDate.hebrewDateGematria}</h2>
           <ul>
             {schedule.weekday.map((item, index) => (
               <li key={index}>
@@ -43,7 +53,7 @@ const PrayerTimes = () => {
         </div>
 
         <div className="schedule">
-          <h2>זמני שבת קודש</h2>
+          <h2> שבת קודש {parashaName}</h2>
           <h2>ערב שבת:</h2>
           <ul>
             {schedule.Friday.map((item, index) => (
@@ -66,5 +76,5 @@ const PrayerTimes = () => {
   );
 };
 
-export default PrayerTimes ;
+export default PrayerTimes;
 
