@@ -76,33 +76,6 @@ function formatTime(date) {
     return `${hours}:${minutes}`;
 }
 
-/**
- * Gets the earliest Arvit time based on the given Hebrew date.
- * @param {HDate} hdate - The Hebrew date to calculate Arvit time for.
- * @returns {string} The formatted Arvit time in HH:mm format.
- */
-function getArvitTime(hdate) {
-    const arvitTime = getEarliestTzeit(hdate);
-    return formatTime(arvitTime);
-}
-
-/**
- * @param {HDate} hdate - The Hebrew date to calculate Mincha time for.
- * @returns {string} The formatted Arvit time in HH:mm format.
- */
-function getMinchaTime(hdate) {
-    let minchaTime = new Date(getEarliestTzeit(hdate));
-    minchaTime.setMinutes(minchaTime.getMinutes() - 35);
-
-    const events = HebrewCalendar.getHolidaysOnDate(hdate) || [];// Default to empty array if no events
-    for (let event of events) {
-        if (event.getFlags() === flags.MINOR_FAST || event.getFlags() === flags.MAJOR_FAST) {
-            minchaTime.setMinutes(minchaTime.getMinutes() - 15);
-            break;
-        }
-    }
-    return formatTime(minchaTime);
-}
 
 /**
  * Calculates Candle Lighting time for upcoming Friday based on seen sunset.
@@ -123,62 +96,23 @@ function nextFridayCandleLighting(hdate) {
     return candleLighting;
 }
 
-/**
- * Calculates the early Mincha time for upcoming Friday based on daylight saving time.
- * @param {HDate} hdate 
- * @returns {string} The formatted Mincha time in HH:mm format.
- */
-function EearlyMinchaTimeForFriday(hdate) {
-    let minchaTime = nextFridayCandleLighting(hdate);
-    if (isDaylightSavingTimeForIsrael(hdate.greg())) {
-        minchaTime.setHours(minchaTime.getHours() - 1);
-        return formatTime(minchaTime);
-    }
-    return null;
-}
 
 /**
- * Calculates Mincha Ketana time for upcoming Friday based on daylight saving time
+ * Calculates Havdala time for upcoming Shabbat: 40 minutes after seen sunset
  * @param {HDate} hdate 
- * @returns {string} The formatted Mincha time in HH:mm format.
+ * @returns {Date} Havdala
  */
-function MinchaKetanaForFriday(hdate) {
-    let minchaTime = nextFridayCandleLighting(hdate);
-    if (isDaylightSavingTimeForIsrael(hdate.greg())) {
-        minchaTime.setMinutes(minchaTime.getMinutes() - 10);
-    }
-    return formatTime(minchaTime);
-}
-
-/**
- * @param {HDate} hdate 
- * @returns {string} The formatted Mincha time in HH:mm format.
- */
-function minchaForFriday(hdate) {
-    let minchaTime = nextFridayCandleLighting(hdate);
-    minchaTime.setMinutes(minchaTime.getMinutes() + 25);
-    return formatTime(minchaTime);
-}
-
-/**
- * Calculates Arvit time for upcoming Shabbat: 40 minutes after seen sunset
- * @param {HDate} hdate 
- * @returns {string} The formatted Arvit time in HH:mm format.
- */
-function arvitAfterShabbat(hdate) {
+function nextShabbatHavdala(hdate) {
     const CloseShabbat = hdate.onOrAfter(6);
     const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// unnable elevation 
-    const arvitTime = ShabbatZmanim.sunsetOffset(40, true);
-    return formatTime(arvitTime);
+    const havdala = ShabbatZmanim.sunsetOffset(40, true);
+   return havdala
 }
 
 export {
     formatTime,
     getEarliestTzeit,
-    getMinchaTime,
-    getArvitTime,
-    EearlyMinchaTimeForFriday,
-    MinchaKetanaForFriday,
-    minchaForFriday,
-    arvitAfterShabbat
+    nextShabbatHavdala,
+    nextFridayCandleLighting,
+    isDaylightSavingTimeForIsrael,
 };
