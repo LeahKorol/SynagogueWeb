@@ -53,6 +53,10 @@
     text-align: center;
     margin-top: 20px;
   }
+
+  .footer p {
+    color: black;
+  }
   
   @media (max-width: 768px) { 
     .map-frame {

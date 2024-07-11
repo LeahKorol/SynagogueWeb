@@ -38,6 +38,11 @@ header {
     text-decoration: none;
     font-size: 18px;
 }
+
+.nav-links a.active {
+  color: white;
+  background-color: var(--primary-color);
+}
   
 .nav-links a:hover {
     color: #7fb2d6;

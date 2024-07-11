@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
@@ -20,14 +20,14 @@ function Header() {
         <div className="bar"></div>
       </div>
       <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-        <li className="current-page"><Link to="/">בית</Link></li>
-        <li><Link to="#calendar">יומן פעילות</Link></li>
-        <li><Link to="/event-hall">אולם</Link></li>
-        <li><Link to="/about-contact">אודות</Link></li>
-        <li><Link to="/about-contact#contact-div">צור קשר</Link></li>
-        <li><Link to="/contribute">תרומות</Link></li>
+        <li><NavLink to="/">בית</NavLink></li>
+        <li><NavLink to="/" state={{ scrollTo: 'calendar' }}>יומן פעילות</NavLink></li>
+        <li><NavLink to="/event-hall">אולם</NavLink></li>
+        <li><NavLink to="/about-contact">אודות</NavLink></li>
+        <li><NavLink to="/about-contact" state={{ scrollTo: 'contact' }}>צור קשר</NavLink></li>
+        <li><NavLink to="/contributes">תרומות</NavLink></li>
       </ul>
-      <Link className="manager" to="/admin-login">כניסת מנהל</Link>
+      <NavLink className="manager" to="/admin-login">כניסת מנהל</NavLink>
     </header>
   );
 }

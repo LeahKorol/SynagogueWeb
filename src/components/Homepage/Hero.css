@@ -34,6 +34,7 @@
   .hero .content p {
     font-size: 24px;
     margin-bottom: 20px;
+    color: white;
   }
   
   .buttons {
@@ -67,7 +68,7 @@
       }
 
       
-    .hero .content h1 {
+      .hero .content h1 {
         font-size: 5vh;
         text-align: left;
         color: white;

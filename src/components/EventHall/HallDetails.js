@@ -28,7 +28,7 @@ function HallDetails() {
             </div>
             </div>
 
-            <a className="more-details" href="about-contact.html#contact-div">
+            <a className="more-details" href="tel:0506277146">
                 לפרטים נוספים שלומי לוי: 0506277146
             </a>
       </div>

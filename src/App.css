@@ -2,6 +2,7 @@
   text-align: center;
   direction: rtl; 
   background-color: var(--primary-color);
+  color: white;
   overflow-x: hidden;
 }
 

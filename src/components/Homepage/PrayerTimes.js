@@ -1,8 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './PrayerTimes.css'
+import './PrayerTimes.css';
+import React, { useEffect, useState } from 'react';
+import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
+import { processScheduleItems } from '../../utils/timeUtils';
 
-function PrayerTimes({ weekdayTimes, shabbatTimes }) {
+const PrayerTimes = () => {
+  const [scheduleItems, setScheduleItems] = useState([]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const items = await fetchScheduleItems();
+      const processedItems = processScheduleItems(items);
+      setScheduleItems(processedItems);
+    };
+
+    fetchItems();
+
+    // Set up real-time listener
+    const unsubscribe = listenToScheduleItems((updatedItems) => {
+      const processedItems = processScheduleItems(updatedItems);
+      setScheduleItems(processedItems);
+    });
+
+    // Clean up the listener on component unmount
+    return () => unsubscribe();
+
+  }, []);
+
   return (
     <section className="prayersTime">
       <h1 className="heading">זמני תפילות</h1>
@@ -10,95 +33,37 @@ function PrayerTimes({ weekdayTimes, shabbatTimes }) {
         <div className="schedule">
           <h2>זמני יום חול</h2>
           <ul>
-            <li>שחרית - {weekdayTimes.shacharit}</li>
-            <li>מנחה גדולה - {weekdayTimes.mincha_gedola}</li>
-            <li>מנחה - {weekdayTimes.mincha} (15 דקות לפני שקיעה)</li>
-            <li>ערבית מנין א' - {weekdayTimes.arvit_1} (20 דקות לאחר שקיעה)</li>
-            <li>ערבית מנין ב' - {weekdayTimes.arvit_2}</li>
+            {scheduleItems.filter(item => item.day === 'weekday').map((item, index) => (
+              <li key={index}>
+                {item.title}: {item.hour}
+              </li>
+            ))}
           </ul>
         </div>
-        
+
         <div className="schedule">
-          <h2>זמני שבת קודש (לפי שעון קיץ)</h2>
+          <h2>זמני שבת קודש</h2>
+          <h2>ערב שבת:</h2>
           <ul>
-            <li>מנחה ערב שבת קודש - {shabbatTimes.mincha_erev_shabbat} (בכניסת שבת)</li>
-            <li>ערבית של שבת קודש - {shabbatTimes.arvit_shabbat} (30 דקות לאחר כניסת השבת)</li>
-            <li>שחרית של שבת קודש - {shabbatTimes.shacharit_shabbat}</li>
-            <li>מנחה גדולה - {shabbatTimes.mincha_gedola_shabbat}</li>
-            <li>מנחה קטנה - {shabbatTimes.mincha_ketana_shabbat} (לפי זמני כניסת השבת)</li>
-            <li>ערבית של מוצאי שבת - במוצאי השבת</li>
+            {scheduleItems.filter(item => item.day === 'Friday').map((item, index) => (
+              <li key={index}>
+                {item.title}: {item.hour}
+              </li>
+            ))}
+          </ul>
+          <h2>שבת:</h2>
+          <ul>
+            {scheduleItems.filter(item => item.day === 'Shabbat').map((item, index) => (
+              <li key={index}>
+                {item.title}: {item.hour}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     </section>
   );
-}
-
-PrayerTimes.propTypes = {
-  weekdayTimes: PropTypes.shape({
-    shacharit: PropTypes.string.isRequired,
-    mincha_gedola: PropTypes.string.isRequired,
-    mincha: PropTypes.string.isRequired,
-    arvit_1: PropTypes.string.isRequired,
-    arvit_2: PropTypes.string.isRequired,
-  }).isRequired,
-  shabbatTimes: PropTypes.shape({
-    mincha_erev_shabbat: PropTypes.string.isRequired,
-    arvit_shabbat: PropTypes.string.isRequired,
-    shacharit_shabbat: PropTypes.string.isRequired,
-    mincha_gedola_shabbat: PropTypes.string.isRequired,
-    mincha_ketana_shabbat: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
-export default PrayerTimes;
+export default PrayerTimes ;
 
-// import React, { useEffect, useState } from 'react';
-// import { collection, getDocs } from 'firebase/firestore';
-// import { db } from '../../firebase';
-// // import '../../App.css';
-
-// function PrayerTimes() {
-//   const [weekdayTimes, setWeekdayTimes] = useState([]);
-
-//   useEffect(() => {
-//     const fetchWeekdayTimes = async () => {
-//       try {
-//         const querySnapshot = await getDocs(collection(db, "weekdayTimes"));
-//         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-//         setWeekdayTimes(data);
-//       } catch (e) {
-//         console.error("Error fetching documents: ", e);
-//       }
-//     };
-
-//     fetchWeekdayTimes();
-//   }, []);
-
-//   return (
-//     <section className="prayersTime">
-//       <h1 className="heading">זמני תפילות</h1>
-//       <div className="box-container">
-//         <div className="schedule">
-//           <h2>זמני יום חול</h2>
-//           <ul>
-//             {weekdayTimes.map((time) => (
-//               <li key={time.id}>
-//                 <strong>{time.title}</strong> - {time.time} {time.always ? "(תמיד)" : `(מתאריך ${time.startDate} עד ${time.endDate})`}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-        
-//         <div className="schedule">
-//           <h2>זמני שבת קודש (לפי שעון קיץ)</h2>
-//           <ul>
-//             {/* יש להוסיף כאן את נתוני זמני שבת */}
-//           </ul>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export default PrayerTimes;
