@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, updateDoc, doc, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../../firebase';
 
 function ContactForm() {
   const [contactDetails, setContactDetails] = useState({});

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../../../firebase';
 
 function LessonsForm() {
   const [lessons, setLessons] = useState([]);

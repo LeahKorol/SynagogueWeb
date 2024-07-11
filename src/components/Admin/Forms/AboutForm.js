@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getDoc, doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase';
+import { db, storage } from '../../../firebase';
 
 function AboutForm() {
   const [aboutData, setAboutData] = useState({});

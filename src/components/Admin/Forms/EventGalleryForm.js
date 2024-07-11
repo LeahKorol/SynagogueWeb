@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { db, storage } from '../firebase';
+import { db, storage } from '../../../firebase';
 
 function EventGalleryForm() {
   const [eventGallery, setEventGallery] = useState([]);
