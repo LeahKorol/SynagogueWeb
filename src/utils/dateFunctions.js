@@ -62,14 +62,3 @@ export function getHallel() {
   const hallel = HebrewCalendar.hallel(today, true);
   return hallel;
 }
-
-console.log(formatCurrentJerusalemDate().gregorianDate);
-console.log(formatCurrentJerusalemDate().hebrewDateGematria);
-
-console.log(getEventsDescriptions());
-
-console.log(getParasha());
-
-console.log(getTachanun());
-
-console.log(getHallel()); 

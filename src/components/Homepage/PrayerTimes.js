@@ -2,7 +2,7 @@ import './PrayerTimes.css';
 import React, { useEffect, useState } from 'react';
 import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
 import { processScheduleItems } from '../../utils/timeUtils';
-import {formatCurrentJerusalemDate, getParasha } from '../../utils/dateFunctions';
+import { formatCurrentJerusalemDate, getEventsDescriptions, getParasha } from '../../utils/dateFunctions';
 
 const PrayerTimes = () => {
   // State to hold schedule items
@@ -29,11 +29,13 @@ const PrayerTimes = () => {
   }, []);
 
   let formatDate = formatCurrentJerusalemDate();
-  
+
+  const descriptions = getEventsDescriptions();
+
   const parasha = getParasha();
-  let parashaName=parasha.parashaName;
-  if(!parasha.chag){
-    parashaName=' פרשת ' + parashaName;
+  let parashaName = parasha.parashaName;
+  if (!parasha.chag) {
+    parashaName = ' פרשת ' + parashaName;
   }
 
   return (
@@ -50,8 +52,14 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
+          
+          <div>
+            {descriptions.map((description, index) => (
+              <p key={index}>{description}</p>
+            ))}
+          </div>
         </div>
-
+        
         <div className="schedule">
           <h2> שבת קודש {parashaName}</h2>
           <h2>ערב שבת:</h2>
