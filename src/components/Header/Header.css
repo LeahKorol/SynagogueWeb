@@ -1,17 +1,17 @@
-header {
+Header {
     background-color: var(--primary-color);
-    padding: 20px;
+    padding: 2.5vh 2.5vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     position: fixed;
-    width: 100%;
+    width: 100vw;
     z-index: 1000;
 }
   
 .logo img {
-    height: 50px;
+    height: 5vh;
 }
   
 .hamburger-menu {
@@ -83,17 +83,6 @@ header {
     .hamburger-menu {
       display: flex;
     }
-  }
-  
-  
-  header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--primary-color);
-    color: white;
   }
   
   .hamburger-menu {
