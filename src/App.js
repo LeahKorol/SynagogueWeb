@@ -9,6 +9,11 @@ import AdminLogin from './components/Admin/AdminLogin';
 import Manager from './components/Manager';
 import DefibrillatorInfo from './components/DefibrillatorInfo/DefibrillatorInfo';
 
+
+
+import AutoUpdatingComponent from './components/AutoUpdatingComponent';
+
+
 function App() {
   return (
     <Router>
@@ -24,6 +29,11 @@ function App() {
         </Routes>
         <DefibrillatorInfo />
       </div>
+
+      <main>
+        <AutoUpdatingComponent url="http://localhost:3001/api/news" interval={3000} />
+      </main>
+
     </Router>
   );
 }

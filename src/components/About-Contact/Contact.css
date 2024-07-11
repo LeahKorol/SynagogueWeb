@@ -54,5 +54,12 @@
 
 
 @media (max-width: 768px) {
+    .contact-div {
+        flex-direction: column;
+    }
 
+    .contact-details {
+        flex-direction: column;
+        gap: 2rem;
+    }
 }
