@@ -1,12 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db, auth, storage } from '../../firebase';
+import { db } from '../../firebase';
 import './Gallery.css';
 
 function Gallery() {
   const [eventGallery, setEventGallery] = useState([]);
-  let slideIndex = 1;
+  const [slideIndex, setSlideIndex] = useState(1);
 
   const fetchEventGallery = async () => {
     const querySnapshot = await getDocs(collection(db, "eventGallery"));
@@ -16,33 +15,39 @@ function Gallery() {
 
   useEffect(() => {
     fetchEventGallery();
-    showSlides(slideIndex);
   }, []);
+
+  useEffect(() => {
+    if (eventGallery.length > 0) {
+      showSlides(1);
+    }
+  }, [eventGallery]);
 
   const showSlides = (n) => {
     let i;
     let slides = document.getElementsByClassName("mySlides");
     let dots = document.getElementsByClassName("dot");
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
+    if (n > slides.length) { n = 1 }
+    if (n < 1) { n = slides.length }
     for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
     }
-    if (slides[slideIndex - 1]) {
-      slides[slideIndex - 1].style.display = "block";
-      dots[slideIndex - 1].className += " active";
+    if (slides[n - 1]) {
+      slides[n - 1].style.display = "block";
+      dots[n - 1].className += " active";
     }
+    setSlideIndex(n); // Update the slideIndex state
   };
 
   const plusSlides = (n) => {
-    showSlides(slideIndex += n);
+    showSlides(slideIndex + n);
   };
 
   const currentSlide = (n) => {
-    showSlides(slideIndex = n);
+    showSlides(n);
   };
 
   return (
@@ -56,8 +61,8 @@ function Gallery() {
               <img src={image.url} alt={`אירוע ${index + 1}`} />
             </div>
           ))}
-          <a className="prev" onClick={() => plusSlides(-1)}>❮</a>
-          <a className="next" onClick={() => plusSlides(1)}>❯</a>
+          <a className="next" onClick={() => plusSlides(-1)}>❮</a>
+          <a className="prev" onClick={() => plusSlides(1)}>❯</a>
         </div>
         <br />
         <div style={{ textAlign: 'center' }}>
