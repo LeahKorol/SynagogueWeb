@@ -27,6 +27,9 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
         onDayClick(null);
     };
 
+    // מספר האירועים שיוצגו (תוכל לשנות את זה לפי הצורך)
+    const maxEventsToShow = 3;
+
     return (
         <div 
             className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
@@ -38,12 +41,15 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
                         <span className="date">{hebrewDate.split(' ')[0]}</span>
                         <span className="gregorian-date">{gregorianDay}</span>
                     </div>
-                    {dayEvents.length > 0 && (
-                        dayEvents.map((event, index) => (
-                            <div key={index} className="event">
-                                <span className="description">{event.description}</span>
-                            </div>
-                        ))
+                    {dayEvents.slice(0, maxEventsToShow).map((event, index) => (
+                        <div key={index} className="event">
+                            <span className="description">{event.description}</span>
+                        </div>
+                    ))}
+                    {dayEvents.length > maxEventsToShow && (
+                        <div className="more-events">
+                            +{dayEvents.length - maxEventsToShow} עוד
+                        </div>
                     )}
                     {showPopup && (
                         <EventPopup 
