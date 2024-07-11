@@ -345,11 +345,7 @@
 .event-item button {
     margin-left: 5px;
 }
-.day {
-    position: relative;
-    height: 100px; /* או כל גובה אחר שמתאים ללוח השנה שלך */
-    overflow: hidden;
-}
+
 
 
 
@@ -372,4 +368,209 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.time-inputs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.time-input {
+    width: 80px;
+    margin: 0 5px;
+}
+
+.event-clock {
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+.all-day-toggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.all-day-label {
+    margin-left: 10px;
+}
+.date-time-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.event-popup {
+    direction: rtl;
+    text-align: right;
+}
+
+.date-time-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: row-reverse;
+}
+
+.date-time-inputs input[type="date"] {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.date-time-inputs input[type="time"] {
+    width: 35%;
+}
+
+.event-input, 
+.date-time-inputs input[type="date"],
+.date-time-inputs input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.all-day-toggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.all-day-toggle .switch {
+    margin-right: 10px;
+}
+
+.all-day-label {
+    font-size: 14px;
+}
+
+.add-event-button,
+.save-button,
+.cancel-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+
+
+.event-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.event-item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.event-item:last-child {
+    border-bottom: none;
+}
+.event-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.event-popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    direction: rtl;
+    text-align: right;
+}
+
+.event-list-container {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.date-time-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: row-reverse;
+}
+
+.date-time-inputs input[type="date"] {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.date-time-inputs input[type="time"] {
+    width: 35%;
 }

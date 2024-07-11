@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { getHebrewDate } from '../utils/calendar';
 import EventPopup from './EventPopup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+
+const sortEvents = (events) => {
+    return events.sort((a, b) => {
+      if (a.isAllDay && !b.isAllDay) return -1;
+      if (!a.isAllDay && b.isAllDay) return 1;
+      if (a.isAllDay && b.isAllDay) return 0;
+      
+      // בדיקה אם startTime קיים ואינו undefined
+      const aStartTime = a.startTime || '';
+      const bStartTime = b.startTime || '';
+      
+      return aStartTime.localeCompare(bStartTime);
+    });
+  };
 
 const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, isSelected }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -11,7 +27,7 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
 
     const gregorianDate = new Date(day);
     const hebrewDate = getHebrewDate(gregorianDate);
-    const dayEvents = events.filter(event => event.hebrewDate === hebrewDate);
+    const dayEvents = sortEvents(events.filter(event => event.hebrewDate === hebrewDate));
 
     const gregorianDay = gregorianDate.getDate();
     const isToday = new Date().toDateString() === gregorianDate.toDateString();
@@ -27,7 +43,6 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
         onDayClick(null);
     };
 
-    // מספר האירועים שיוצגו (תוכל לשנות את זה לפי הצורך)
     const maxEventsToShow = 3;
 
     return (
@@ -43,6 +58,7 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
                     </div>
                     {dayEvents.slice(0, maxEventsToShow).map((event, index) => (
                         <div key={index} className="event">
+                            {!event.isAllDay && event.startTime && <FontAwesomeIcon icon={faClock} className="event-clock" />}
                             <span className="description">{event.description}</span>
                         </div>
                     ))}

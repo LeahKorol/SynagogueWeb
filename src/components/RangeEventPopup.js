@@ -1,30 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getHebrewDate } from '../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faTimes, faClock } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 
 const RangeEventPopup = ({ onClose, onEventChange }) => {
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [description, setDescription] = useState('');
+    const [eventForm, setEventForm] = useState({
+        description: '',
+        isAllDay: false,
+        startDate: new Date().toISOString().split('T')[0],
+        endDate: new Date().toISOString().split('T')[0],
+        startTime: '',
+        endTime: '',
+        location: ''
+    });
+
+    useEffect(() => {
+        const now = new Date();
+        const roundedHour = Math.ceil(now.getHours());
+        const defaultStartTime = `${roundedHour.toString().padStart(2, '0')}:00`;
+        const defaultEndTime = `${(roundedHour + 1).toString().padStart(2, '0')}:00`;
+
+        setEventForm(prev => ({
+            ...prev,
+            startTime: defaultStartTime,
+            endTime: defaultEndTime
+        }));
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setEventForm(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const idevent = uuidv4(); // יצירת אידנטיפיקטור ייחודי לאירוע
+            const start = new Date(eventForm.startDate);
+            const end = new Date(eventForm.endDate);
+            const idevent = uuidv4();
             for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
                 const hebrewDate = getHebrewDate(date);
                 await addDoc(collection(db, "events"), {
                     date: date.toISOString().split('T')[0],
-                    description: description,
+                    description: eventForm.description,
                     hebrewDate: hebrewDate,
-                    rangeDescription: `${description} (${startDate} - ${endDate})`,
-                    idevent: idevent // הוספת שדה idevent לאירוע
+                    rangeDescription: `${eventForm.description} (${eventForm.startDate} - ${eventForm.endDate})`,
+                    idevent: idevent,
+                    startTime: eventForm.isAllDay ? '' : eventForm.startTime,
+                    endTime: eventForm.isAllDay ? '' : eventForm.endTime,
+                    isAllDay: eventForm.isAllDay,
+                    location: eventForm.location
                 });
             }
             onEventChange();
@@ -39,41 +70,77 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
             <div className="event-popup" onClick={(e) => e.stopPropagation()}>
                 <h3>הוסף אירוע לטווח תאריכים</h3>
                 <form onSubmit={handleSubmit}>
-                    <label>
-                        תאריך התחלה:
-                        <input
-                            type="date"
-                            value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <label>
-                        תאריך סיום:
-                        <input
-                            type="date"
-                            value={endDate}
-                            onChange={(e) => setEndDate(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <label>
-                        תיאור האירוע:
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <div className="button-group">
-                        <button type="submit" className="save-button">
-                            <FontAwesomeIcon icon={faSave} /> שמור אירוע
-                        </button>
-                        <button type="button" onClick={onClose} className="close-button">
-                            <FontAwesomeIcon icon={faTimes} /> סגור
-                        </button>
+                    <input
+                        type="text"
+                        name="description"
+                        value={eventForm.description}
+                        onChange={handleInputChange}
+                        placeholder="שם האירוע"
+                        required
+                        className="event-input"
+                    />
+                    <div className="all-day-toggle">
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                name="isAllDay"
+                                checked={eventForm.isAllDay}
+                                onChange={handleInputChange}
+                            />
+                            <span className="slider round"></span>
+                        </label>
+                        <span className="all-day-label">כל היום</span>
                     </div>
+                    <div className="date-time-inputs">
+                        <input
+                            type="date"
+                            name="startDate"
+                            value={eventForm.startDate}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {!eventForm.isAllDay && (
+                            <input
+                                type="time"
+                                name="startTime"
+                                value={eventForm.startTime}
+                                onChange={handleInputChange}
+                                className="time-input"
+                            />
+                        )}
+                    </div>
+                    <div className="date-time-inputs">
+                        <input
+                            type="date"
+                            name="endDate"
+                            value={eventForm.endDate}
+                            onChange={handleInputChange}
+                            required
+                        />
+                        {!eventForm.isAllDay && (
+                            <input
+                                type="time"
+                                name="endTime"
+                                value={eventForm.endTime}
+                                onChange={handleInputChange}
+                                className="time-input"
+                            />
+                        )}
+                    </div>
+                    <input
+                        type="text"
+                        name="location"
+                        value={eventForm.location}
+                        onChange={handleInputChange}
+                        placeholder="מיקום"
+                        className="event-input"
+                    />
+                    <button type="submit" className="save-button">
+                        <FontAwesomeIcon icon={faSave} /> הוסף אירוע
+                    </button>
+                    <button type="button" onClick={onClose} className="cancel-button">
+                        <FontAwesomeIcon icon={faTimes} /> ביטול
+                    </button>
                 </form>
             </div>
         </div>
