@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import './AdminLogin.css';
@@ -25,6 +25,7 @@ function AdminLogin() {
 
   return (
     <div className="admin-login-wrapper">
+      <Link to="/" className="home-button">חזרה לדף הבית</Link>
       <div className="admin-login-container">
         <h2>כניסת מנהל</h2>
         <form onSubmit={handleEmailPasswordLogin}>

@@ -54,6 +54,27 @@
   button:hover {
     background-color: #7fb2d6;
   }
+
+  .home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.home-button:hover {
+  background-color: #e0e0e0;
+}
+
+.admin-login-wrapper {
+  position: relative;
+  /* ... other existing styles ... */
+}
   
   @media (max-width: 768px) {
     .manager-content {
