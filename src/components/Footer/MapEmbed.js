@@ -6,7 +6,7 @@ const MapEmbed = () => {
     <div className="map-container">
       <div className="map-frame">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.1591252762!2d-122.08424968469284!3d37.42206577982565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb5c5b3c5db57%3A0xe321b4dcba85a66b!2sGoogleplex!5e0!3m2!1sen!2sus!4v1620815107174!5m2!1sen!2sus"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3390.1400665742763!2d35.256190426084004!3d31.821178432221753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15032a35d103adb1%3A0x190c41dc4d2f5665!2z16TXkNeq15kg157Xlteo15c!5e0!3m2!1siw!2sil!4v1720687339505!5m2!1siw!2sil"
           className="map-iframe"
           allowFullScreen=""
           loading="lazy"
