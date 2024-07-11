@@ -1,22 +1,20 @@
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--primary-color);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: white;
-  z-index: 1000;
+Header {
+    background-color: var(--primary-color);
+    padding: 2.5vh 2.5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: fixed;
+    width: 100vw;
+    z-index: 1000;
 }
 body {
   padding-top: 10vh; 
 }
 
 .logo img {
-    height: 50px;
+    height: 5vh;
 }
   
 .hamburger-menu {
