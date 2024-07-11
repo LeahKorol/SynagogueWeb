@@ -1,7 +1,5 @@
-// src/components/ContactForm.js
-
 import React, { useState, useEffect } from 'react';
-import { addDoc, collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, updateDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
 function ContactForm() {
@@ -9,9 +7,16 @@ function ContactForm() {
   const [editingContact, setEditingContact] = useState(null);
 
   const fetchContactDetails = async () => {
-    const querySnapshot = await getDocs(collection(db, "contact"));
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setContactDetails(data[0]); // Assuming there's only one document
+    try {
+      const querySnapshot = await getDocs(collection(db, "contact"));
+      if (!querySnapshot.empty) {
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))[0];
+        setContactDetails(data);
+        setEditingContact(data.id); // Assuming there's only one document, set editing contact ID
+      }
+    } catch (e) {
+      console.error("Error fetching contact details: ", e);
+    }
   };
 
   useEffect(() => {
@@ -28,13 +33,17 @@ function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingContact) {
-      await updateDoc(doc(db, "contact", editingContact.id), contactDetails);
-    } else {
-      await addDoc(collection(db, "contact"), contactDetails);
+    try {
+      if (editingContact) {
+        const docRef = doc(db, "contact", editingContact);
+        await updateDoc(docRef, contactDetails);
+      } else {
+        await addDoc(collection(db, "contact"), contactDetails);
+      }
+      fetchContactDetails();
+    } catch (e) {
+      console.error("Error saving contact details: ", e);
     }
-    setEditingContact(null);
-    fetchContactDetails();
   };
 
   return (

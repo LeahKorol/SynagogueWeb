@@ -3,8 +3,8 @@ import React from 'react';
 import CongratForm from './CongratForm';
 import LessonsForm from './LessonsForm';
 import EventGalleryForm from './EventGalleryForm';
-import ContactForm from './ContactForm'; // ייבוא טופס ניהול צור הקשר
-
+import ContactForm from './ContactForm'; 
+import AboutForm from './AboutForm';
 
 function Manager() {
   return (
@@ -15,6 +15,7 @@ function Manager() {
       <LessonsForm />
       <EventGalleryForm />
       <ContactForm /> 
+      <AboutForm /> 
     </div>
   );
 }
