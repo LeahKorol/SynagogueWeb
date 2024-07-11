@@ -62,10 +62,14 @@ const Calendar = () => {
         <div className="calendarCenter">
             <h1>לוח שנה עברי</h1>
             <div className="calendar-container">
-                <button className="arrow-button left-arrow" onClick={prevMonth}>
+                
+                <button className="arrow-button left-arrow" onClick={nextMonth}>
                     <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
                 <div className="calendar">
+                <button className="add-range-event-button" onClick={handleAddRangeEvent}>
+                    <FontAwesomeIcon icon={faCalendarPlus} /> הוסף אירוע
+                </button>
                     {filteredMonths.map((month, index) => (
                         <Month 
                             key={index} 
@@ -77,13 +81,11 @@ const Calendar = () => {
                         />
                     ))}
                 </div>
-                <button className="arrow-button right-arrow" onClick={nextMonth}>
+                <button className="arrow-button right-arrow" onClick={prevMonth}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </button>
             </div>
-            <button className="add-range-event-button" onClick={handleAddRangeEvent}>
-                <FontAwesomeIcon icon={faCalendarPlus} /> הוסף אירוע לטווח תאריכים
-            </button>
+            
             {showRangePopup && (
                 <RangeEventPopup
                     onClose={() => setShowRangePopup(false)}

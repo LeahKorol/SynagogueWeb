@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { addDoc, updateDoc, deleteDoc, doc, collection, query, where, getDocs, writeBatch } from 'firebase/firestore';
+import { addDoc, collection, query, where, getDocs, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getHebrewDate } from '../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faTrash, faTimes, faPlus, faEdit, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faTrash, faTimes, faPlus, faEdit, faClock, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 
 const EventPopup = ({ day, events, onClose, onEventChange, isRangeEvent = false }) => {
@@ -18,6 +18,12 @@ const EventPopup = ({ day, events, onClose, onEventChange, isRangeEvent = false 
         endTime: '',
         location: ''
     });
+    
+    const GregorianDate = (date) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const formattedDate = date.toLocaleDateString('en-GB', options).split('/').reverse().join('-');
+        return formattedDate;
+    };
 
     useEffect(() => {
         const now = new Date();
@@ -28,13 +34,14 @@ const EventPopup = ({ day, events, onClose, onEventChange, isRangeEvent = false 
         setEventForm(prev => ({
             ...prev,
             startTime: defaultStartTime,
-            endTime: defaultEndTime
+            endTime: defaultEndTime,
+            startDate: GregorianDate(day),
+            endDate: GregorianDate(day)
         }));
-
         if (isRangeEvent) {
             setShowAddEvent(true);
         }
-    }, [isRangeEvent]);
+    }, [isRangeEvent, day]);
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -142,21 +149,41 @@ const EventPopup = ({ day, events, onClose, onEventChange, isRangeEvent = false 
         return date.toLocaleDateString('he-IL', options);
     };
 
+    const sortEvents = (events) => {
+        return events.sort((a, b) => {
+            if (!a.id && b.id) return -1;
+            if (a.id && !b.id) return 1;
+            
+            if (a.isAllDay && !b.isAllDay) return -1;
+            if (!a.isAllDay && b.isAllDay) return 1;
+            if (a.isAllDay && b.isAllDay) return 0;
+            
+            const aStartTime = a.startTime || '';
+            const bStartTime = b.startTime || '';
+            
+            return aStartTime.localeCompare(bStartTime);
+        });
+    };
+
+    const sortedEvents = sortEvents([...events]);
+
     return (
         <div className="event-popup-overlay" onClick={onClose}>
             <div className="event-popup" onClick={(e) => e.stopPropagation()}>
                 <button className="close-button" onClick={onClose}>
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
-                {!isRangeEvent && (
+                {!showAddEvent && !isRangeEvent && (
                     <>
                         <h3>{formatGregorianDate(day)}</h3>
                         <h4>{getHebrewDate(day)}</h4>
                         <div className="event-list-container">
                             <ul className="event-list">
-                                {events.map(event => (
-                                    <li key={event.id} className="event-item">
-                                        <span>{event.description}</span>
+                                {sortedEvents.map(event => (
+                                    <li key={event.id || `non-firebase-${event.description}`} className="event-item">
+                                        <span style={{ direction: 'rtl', unicodeBidi: 'plaintext' }}>
+                                            {event.description}
+                                        </span>
                                         {event.isAllDay ? (
                                             <span className="all-day-label">כל היום</span>
                                         ) : (
@@ -167,105 +194,110 @@ const EventPopup = ({ day, events, onClose, onEventChange, isRangeEvent = false 
                                             )
                                         )}
                                         {event.location && <span className="event-location">{event.location}</span>}
-                                        <div>
-                                            <button onClick={() => startEditing(event)}>
-                                                <FontAwesomeIcon icon={faEdit} /> ערוך
-                                            </button>
-                                            <button onClick={() => handleDelete(event)}>
-                                                <FontAwesomeIcon icon={faTrash} /> מחק
-                                            </button>
-                                        </div>
+                                        {event.id && (
+                                            <div>
+                                                <button onClick={() => startEditing(event)}>
+                                                    <FontAwesomeIcon icon={faEdit} /> ערוך
+                                                </button>
+                                                <button onClick={() => handleDelete(event)}>
+                                                    <FontAwesomeIcon icon={faTrash} /> מחק
+                                                </button>
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>
                         </div>
+                        <button onClick={() => setShowAddEvent(true)} className="add-event-button">
+                            <FontAwesomeIcon icon={faPlus} /> הוסף אירוע
+                        </button>
                     </>
                 )}
-                {!showAddEvent && !isRangeEvent && (
-                    <button onClick={() => setShowAddEvent(true)} className="add-event-button">
-                        <FontAwesomeIcon icon={faPlus} /> הוסף אירוע
-                    </button>
-                )}
                 {(showAddEvent || isRangeEvent) && (
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            name="description"
-                            value={eventForm.description}
-                            onChange={handleInputChange}
-                            placeholder="שם האירוע"
-                            required
-                            className="event-input"
-                        />
-                        <div className="all-day-toggle">
-                            <label className="switch">
-                                <input
-                                    type="checkbox"
-                                    name="isAllDay"
-                                    checked={eventForm.isAllDay}
-                                    onChange={handleInputChange}
-                                />
-                                <span className="slider round"></span>
-                            </label>
-                            <span className="all-day-label">כל היום</span>
-                        </div>
-                        <div className="date-time-inputs">
+                    <div className="add-event-form">
+                        <h3>הוסף אירוע</h3>
+                        <form onSubmit={handleSubmit}>
                             <input
-                                type="date"
-                                name="startDate"
-                                value={eventForm.startDate}
+                                type="text"
+                                name="description"
+                                value={eventForm.description}
                                 onChange={handleInputChange}
+                                placeholder="שם האירוע"
                                 required
+                                className="event-input"
                             />
-                            {!eventForm.isAllDay && (
+                            <div className="all-day-toggle">
+                                <span className="all-day-label">כל היום</span>
+                                <label className="switch">
+                                    <input
+                                        type="checkbox"
+                                        name="isAllDay"
+                                        checked={eventForm.isAllDay}
+                                        onChange={handleInputChange}
+                                    />
+                                    <span className="slider round"></span>
+                                </label>
+                            </div>
+                            <div className="date-time-inputs">
+                                {!eventForm.isAllDay && (
+                                    <input
+                                        type="time"
+                                        name="startTime"
+                                        value={eventForm.startTime}
+                                        onChange={handleInputChange}
+                                        className="time-input"
+                                    />
+                                )}
                                 <input
-                                    type="time"
-                                    name="startTime"
-                                    value={eventForm.startTime}
+                                    type="date"
+                                    name="startDate"
+                                    value={eventForm.startDate}
                                     onChange={handleInputChange}
-                                    className="time-input"
+                                    required
                                 />
-                            )}
-                        </div>
-                        <div className="date-time-inputs">
-                            <input
-                                type="date"
-                                name="endDate"
-                                value={eventForm.endDate}
-                                onChange={handleInputChange}
-                                required
-                            />
-                            {!eventForm.isAllDay && (
+                            </div>
+                            <div className="date-time-inputs">
+                                {!eventForm.isAllDay && (
+                                    <input
+                                        type="time"
+                                        name="endTime"
+                                        value={eventForm.endTime}
+                                        onChange={handleInputChange}
+                                        className="time-input"
+                                    />
+                                )}
                                 <input
-                                    type="time"
-                                    name="endTime"
-                                    value={eventForm.endTime}
+                                    type="date"
+                                    name="endDate"
+                                    value={eventForm.endDate}
                                     onChange={handleInputChange}
-                                    className="time-input"
+                                    required
                                 />
-                            )}
-                        </div>
-                        <input
-                            type="text"
-                            name="location"
-                            value={eventForm.location}
-                            onChange={handleInputChange}
-                            placeholder="מיקום"
-                            className="event-input"
-                        />
-                        <button type="submit" className="save-button">
-                            <FontAwesomeIcon icon={faSave} /> {editingEvent ? 'עדכן אירוע' : 'הוסף אירוע'}
-                        </button>
-                        <button type="button" onClick={() => {
-                            setShowAddEvent(false);
-                            setEditingEvent(null);
-                            if (isRangeEvent) {
-                                onClose();
-                            }
-                        }} className="cancel-button">
-                            <FontAwesomeIcon icon={faTimes} /> ביטול
-                        </button>
-                    </form>
+                            </div>
+                            <div className='input-container'>
+                                <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
+                                <input
+                                    type="text"
+                                    name="location"
+                                    value={eventForm.location}
+                                    onChange={handleInputChange}
+                                    placeholder="מיקום"
+                                    className="event-input"
+                                />
+                            </div>
+                            <div className="form-buttons">
+                                <button type="submit" className="save-event-button">
+                                    <FontAwesomeIcon icon={faSave} /> {editingEvent ? 'עדכן אירוע' : 'שמור אירוע'}
+                                </button>
+                                <button type="button" onClick={() => {
+                                    setShowAddEvent(false);
+                                    setEditingEvent(null);
+                                }} className="cancel-button">
+                                    <FontAwesomeIcon icon={faTimes} /> ביטול
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 )}
             </div>
         </div>

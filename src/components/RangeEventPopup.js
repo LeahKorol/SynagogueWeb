@@ -3,7 +3,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
 import { getHebrewDate } from '../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave, faTimes, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faTimes, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 
 const RangeEventPopup = ({ onClose, onEventChange }) => {
@@ -68,80 +68,89 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
     return (
         <div className="event-popup-overlay" onClick={onClose}>
             <div className="event-popup" onClick={(e) => e.stopPropagation()}>
-                <h3>הוסף אירוע לטווח תאריכים</h3>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="description"
-                        value={eventForm.description}
-                        onChange={handleInputChange}
-                        placeholder="שם האירוע"
-                        required
-                        className="event-input"
-                    />
-                    <div className="all-day-toggle">
-                        <label className="switch">
-                            <input
-                                type="checkbox"
-                                name="isAllDay"
-                                checked={eventForm.isAllDay}
-                                onChange={handleInputChange}
-                            />
-                            <span className="slider round"></span>
-                        </label>
-                        <span className="all-day-label">כל היום</span>
-                    </div>
-                    <div className="date-time-inputs">
+                <button className="close-button" onClick={onClose}>
+                    <FontAwesomeIcon icon={faTimes} />
+                </button>
+                <div className="add-event-form">
+                    <h3>הוסף אירוע</h3>
+                    <form onSubmit={handleSubmit}>
                         <input
-                            type="date"
-                            name="startDate"
-                            value={eventForm.startDate}
+                            type="text"
+                            name="description"
+                            value={eventForm.description}
                             onChange={handleInputChange}
+                            placeholder="שם האירוע"
                             required
+                            className="event-input"
                         />
-                        {!eventForm.isAllDay && (
+                        <div className="all-day-toggle">
+                            <span className="all-day-label">כל היום</span>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    name="isAllDay"
+                                    checked={eventForm.isAllDay}
+                                    onChange={handleInputChange}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                        <div className="date-time-inputs">
+                            {!eventForm.isAllDay && (
+                                <input
+                                    type="time"
+                                    name="startTime"
+                                    value={eventForm.startTime}
+                                    onChange={handleInputChange}
+                                    className="time-input"
+                                />
+                            )}
                             <input
-                                type="time"
-                                name="startTime"
-                                value={eventForm.startTime}
+                                type="date"
+                                name="startDate"
+                                value={eventForm.startDate}
                                 onChange={handleInputChange}
-                                className="time-input"
+                                required
                             />
-                        )}
-                    </div>
-                    <div className="date-time-inputs">
-                        <input
-                            type="date"
-                            name="endDate"
-                            value={eventForm.endDate}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        {!eventForm.isAllDay && (
+                            
+                        </div>
+                        <div className="date-time-inputs">
+                            {!eventForm.isAllDay && (
+                                <input
+                                    type="time"
+                                    name="endTime"
+                                    value={eventForm.endTime}
+                                    onChange={handleInputChange}
+                                    className="time-input"
+                                />
+                            )}
                             <input
-                                type="time"
-                                name="endTime"
-                                value={eventForm.endTime}
+                                type="date"
+                                name="endDate"
+                                value={eventForm.endDate}
                                 onChange={handleInputChange}
-                                className="time-input"
+                                required
                             />
-                        )}
-                    </div>
-                    <input
-                        type="text"
-                        name="location"
-                        value={eventForm.location}
-                        onChange={handleInputChange}
-                        placeholder="מיקום"
-                        className="event-input"
-                    />
-                    <button type="submit" className="save-button">
-                        <FontAwesomeIcon icon={faSave} /> הוסף אירוע
-                    </button>
-                    <button type="button" onClick={onClose} className="cancel-button">
-                        <FontAwesomeIcon icon={faTimes} /> ביטול
-                    </button>
-                </form>
+                           
+                        </div>
+                        <div className='input-container'>
+                            <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
+                            <input
+                                type="text"
+                                name="location"
+                                value={eventForm.location}
+                                onChange={handleInputChange}
+                                placeholder="מיקום"
+                                className="event-input"
+                            />
+                        </div>
+                        <div className="form-buttons">
+                            <button type="submit" className="save-event-button-elone">
+                                <FontAwesomeIcon icon={faSave} /> הוסף אירוע
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

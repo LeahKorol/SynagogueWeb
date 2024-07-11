@@ -37,3 +37,4 @@ export function getHebrewDate(date) {
     const hdate = new HDate(date);
     return hdate.renderGematriya('he-x-NoNikud');
 }
+

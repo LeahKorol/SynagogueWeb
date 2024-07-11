@@ -1,15 +1,11 @@
 .calendar {
-    height: 100hv;
+    height: 100vh;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .month {
-    flex: 1 0 calc(30% - 20px);
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    flex: 1 0 30%;    
     background-color: #f9f9f9;
 }
 
@@ -31,28 +27,26 @@
 }
 
 .day {
-    width: calc(100% / 7); /* לחלק כל יום לרוחב המתאים */
-    height: 120px; 
-    padding: 10px;
+    width: calc(100% / 7);
+    height: 22.5vh; 
+    padding: 0.5vw;
     box-sizing: border-box;
     border: 1px solid #eee;
     position: relative;
 }
 
 .day .date {
-    font-size: 16px; /* הגדלת גודל הגופן של התאריך */
+    font-size: 16px;
     color: #333;
     display: block;
-    margin-bottom: 5px; /* הוספת מרווח תחתון לתאריך */
 }
 
 .day .event {
-    background-color: #212032; /* ביטול רקע הצהוב */
-    color: #ffffff; /* שינוי צבע לטקסט כחול */
+    background-color: #212032;
+    color: #ffffff;
     font-size: 14px;
-    padding: 2px 0; /* הוספת מרווח עליון ותחתון */
     box-sizing: border-box;
-    border: none; /* ביטול קו תחתון */
+    border: none; 
 }
 
 .day.empty {
@@ -92,18 +86,18 @@
 
 .arrow-button {
     position: absolute;
-    top: 50%;
+    top: 80vh;
     transform: translateY(-50%);
-    background: #00000068;
+    background: #ffffffa2;
     border: none;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 4vw;
+    height: 9vh;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 10; /* הוספת z-index גבוה */
+    z-index: 10; 
 }
 
 .arrow-button i {
@@ -111,11 +105,11 @@
 }
 
 .left-arrow {
-    left: 10px;
+    left: 1vw;
 }
 
 .right-arrow {
-    right: 10px;
+    right: 1vw;
 }
 .event-popup-overlay {
     position: fixed;
@@ -130,19 +124,26 @@
     z-index: 1000;
 }
 
+
 .event-popup {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    direction: rtl;
+    text-align: right;
+    
 }
 
 .event-popup h3 {
     margin-top: 0;
     margin-bottom: 20px;
     text-align: center;
+    font-size: 1.4em;
+    color: #212032;
 }
 
 .event-popup form {
@@ -150,18 +151,20 @@
     flex-direction: column;
 }
 
-.event-popup select,
-.event-popup input {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.event-popup input,
+.event-popup select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
 }
-
 .event-popup .button-group {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+    align-items: center;
 }
 
 .event-popup button {
@@ -195,22 +198,13 @@
 .day:hover .add-event-icon {
     opacity: 1;
 }
-.event-popup h3, .event-popup h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.event-popup h3 {
-    font-size: 1.2em;
-    color: #212032;
-}
-
 .event-popup h4 {
+    margin-top: 0;
+    text-align: center;
     font-size: 1.1em;
     color: #666;
+    margin-bottom: 20px;
 }
-
 .weekdays {
     display: flex;
     justify-content: space-around;
@@ -223,61 +217,9 @@
     width: 14.28%;
     text-align: center;
 }
-.event-popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.event-popup {
-    
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    position: relative;
-    max-width: 400px;
-    width: 100%;
-}
-
-.event-popup h3 {
-    margin-top: 0;
-}
-
-.event-popup h4 {
-    margin-bottom: 20px;
-}
-
-.event-popup form {
-    display: flex;
-    flex-direction: column;
-}
 
 .event-popup label {
     margin-bottom: 10px;
-}
-
-.event-popup input,
-.event-popup select {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.event-popup .button-group {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .event-popup .button-group button {
@@ -292,25 +234,6 @@
     color: #fff;
 }
 
-.event-popup .save-button {
-    background-color: #4CAF50;
-}
-
-.event-popup .delete-button {
-    background-color: #F44336;
-}
-
-.event-popup .delete-all-button {
-    background-color: #F44336;
-}
-
-.event-popup .close-button {
-    background-color: #999;
-}
-
-.event-popup .new-event-button {
-    background-color: #2196F3;
-}
 
 .event-popup .event-select-container {
     display: flex;
@@ -332,7 +255,6 @@
 .event-list {
     list-style-type: none;
     padding: 0;
-    margin-bottom: 20px;
 }
 
 .event-item {
@@ -340,28 +262,28 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    flex-direction: column;
+
 }
 
 .event-item button {
     margin-left: 5px;
 }
 
-
-
-
 .more-events {
     background-color: #6c757d;
     color: white;
-    padding: 2px 5px;
-    margin-top: 2px;
+    padding: 1% 2%;
     border-radius: 3px;
     font-size: 0.8em;
     text-align: center;
 }
 .event {
-    background-color: #007bff; /* צבע כחול */
+    background-color: #212032;
     color: white;
-    padding: 2px 5px;
+    padding: 1% 2%;
     margin-bottom: 2px;
     border-radius: 3px;
     font-size: 0.8em;
@@ -375,26 +297,23 @@
     margin-bottom: 10px;
 }
 
-.time-input {
-    width: 80px;
-    margin: 0 5px;
-}
 
 .event-clock {
     margin-right: 5px;
     font-size: 0.8em;
 }
 .all-day-toggle {
+    justify-content: space-between;
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 50px;
+    height: 25px;
 }
 
 .switch input {
@@ -417,24 +336,25 @@
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     left: 4px;
-    bottom: 4px;
+    bottom: 2.5px;
     background-color: white;
     transition: .4s;
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #212032;
+    
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #212032;
 }
 
 input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(22px);
 }
 
 .slider.round {
@@ -445,37 +365,6 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-.all-day-label {
-    margin-left: 10px;
-}
-.date-time-inputs {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.event-popup {
-    direction: rtl;
-    text-align: right;
-}
-
-.date-time-inputs {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    flex-direction: row-reverse;
-}
-
-.date-time-inputs input[type="date"] {
-    width: 60%;
-    margin-left: 10px;
-}
-
-.date-time-inputs input[type="time"] {
-    width: 35%;
-}
 
 .event-input, 
 .date-time-inputs input[type="date"],
@@ -486,11 +375,6 @@ input:checked + .slider:before {
     font-size: 14px;
 }
 
-.all-day-toggle {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
 
 .all-day-toggle .switch {
     margin-right: 10px;
@@ -498,6 +382,7 @@ input:checked + .slider:before {
 
 .all-day-label {
     font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .add-event-button,
@@ -508,54 +393,13 @@ input:checked + .slider:before {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    margin-right: 10px;
 }
 
-
-
-.event-list {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 20px;
+.cancel-button{
+    float: left;
 }
-
-.event-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
 .event-item:last-child {
     border-bottom: none;
-}
-.event-popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.event-popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    direction: rtl;
-    text-align: right;
-}
-
-.event-list-container {
-    max-height: 200px;
-    overflow-y: auto;
-    margin-bottom: 20px;
 }
 
 .date-time-inputs {
@@ -573,4 +417,83 @@ input:checked + .slider:before {
 
 .date-time-inputs input[type="time"] {
     width: 35%;
+}
+.input-container {
+    position: relative;
+
+  }
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 32%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .truncate-right {
+    direction: rtl;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.event-description {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: space-between;
+}
+.description {
+    direction: rtl;
+    unicode-bidi: plaintext;
+  }
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+    .day {
+        width: calc(100% / 7);
+        height: 15vh; 
+        padding: 0.2vw;
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        position: relative;
+        overflow: hidden;
+    }
+    .event {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+        direction: rtl;
+        text-align: right;
+    }
+
+    .more-events {
+        display: none;
+    }
+    .arrow-button {
+        position: absolute;
+        top: 1.7vh;
+        transform: translateY(0);
+        background: #ffffff00;
+        border: none;
+        font-size: 20px;
+        border-radius: 50%;
+        width: 4vw;
+        height: 9vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10; 
+    }
+}
+
+@media (max-width: 480px) {
+    
 }

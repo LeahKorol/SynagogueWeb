@@ -2,7 +2,7 @@ import React from 'react';
 import Day from './Day';
 import { getHebrewDate } from '../utils/calendar';
 
-const daysOfWeek = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+const daysOfWeek = ['שבת','שישי','חמישי','רביעי', 'שלישי','שני','ראשון'];
 
 const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
     const startDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();

@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { getHebrewDate } from '../utils/calendar';
 import EventPopup from './EventPopup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 const sortEvents = (events) => {
     return events.sort((a, b) => {
-      if (a.isAllDay && !b.isAllDay) return -1;
-      if (!a.isAllDay && b.isAllDay) return 1;
-      if (a.isAllDay && b.isAllDay) return 0;
-      
-      // בדיקה אם startTime קיים ואינו undefined
-      const aStartTime = a.startTime || '';
-      const bStartTime = b.startTime || '';
-      
-      return aStartTime.localeCompare(bStartTime);
+        // קודם כל, מיין לפי מקור האירוע (לא מ-Firebase ראשונים)
+        if (!a.id && b.id) return -1;
+        if (a.id && !b.id) return 1;
+        
+        // אם שניהם מאותו מקור, המשך למיון הקיים
+        if (a.isAllDay && !b.isAllDay) return -1;
+        if (!a.isAllDay && b.isAllDay) return 1;
+        if (a.isAllDay && b.isAllDay) return 0;
+        
+        const aStartTime = a.startTime || '';
+        const bStartTime = b.startTime || '';
+        
+        return aStartTime.localeCompare(bStartTime);
     });
-  };
+};
 
 const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, isSelected }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -43,8 +45,6 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
         onDayClick(null);
     };
 
-    const maxEventsToShow = 3;
-
     return (
         <div 
             className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
@@ -56,17 +56,13 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
                         <span className="date">{hebrewDate.split(' ')[0]}</span>
                         <span className="gregorian-date">{gregorianDay}</span>
                     </div>
-                    {dayEvents.slice(0, maxEventsToShow).map((event, index) => (
-                        <div key={index} className="event">
-                            {!event.isAllDay && event.startTime && <FontAwesomeIcon icon={faClock} className="event-clock" />}
-                            <span className="description">{event.description}</span>
+                    {dayEvents.map((event, index) => (
+                        <div key={event.id || `non-firebase-${event.description}-${index}`} className="event">
+                            <span className="description">
+                                {event.description}
+                            </span>
                         </div>
                     ))}
-                    {dayEvents.length > maxEventsToShow && (
-                        <div className="more-events">
-                            +{dayEvents.length - maxEventsToShow} עוד
-                        </div>
-                    )}
                     {showPopup && (
                         <EventPopup 
                             day={day}
