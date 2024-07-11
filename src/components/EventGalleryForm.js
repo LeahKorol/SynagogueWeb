@@ -1,13 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
-import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../firebase';
 
 function EventGalleryForm() {
   const [eventGallery, setEventGallery] = useState([]);
   const [image, setImage] = useState(null);
-  const [editingImage, setEditingImage] = useState(null);
 
   const fetchEventGallery = async () => {
     const querySnapshot = await getDocs(collection(db, "eventGallery"));
@@ -31,23 +29,11 @@ function EventGalleryForm() {
       const url = await getDownloadURL(imageRef);
       const imageName = image.name;
 
-      if (editingImage) {
-        const oldImageRef = ref(storage, `eventGallery/${editingImage.name}`);
-        await deleteObject(oldImageRef);
-
-        await updateDoc(doc(db, "eventGallery", editingImage.id), { url, name: imageName });
-        setEditingImage(null);
-      } else {
-        await addDoc(collection(db, "eventGallery"), { url, name: imageName });
-      }
+      await addDoc(collection(db, "eventGallery"), { url, name: imageName });
 
       setImage(null);
       fetchEventGallery();
     }
-  };
-
-  const handleEdit = (image) => {
-    setEditingImage(image);
   };
 
   const handleDelete = async (id, name) => {
@@ -73,7 +59,6 @@ function EventGalleryForm() {
         {eventGallery.map(image => (
           <li key={image.id}>
             <img src={image.url} alt="אירוע" width="100" />
-            <button onClick={() => handleEdit(image)}>ערוך</button>
             <button onClick={() => handleDelete(image.id, image.name)}>מחק</button>
           </li>
         ))}
@@ -83,11 +68,10 @@ function EventGalleryForm() {
           תמונה
           <input type="file" onChange={handleFileChange} />
         </label>
-        <button type="submit">{editingImage ? "עדכן" : "שמור"}</button>
+        <button type="submit">שמור</button>
       </form>
     </div>
   );
 }
 
 export default EventGalleryForm;
-
