@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import './Contact.css';
+import './Contact.css'
 
 function Contact() {
   const [contactDetails, setContactDetails] = useState({});
 
   const fetchContactDetails = async () => {
-    const querySnapshot = await getDocs(collection(db, "contact"));
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setContactDetails(data[0]); // Assuming there's only one document
+    try {
+      const querySnapshot = await getDocs(collection(db, "contact"));
+      if (!querySnapshot.empty) {
+        const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))[0];
+        setContactDetails(data);
+      }
+    } catch (e) {
+      console.error("Error fetching contact details: ", e);
+    }
   };
 
   useEffect(() => {
@@ -45,3 +51,15 @@ function Contact() {
 }
 
 export default Contact;
+
+
+
+
+
+
+
+
+
+
+
+
