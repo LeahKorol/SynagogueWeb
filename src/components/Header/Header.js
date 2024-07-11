@@ -10,7 +10,7 @@ function Header() {
   };
 
   return (
-    <Header>
+    <header>
       <div className="logo">
         <img src="logo.svg" alt="logo" />
       </div>
@@ -28,7 +28,7 @@ function Header() {
         <li><NavLink to="/contributes">תרומות</NavLink></li>
       </ul>
       <NavLink className="manager" to="/admin-login">כניסת מנהל</NavLink>
-    </Header>
+    </header>
   );
 }
 

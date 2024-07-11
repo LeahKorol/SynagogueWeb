@@ -1,4 +1,4 @@
-Header {
+header {
     background-color: var(--primary-color);
     padding: 2.5vh 2.5vw;
     display: flex;
@@ -6,6 +6,7 @@ Header {
     align-items: center;
     color: white;
     position: fixed;
+    top:0;
     width: 100vw;
     z-index: 1000;
 }
