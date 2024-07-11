@@ -66,4 +66,5 @@ const PrayerTimes = () => {
   );
 };
 
-export default PrayerTimes;
+export default PrayerTimes ;
+
