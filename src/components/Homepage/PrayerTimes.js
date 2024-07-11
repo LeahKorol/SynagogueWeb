@@ -52,3 +52,53 @@ PrayerTimes.propTypes = {
 };
 
 export default PrayerTimes;
+
+// import React, { useEffect, useState } from 'react';
+// import { collection, getDocs } from 'firebase/firestore';
+// import { db } from '../../firebase';
+// // import '../../App.css';
+
+// function PrayerTimes() {
+//   const [weekdayTimes, setWeekdayTimes] = useState([]);
+
+//   useEffect(() => {
+//     const fetchWeekdayTimes = async () => {
+//       try {
+//         const querySnapshot = await getDocs(collection(db, "weekdayTimes"));
+//         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+//         setWeekdayTimes(data);
+//       } catch (e) {
+//         console.error("Error fetching documents: ", e);
+//       }
+//     };
+
+//     fetchWeekdayTimes();
+//   }, []);
+
+//   return (
+//     <section className="prayersTime">
+//       <h1 className="heading">זמני תפילות</h1>
+//       <div className="box-container">
+//         <div className="schedule">
+//           <h2>זמני יום חול</h2>
+//           <ul>
+//             {weekdayTimes.map((time) => (
+//               <li key={time.id}>
+//                 <strong>{time.title}</strong> - {time.time} {time.always ? "(תמיד)" : `(מתאריך ${time.startDate} עד ${time.endDate})`}
+//               </li>
+//             ))}
+//           </ul>
+//         </div>
+        
+//         <div className="schedule">
+//           <h2>זמני שבת קודש (לפי שעון קיץ)</h2>
+//           <ul>
+//             {/* יש להוסיף כאן את נתוני זמני שבת */}
+//           </ul>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default PrayerTimes;

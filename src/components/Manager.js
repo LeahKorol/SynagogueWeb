@@ -18,6 +18,9 @@
 import React from 'react';
 import CongratForm from './CongratForm';
 import LessonsForm from './LessonsForm';
+import EventGalleryForm from './EventGalleryForm';
+// import ImageUploader from './EventHall/ImageUploader';
+// import Gallery from './EventHall/Gallery';
 
 function Manager() {
   return (
@@ -26,6 +29,9 @@ function Manager() {
       <p>ברוך הבא למערכת המנהל.</p>
       <CongratForm />
       <LessonsForm />
+      <EventGalleryForm />
+      {/* <Gallery mode="admin" />
+      <ImageUploader/> */}
     </div>
   );
 }
