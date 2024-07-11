@@ -69,3 +69,30 @@
     border: 2px solid var(--primary-color);
     transition: 0.3s;
 }
+
+
+
+@media (max-width: 768px) {
+    .about-section {
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .heading-about {
+        text-align: center;
+        padding: 5vh;
+        font-size: 7vh;
+        font-weight: bolder;
+        font-size: 5vh;
+    }
+
+    .about-div {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        width: 85vw;
+        align-items: center;
+        justify-content: center;
+        align-items: stretch;
+    }   
+}
