@@ -6,10 +6,14 @@ header {
     align-items: center;
     color: white;
     position: fixed;
+    top:0;
     width: 100vw;
     z-index: 1000;
 }
-  
+body {
+  padding-top: 10vh; 
+}
+
 .logo img {
     height: 5vh;
 }

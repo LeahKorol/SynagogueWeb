@@ -6,11 +6,13 @@ import EventGalleryForm from './Forms/EventGalleryForm';
 import ContactForm from './Forms/ContactForm';
 import AboutForm from './Forms/AboutForm';
 import ContributesForm from './Forms/ContributesForm';
+import { Link } from'react-router-dom';
 import './Manager.css';
 
 function Manager() {
   return (
     <div className="manager-container">
+      <Link to="/" className="home-button">חזרה לדף הבית</Link>
       <header className="manager-header">
         <h2>עמוד מנהל</h2>
         <p>ברוך הבא למערכת המנהל</p>

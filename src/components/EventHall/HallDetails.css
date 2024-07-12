@@ -1,31 +1,28 @@
 .details-hall {
     background-color: var(--primary-color);
-    padding: 50px;
+    padding: 10vh;
     align-items: center;
     justify-content: center;
 }
 
-.details {
+.hall-details-container {
     height: fit-content;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 5rem;
-    padding: 60px;
+    padding: 10vh;
     background-color: var(--primary-color);
 }
 
 .box {
     background-color: white;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 3vh;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: left;
-    height: 150px;
-    width: 300px;
 }
 
 .box:hover {
@@ -55,11 +52,10 @@
 }
 
 .box .count-people {
-  font-size: 0.9rem;
+    font-size: 4vh;
 }
 
-.box p {
-    margin: 5px 0 0;
+.box p { 
     color: #666;
 }
 
@@ -85,20 +81,25 @@
     transition: 0.3s;
 }
 
-
-
-
 @media (max-width: 768px) {
-    .details {
+    .hall-details-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: stretch;
     }
 
     .box {
         width: 65vw;
     }
+
+    .box h2 {
+        font-size: 0.5vh;
+    }
+    
+.box p { 
+    font-size: 1.5vh;
+}
 
     .box:hover {
         transform: none;

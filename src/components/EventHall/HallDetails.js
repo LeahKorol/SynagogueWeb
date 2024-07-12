@@ -10,7 +10,7 @@ function HallDetails() {
   return (
     <main>
         <div className="details-hall">
-            <div className="details">
+            <div className="hall-details-container">
             <div className="box">
                 <img src={populationImage} alt="אייקון אנשים" />
                 <h2 className="count-people">כמות אנשים מקסימלית</h2>

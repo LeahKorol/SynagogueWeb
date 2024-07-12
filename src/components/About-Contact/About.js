@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import './About.css';
+import aboutImage from '../../images/1.jfif';
 
 function AboutUs() {
   const [aboutData, setAboutData] = useState({});
@@ -27,7 +28,7 @@ function AboutUs() {
     <main className='about-section'>
       <h1 className="heading-about">מי אנחנו?</h1>
       <div className="about-div">
-        <img src={aboutData.image || ''} alt="" />
+        <img src={aboutImage} alt="" />
         <div className="side">
           <p>
             {aboutData.about || ''}

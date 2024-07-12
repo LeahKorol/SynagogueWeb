@@ -4,14 +4,22 @@ import { getCurrentJerusalemDate } from './JerusalemDate.js';
 const today = getCurrentJerusalemDate();
 //const today = new HDate(new Date(2024,9,12));//yom kipur 2024
 
-function formatCurrentJerusalemDate() {
+export function formatCurrentJerusalemDate() {
   const gregorianDate = today.greg().toLocaleDateString('IL-en');  //MUST add .toLocaleDateString('IL-en')!!
-  const hebrewDateGematria = today.renderGematriya();
-
+  const hebrewDateGematria = today.renderGematriya('he-x-NoNikud');
+  const day = convertDayToString(today.getDay());
   return {
     gregorianDate,
-    hebrewDateGematria
+    hebrewDateGematria,
+    day
   };
+}
+
+function convertDayToString(day) {
+  const daysOfWeek = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+  
+  // Adjust for JavaScript's 0-indexed array
+  return daysOfWeek[day % 7];
 }
 
 export function getEventsDescriptions() {
@@ -20,6 +28,7 @@ export function getEventsDescriptions() {
     end: today,
     isHebrewYear: true,
     location: Location.lookup('Jerusalem'),
+    locale: 'he-x-NoNikud',
     il: true,
     shabbatMevarchim: true,
     omer: true,
@@ -36,7 +45,7 @@ export function getEventsDescriptions() {
 
 export function getParasha() {
   const parasha = HebrewCalendar.getSedra(today.getFullYear(), true).lookup(today);
-  const parashaName = Locale.lookupTranslation(parasha['parsha'][0], 'he');
+  const parashaName = Locale.lookupTranslation(parasha['parsha'][0], 'he-x-NoNikud');
   const chag = parasha['chag'];
   return {
     parashaName,
@@ -53,14 +62,3 @@ export function getHallel() {
   const hallel = HebrewCalendar.hallel(today, true);
   return hallel;
 }
-
-console.log(formatCurrentJerusalemDate().gregorianDate);
-console.log(formatCurrentJerusalemDate().hebrewDateGematria);
-
-console.log(getEventsDescriptions());
-
-console.log(getParasha());
-
-console.log(getTachanun());
-
-console.log(getHallel()); 

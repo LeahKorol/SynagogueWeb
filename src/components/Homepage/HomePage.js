@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import Header from '../Header/Header';
+import AppHeader from '../Header/Header';
 import Hero from './Hero';
 import PrayerTimes from './PrayerTimes';
 import LessonsActivities from './LessonsActivities';
@@ -45,7 +45,7 @@ function HomePage() {
               <title>פאתי מזרח | דף בית</title>
             </Helmet>
     
-            <Header />
+            <AppHeader />
             <Hero />
             <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
             <LessonsActivities />
