@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../firebase';
-import { getEventsCalendar } from '../utils/calendar';
+import { getEventsCalendar, getHebrewDate } from '../utils/calendar';
 import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 import Month from './Month';
 import RangeEventPopup from './RangeEventPopup';
 import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faChevronLeft, faChevronRight, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 
 const Calendar = () => {
     const [events, setEvents] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate());
     const [selectedDay, setSelectedDay] = useState(null);
     const [showRangePopup, setShowRangePopup] = useState(false);
+    //const [selectedHebrewDate, setSelectedHebrewDate] = useState('');
 
     const currentYear = currentMonth.getFullYear();
     const months = [...Array(12).keys()].map(i => new Date(currentYear, i, 1));
@@ -56,20 +57,85 @@ const Calendar = () => {
         setShowRangePopup(true);
     };
 
+    const goToToday = () => {
+        setCurrentMonth(getCurrentGregJerusalemDate());
+    };
+
+    // const handleHebrewDateChange = (e) => {
+    //     const hebrewDate = e.target.value;
+    //     setSelectedHebrewDate(hebrewDate);
+    //     // כאן נשתמש בפונקציה getHebrewDate כדי להמיר את התאריך העברי לגרגוריאני
+    //     const gregorianDate = new Date(hebrewDate); // זו המרה פשוטה, ייתכן שתצטרך התאמה
+    //     setCurrentMonth(gregorianDate);
+    // };
+    
+    const getMonthTitle = (month) => {
+        const gregorianDate = new Date(month.getFullYear(), month.getMonth(), 1);
+        const hebrewStartDate = getHebrewDate(gregorianDate);
+        const hebrewEndDate = getHebrewDate(new Date(month.getFullYear(), month.getMonth() + 1, 0));
+    
+        const hebrewStartMonth = hebrewStartDate.split(' ')[1];
+        const hebrewEndMonth = hebrewEndDate.split(' ')[1];
+        const hebrewYear = hebrewStartDate.split(' ')[2];
+        
+      
+        if(hebrewStartDate === hebrewEndDate){
+            if( hebrewStartDate.split(' ')[2]=== "א׳"){
+                return ` ${hebrewStartDate.split(' ')[1]} ${hebrewStartDate.split(' ')[2]} `;
+            }else if(hebrewStartDate.split(' ')[2]==="ב׳"){
+                return ` ${hebrewStartDate.split(' ')[1]} ${hebrewStartDate.split(' ')[2]} `;
+            }else {
+                return ` ${hebrewStartMonth} ${hebrewYear}`;
+            }
+        }else{
+            if( hebrewStartDate.split(' ')[2]=== "א׳"){
+                return ` ${hebrewStartDate.split(' ')[1]} ${hebrewStartDate.split(' ')[2]} - ${hebrewEndDate.split(' ')[1]} ${hebrewEndDate.split(' ')[2]} ${hebrewEndDate.split(' ')[3]}`;
+            }else if( hebrewEndDate.split(' ')[2]==="א׳"){
+                return ` ${hebrewStartDate.split(' ')[1]} - ${hebrewEndDate.split(' ')[1]} ${hebrewEndDate.split(' ')[2]} ${hebrewEndDate.split(' ')[3]}`;
+            }else if(hebrewStartDate.split(' ')[2]==="ב׳"){
+                return ` ${hebrewStartDate.split(' ')[1]} ${hebrewStartDate.split(' ')[2]} - ${hebrewEndDate.split(' ')[1]} ${hebrewEndDate.split(' ')[2]}`;
+            }else {
+                return ` ${hebrewStartMonth} - ${hebrewEndMonth} ${hebrewYear}`;      
+            }
+        } 
+    };
+    const getYearTitle=(month)=>{
+        const gregorianMonth = month.toLocaleString('he-IL', { month: 'long' });
+        const gregorianYear = month.getFullYear();
+        return `${gregorianMonth} ${gregorianYear}`;
+    }
     const filteredMonths = months.filter(month => month.getMonth() === currentMonth.getMonth());
 
     return (
         <div className="calendarCenter">
-            <h1>לוח שנה עברי</h1>
             <div className="calendar-container">
-                
-                <button className="arrow-button left-arrow" onClick={nextMonth}>
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
+                <div className="calendar-header"> 
+                    <div className="controls">
+                    <button className="add-range-event-button" onClick={handleAddRangeEvent}>
+                            <FontAwesomeIcon icon={faPlus} />
+                            <span>הוסף אירוע</span>
+                        </button>
+                        <button className="today-button" onClick={goToToday}>
+                            <FontAwesomeIcon icon={faCalendarDay} />
+                            <span>היום</span>
+                        </button>
+                        <button className="arrow-button" onClick={nextMonth}>
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+                        <button className="arrow-button" onClick={prevMonth}>
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
+                    </div>
+                    <div className='title'>
+                        <h2 className="month-title month-year">
+                            {getYearTitle(currentMonth)}
+                        </h2>
+                        <h2 className="month-title">
+                            {getMonthTitle(currentMonth)}
+                        </h2>
+                    </div>
+                </div>
                 <div className="calendar">
-                <button className="add-range-event-button" onClick={handleAddRangeEvent}>
-                    <FontAwesomeIcon icon={faCalendarPlus} /> הוסף אירוע
-                </button>
                     {filteredMonths.map((month, index) => (
                         <Month 
                             key={index} 
@@ -81,9 +147,6 @@ const Calendar = () => {
                         />
                     ))}
                 </div>
-                <button className="arrow-button right-arrow" onClick={prevMonth}>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </button>
             </div>
             
             {showRangePopup && (

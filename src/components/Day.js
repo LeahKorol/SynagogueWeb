@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getHebrewDate } from '../utils/calendar';
 import EventPopup from './EventPopup';
+import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 
 const sortEvents = (events) => {
     return events.sort((a, b) => {
-        // קודם כל, מיין לפי מקור האירוע (לא מ-Firebase ראשונים)
         if (!a.id && b.id) return -1;
         if (a.id && !b.id) return 1;
         
-        // אם שניהם מאותו מקור, המשך למיון הקיים
         if (a.isAllDay && !b.isAllDay) return -1;
         if (!a.isAllDay && b.isAllDay) return 1;
         if (a.isAllDay && b.isAllDay) return 0;
@@ -32,7 +31,7 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
     const dayEvents = sortEvents(events.filter(event => event.hebrewDate === hebrewDate));
 
     const gregorianDay = gregorianDate.getDate();
-    const isToday = new Date().toDateString() === gregorianDate.toDateString();
+    const isToday = getCurrentGregJerusalemDate().toDateString() === gregorianDate.toDateString();
 
     const handleDayClick = (e) => {
         e.stopPropagation();
@@ -45,6 +44,8 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
         onDayClick(null);
     };
 
+    const maxEventsToShow = 3;
+
     return (
         <div 
             className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
@@ -56,13 +57,18 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
                         <span className="date">{hebrewDate.split(' ')[0]}</span>
                         <span className="gregorian-date">{gregorianDay}</span>
                     </div>
-                    {dayEvents.map((event, index) => (
+                    {dayEvents.slice(0, maxEventsToShow).map((event, index) => (
                         <div key={event.id || `non-firebase-${event.description}-${index}`} className="event">
                             <span className="description">
                                 {event.description}
                             </span>
                         </div>
                     ))}
+                    {dayEvents.length > maxEventsToShow && (
+                        <div className="more-events">
+                            +{dayEvents.length - maxEventsToShow} עוד
+                        </div>
+                    )}
                     {showPopup && (
                         <EventPopup 
                             day={day}

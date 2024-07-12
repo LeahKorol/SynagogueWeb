@@ -1,18 +1,11 @@
 import React from 'react';
 import Day from './Day';
-import { getHebrewDate } from '../utils/calendar';
 
-const daysOfWeek = ['שבת','שישי','חמישי','רביעי', 'שלישי','שני','ראשון'];
+const daysOfWeek = ['שבת', 'שישי', 'חמישי', 'רביעי', 'שלישי', 'שני', 'ראשון'];
 
 const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
     const startDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
     const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-    const gregorianDate = new Date(month.getFullYear(), month.getMonth(), 1);
-    const hebrewStartDate = getHebrewDate(gregorianDate);
-    const hebrewEndDate = getHebrewDate(new Date(month.getFullYear(), month.getMonth() + 1, 0));
-
-    const hebrewStartMonth = hebrewStartDate.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
-    const hebrewEndMonth = hebrewEndDate.toLocaleString('he-IL', { month: 'long', year: 'numeric' });
 
     const monthEvents = events.filter(event => {
         const eventDate = new Date(event.date);
@@ -28,24 +21,8 @@ const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
         Array.from({ length: daysInMonth }, (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1))
     );
 
-    const hebrewStartDateParts = hebrewStartMonth.split(' ');
-    const hebrewStartMonthName = hebrewStartDateParts[1];
-    const hebrewStartYear = hebrewStartDateParts[2];
-
-    const hebrewEndDateParts = hebrewEndMonth.split(' ');
-    const hebrewEndMonthName = hebrewEndDateParts[1];
-    const hebrewEndYear = hebrewEndDateParts[2];
-
-    let title;
-    if (hebrewStartMonth === hebrewEndMonth) {
-        title = `${month.toLocaleString('he-IL', { month: 'long', year: 'numeric' })} ${hebrewStartMonthName} ${hebrewStartYear}`;
-    } else {
-        title = `${month.toLocaleString('he-IL', { month: 'long', year: 'numeric' })} ${hebrewStartMonthName} - ${hebrewEndMonthName} ${hebrewEndYear}`;
-    }
-
     return (
         <div className="month">
-            <h2>{title}</h2>
             <div className="weekdays">
                 {daysOfWeek.map((day, index) => (
                     <div key={index} className="weekday">{day}</div>

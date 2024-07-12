@@ -5,6 +5,7 @@ import { getHebrewDate } from '../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave, faTimes, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
+import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
 
 const RangeEventPopup = ({ onClose, onEventChange }) => {
     const [eventForm, setEventForm] = useState({
@@ -18,7 +19,7 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
     });
 
     useEffect(() => {
-        const now = new Date();
+        const now = getCurrentGregJerusalemDate();
         const roundedHour = Math.ceil(now.getHours());
         const defaultStartTime = `${roundedHour.toString().padStart(2, '0')}:00`;
         const defaultEndTime = `${(roundedHour + 1).toString().padStart(2, '0')}:00`;
@@ -38,8 +39,18 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
         }));
     };
 
+    const isValidDateTimeRange = () => {
+        const start = new Date(`${eventForm.startDate}T${eventForm.startTime || '00:00'}`);
+        const end = new Date(`${eventForm.endDate}T${eventForm.endTime || '23:59'}`);
+        return start <= end;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!isValidDateTimeRange()) {
+            alert("לא חוקי");
+            return;
+        }
         try {
             const start = new Date(eventForm.startDate);
             const end = new Date(eventForm.endDate);
@@ -112,7 +123,6 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
                                 onChange={handleInputChange}
                                 required
                             />
-                            
                         </div>
                         <div className="date-time-inputs">
                             {!eventForm.isAllDay && (
@@ -131,7 +141,6 @@ const RangeEventPopup = ({ onClose, onEventChange }) => {
                                 onChange={handleInputChange}
                                 required
                             />
-                           
                         </div>
                         <div className='input-container'>
                             <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />

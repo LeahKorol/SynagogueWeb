@@ -1,7 +1,9 @@
 .calendar {
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     flex-wrap: wrap;
     justify-content: space-around;
+    text-align: center;
 }
 
 .month {
@@ -28,7 +30,7 @@
 
 .day {
     width: calc(100% / 7);
-    height: 22.5vh; 
+    height: 20vh; 
     padding: 0.5vw;
     box-sizing: border-box;
     border: 1px solid #eee;
@@ -47,6 +49,19 @@
     font-size: 14px;
     box-sizing: border-box;
     border: none; 
+}
+.title{
+    display: flex;
+    gap: 10px;
+}
+.add-range-event-button{
+    color: #ffffff;
+    background-color: #212032;
+    border-radius: 5px;
+    border: none;
+    height: 7vh ;
+    gap: 8px;
+
 }
 
 .day.empty {
@@ -68,12 +83,9 @@
     border: 2px solid #212032;
 }
 
-.calendarCenter {
-    text-align: center;
-}
+
 
 .calendar-container {
-    display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -85,32 +97,24 @@
 }
 
 .arrow-button {
-    position: absolute;
-    top: 80vh;
-    transform: translateY(-50%);
-    background: #ffffffa2;
+    font-size: 1.5em;
+    background-color: #f0f0f0;
+    color: #212032;
     border: none;
     border-radius: 50%;
-    width: 4vw;
-    height: 9vh;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10; 
+    position: static;
+   
+
 }
 
-.arrow-button i {
-    font-size: 1.5em;
-}
 
-.left-arrow {
-    left: 1vw;
-}
-
-.right-arrow {
-    right: 1vw;
-}
 .event-popup-overlay {
     position: fixed;
     top: 0;
@@ -209,7 +213,7 @@
     display: flex;
     justify-content: space-around;
     background-color: #f0f0f0;
-    padding: 10px 0;
+    padding: 5px 0;
     font-weight: bold;
 }
 
@@ -453,9 +457,81 @@ input:checked + .slider:before {
 .description {
     direction: rtl;
     unicode-bidi: plaintext;
-  }
+}
+.month-title {
+    text-align: right;
+    font-size: 1.8em;
+    margin: 0;
+    order: -1;
+}
+.title{
+    
+    display: flex;
+}
+
+.controls {
+    display: flex;
+}
+
+.add-range-event-button,
+.arrow-button,
+.today-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+
+}
+
+
+.today-button .fa-calendar-day {
+    margin-right: 5px;
+    font-size: 24px;
+}
+
+.hebrew-date-picker input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+}
+
+
 /* התאמות למסכים קטנים */
 @media (max-width: 768px) {
+    .today-button span {
+        display: none;
+    }
+    .title{
+       
+        display: block;
+    }
+    .today-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    .month-title {
+        font-size: 1.3em;
+        margin: 0;
+    }
+    
     .day {
         width: calc(100% / 7);
         height: 15vh; 
@@ -476,22 +552,25 @@ input:checked + .slider:before {
     .more-events {
         display: none;
     }
-    .arrow-button {
-        position: absolute;
-        top: 1.7vh;
-        transform: translateY(0);
-        background: #ffffff00;
-        border: none;
-        font-size: 20px;
-        border-radius: 50%;
-        width: 4vw;
-        height: 9vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10; 
+   
+  
+
+    .add-range-event-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 5px;
+        overflow: hidden;
     }
+
+    .add-range-event-button span {
+        display: none;
+    }
+
+    .add-range-event-button .fa-plus {
+        margin: 0;
+    }
+
 }
 
 @media (max-width: 480px) {
