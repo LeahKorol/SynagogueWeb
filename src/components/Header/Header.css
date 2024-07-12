@@ -1,4 +1,4 @@
-Header {
+header {
     background-color: var(--primary-color);
     padding: 2.5vh 2.5vw;
     display: flex;
@@ -18,7 +18,7 @@ Header {
     cursor: pointer;
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: 2vh;
 }
   
 .hamburger-menu .bar {
@@ -53,7 +53,7 @@ Header {
     color: white;
     text-decoration: none;
     border: 2px solid white;
-    padding: 5px 10px;
+    padding: 2vh 2vw;
     border-radius: 5px;
     transition: background-color 0.3s;
 }
