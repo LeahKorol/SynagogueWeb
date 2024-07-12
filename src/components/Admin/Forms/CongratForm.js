@@ -1,13 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { addDoc, collection, updateDoc, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
-// import './ContactForm.css'
+import './ContactForm.css';
 
 function CongratForm() {
   const [congrats, setCongrats] = useState([]);
   const [newCongrat, setNewCongrat] = useState({ content: "" });
   const [editCongrat, setEditCongrat] = useState({ id: "", content: "" });
+  const [originalContent, setOriginalContent] = useState("");
 
   const fetchCongrats = async () => {
     try {
@@ -21,7 +21,19 @@ function CongratForm() {
 
   useEffect(() => {
     fetchCongrats();
-  }, []);
+
+    const handleClickOutside = (event) => {
+      if (editCongrat.id && !event.target.closest('.congrat-item')) {
+        setEditCongrat({ id: "", content: "" });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editCongrat]);
 
   const handleNewChange = (e) => {
     setNewCongrat({ content: e.target.value });
@@ -29,6 +41,11 @@ function CongratForm() {
 
   const handleEditChange = (e) => {
     setEditCongrat({ ...editCongrat, content: e.target.value });
+  };
+
+  const handleEditFocus = (congrat) => {
+    setOriginalContent(congrat.content);
+    setEditCongrat({ id: congrat.id, content: congrat.content });
   };
 
   const handleNewSubmit = async (e) => {
@@ -45,13 +62,17 @@ function CongratForm() {
   const handleEditSubmit = async (e, id) => {
     e.preventDefault();
     if (!editCongrat.content) return;
-    try {
-      const docRef = doc(db, "congrats", id);
-      await updateDoc(docRef, { content: editCongrat.content });
-      setEditCongrat({ id: "", content: "" });
-      fetchCongrats();
-    } catch (e) {
-      console.error("Error updating document: ", e);
+
+    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לשמור את השינויים?");
+    if (isConfirmed) {
+      try {
+        const docRef = doc(db, "congrats", id);
+        await updateDoc(docRef, { content: editCongrat.content });
+        setEditCongrat({ id: "", content: "" });
+        fetchCongrats();
+      } catch (e) {
+        console.error("Error updating document: ", e);
+      }
     }
   };
 
@@ -69,40 +90,53 @@ function CongratForm() {
   };
 
   return (
-    <div>
-      <ul>
+    <div className="congrat-form">
+      <h2>איחולים וברכות</h2>
+      <div className="congrat-list">
+        <h3>איחולים קיימים</h3>
         {congrats.map((congrat) => (
-          <li key={congrat.id}>
+          <div key={congrat.id} className="congrat-item">
             <input
-              name="content"
-              value={editCongrat.id === congrat.id ? editCongrat.content : congrat.content}
               type="text"
-              onChange={(e) => setEditCongrat({ id: congrat.id, content: e.target.value })}
+              className="congrat-input"
+              value={editCongrat.id === congrat.id ? editCongrat.content : congrat.content}
+              onChange={handleEditChange}
+              onFocus={() => handleEditFocus(congrat)}
             />
-            <button onClick={(e) => handleEditSubmit(e, congrat.id)}>עדכן</button>
-            <button onClick={() => handleDelete(congrat.id)}>מחק</button>
-          </li>
+            <div className="congrat-actions">
+              <button
+                className="btn btn-update"
+                onClick={(e) => handleEditSubmit(e, congrat.id)}
+              >
+                <i className="fas fa-edit"></i>
+              </button>
+              <button
+                className="btn btn-delete"
+                onClick={() => handleDelete(congrat.id)}
+              >
+                <i className="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
         ))}
-      </ul>
-      <h3>הוסף איחול / ברכה</h3>
-      <form onSubmit={handleNewSubmit}>
-        <label>
+      </div>
+      <div className="add-congrat">
+        <h3>הוסף איחול / ברכה</h3>
+        <form onSubmit={handleNewSubmit}>
           <input
-            name="content"
-            value={newCongrat.content}
             type="text"
+            className="congrat-input"
+            value={newCongrat.content}
             onChange={handleNewChange}
+            placeholder="כתוב איחול חדש"
           />
-        </label>
-        <button type="submit">הוסף</button>
-      </form>
+          <button type="submit" className="btn btn-add">
+            הוסף
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default CongratForm;
-
-
-
-
-

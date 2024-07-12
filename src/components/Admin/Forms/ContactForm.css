@@ -56,17 +56,46 @@
   }
   
   .btn-update {
+    /* background-color: #7fb2d6; */
+    /* background-color: #4CAF50; */
+    border: 1px solid #4CAF50;
+    background-color: white;
+    color: white;
+  }
+
+  .btn-update i {
+    color: #4CAF50;
+  }
+
+  .btn-update:hover {
     background-color: #4CAF50;
+  }
+
+  .btn-update:hover i {
     color: white;
   }
   
   .btn-delete {
+    /* background-color: #f44336; */
+    border: 1px solid #f44336;
+    background-color: white;
+    color: white;
+  }
+
+  .btn-delete i {
+    color: #f44336;
+  }
+
+  .btn-delete:hover {
     background-color: #f44336;
+  }
+
+  .btn-delete:hover i {
     color: white;
   }
   
   .btn-add {
-    background-color: #2196F3;
+    background-color: #7fb2d6;
     color: white;
   }
   
