@@ -48,10 +48,10 @@ function ContributesForm() {
 
   return (
     <div>
-      <h3>Manage Contributes Details</h3>
+      <h3>פרטים לתרומות</h3>
       <form onSubmit={handleSubmit}>
         <label>
-          Account Number
+          מסםר חשבון בנק
           <input
             type="text"
             name="accountNumber"
@@ -61,7 +61,7 @@ function ContributesForm() {
         </label>
         <br />
         <label>
-          Bank Number
+          מספר בנק
           <input
             type="text"
             name="bankNumber"
@@ -71,7 +71,7 @@ function ContributesForm() {
         </label>
         <br />
         <label>
-          Branch Number
+          מספר סניף
           <input
             type="text"
             name="branchNumber"
@@ -81,7 +81,7 @@ function ContributesForm() {
         </label>
         <br />
         <label>
-          Account Holder Name
+          שם בעל החשבון
           <input
             type="text"
             name="accountHolderName"
@@ -91,7 +91,7 @@ function ContributesForm() {
         </label>
         <br />
         <label>
-          Phone Number
+          מספר טלפון להעברה ב bit או ב paybox
           <input
             type="text"
             name="phoneNumber"
@@ -100,7 +100,7 @@ function ContributesForm() {
           />
         </label>
         <br />
-        <button type="submit">{editMode ? 'Update' : 'Add'}</button>
+        <button type="submit">{editMode ? 'עדכן' : 'הוסף'}</button>
       </form>
     </div>
   );

@@ -41,4 +41,5 @@
   .collapsible-content {
     padding: 15px;
     background-color: white;
+    color: var(--primary-color);
   }

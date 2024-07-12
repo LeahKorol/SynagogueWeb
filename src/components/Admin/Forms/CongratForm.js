@@ -66,7 +66,6 @@ function CongratForm() {
 
   return (
     <div>
-      <h3>Manage Congratulations</h3>
       <ul>
         {congrats.map((congrat) => (
           <li key={congrat.id}>
@@ -81,10 +80,9 @@ function CongratForm() {
           </li>
         ))}
       </ul>
-      <h3>Add New Congratulation</h3>
+      <h3>הוסף איחול / ברכה</h3>
       <form onSubmit={handleNewSubmit}>
         <label>
-          Content
           <input
             name="content"
             value={newCongrat.content}
@@ -92,7 +90,7 @@ function CongratForm() {
             onChange={handleNewChange}
           />
         </label>
-        <button type="submit">Add</button>
+        <button type="submit">הוסף</button>
       </form>
     </div>
   );

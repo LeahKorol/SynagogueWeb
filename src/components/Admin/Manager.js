@@ -13,10 +13,17 @@ function Manager() {
   return (
     <div className="manager-container">
       <Link to="/" className="home-button">חזרה לדף הבית</Link>
-      <header className="manager-header">
-        <h2>עמוד מנהל</h2>
-        <p>ברוך הבא למערכת המנהל</p>
-      </header>
+
+
+      <h2 className='heading-manager'>עמוד מנהל</h2>
+      <div className='manager-text'>
+        <p>ברוך הבא למערכת המנהל!</p>
+        <p>כאן תוכל להוסיף / לעדכן / למחוק את תוכן האתר. </p>
+        <p>שים לב! לא לשכוח למחוק אירועים / פירסומים / איחולים וכו' שכבר לא רלוונטים כדי שלא יהיה עומס על האתר.</p>
+      </div>
+      
+
+
       <main className="manager-content">
         <CollapsibleSection title="עדכון איחולים">
           <CongratForm />

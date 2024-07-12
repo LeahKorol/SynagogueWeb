@@ -64,10 +64,10 @@ function AboutForm() {
 
   return (
     <div>
-      <h3>Manage About Us</h3>
+      <h3>אודות הקהילה</h3>
       <form onSubmit={handleSubmit}>
         <label>
-          About
+          אודות - טקסט
           <textarea
             name="about"
             value={aboutData.about || ''}
@@ -76,7 +76,7 @@ function AboutForm() {
         </label>
         <br />
         <label>
-          Friends List PDF
+          טופס חברי הקהילה
           <input
             type="file"
             onChange={(e) => handleFileChange(e, 'friendsList')}
@@ -84,14 +84,14 @@ function AboutForm() {
         </label>
         <br />
         <label>
-          Rules PDF
+          טופס תקנון הקהילה
           <input
             type="file"
             onChange={(e) => handleFileChange(e, 'rules')}
           />
         </label>
         <br />
-        <button type="submit">{editMode ? 'Update' : 'Add'}</button>
+        <button type="submit">{editMode ? 'עדכן' : 'הוסף'}</button>
       </form>
     </div>
   );
