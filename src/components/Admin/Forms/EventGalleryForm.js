@@ -2,15 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../../../firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImages, faTrash } from '@fortawesome/free-solid-svg-icons';
+import './EventGalleryForm.css';
 
 function EventGalleryForm() {
   const [eventGallery, setEventGallery] = useState([]);
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [imageName, setImageName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'info' });
 
   const fetchEventGallery = async () => {
-    const querySnapshot = await getDocs(collection(db, "eventGallery"));
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setEventGallery(data);
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "eventGallery"));
+      const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setEventGallery(data);
+    } catch (error) {
+      console.error("Error fetching event gallery:", error);
+      showAlert('שגיאה בטעינת הגלריה', 'error');
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -18,57 +32,153 @@ function EventGalleryForm() {
   }, []);
 
   const handleFileChange = (e) => {
-    setImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      setImage(file);
+      setImageName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      showAlert('נא לבחור קובץ תמונה תקין', 'warning');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (image) {
-      const imageRef = ref(storage, `eventGallery/${image.name}`);
+    if (!image) {
+      showAlert('נא לבחור תמונה להעלאה', 'warning');
+      return;
+    }
+    if (!imageName.trim()) {
+      showAlert('נא להזין שם לתמונה', 'warning');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const imageRef = ref(storage, `eventGallery/${imageName}`);
       await uploadBytes(imageRef, image);
       const url = await getDownloadURL(imageRef);
-      const imageName = image.name;
-
       await addDoc(collection(db, "eventGallery"), { url, name: imageName });
-
+      
       setImage(null);
+      setPreview(null);
+      setImageName('');
       fetchEventGallery();
+      showAlert('התמונה הועלתה בהצלחה', 'success');
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      showAlert('שגיאה בהעלאת התמונה', 'error');
+    }
+    setLoading(false);
+  };
+
+  const confirmDelete = (id, name) => {
+    if (window.confirm('האם אתה בטוח שברצונך למחוק תמונה זו?')) {
+      handleDelete(id, name);
     }
   };
 
   const handleDelete = async (id, name) => {
-    if (name) {
-      const imageRef = ref(storage, `eventGallery/${name}`);
-      try {
+    setLoading(true);
+    try {
+      if (name) {
+        const imageRef = ref(storage, `eventGallery/${name}`);
         await deleteObject(imageRef);
-        console.log(`Image ${name} deleted successfully from storage`);
-      } catch (error) {
-        console.error("Error deleting image from storage:", error);
       }
-    } else {
-      console.error("Image name is undefined");
+      await deleteDoc(doc(db, "eventGallery", id));
+      fetchEventGallery();
+      showAlert('התמונה נמחקה בהצלחה', 'success');
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      showAlert('שגיאה במחיקת התמונה', 'error');
     }
-    await deleteDoc(doc(db, "eventGallery", id));
-    fetchEventGallery();
+    setLoading(false);
+  };
+
+  const showAlert = (message, type) => {
+    setAlert({ show: true, message, type });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'info' }), 5000);
+  };
+
+  const handleCancel = () => {
+    setImage(null);
+    setPreview(null);
+    setImageName('');
   };
 
   return (
-    <div>
-      <h2>אולם אירועים - ניהול תמונות</h2>
-      <ul>
+    <div className="event-gallery-form">
+      <h2 className="form-title">אולם אירועים - ניהול תמונות</h2>
+
+      {alert.show && (
+        <div className={`alert alert-${alert.type}`}>
+          {alert.message}
+          <button onClick={() => setAlert({ ...alert, show: false })} className="alert-close">&times;</button>
+        </div>
+      )}
+
+      <div className="image-grid">
         {eventGallery.map(image => (
-          <li key={image.id}>
-            <img src={image.url} alt="אירוע" width="100" />
-            <button onClick={() => handleDelete(image.id, image.name)}>מחק</button>
-          </li>
+          <div key={image.id} className="image-item">
+            <div className="image-preview">
+              <img src={image.url} alt={image.name} />
+              <div className="image-overlay">
+                <button
+                  onClick={() => confirmDelete(image.id, image.name)}
+                  className="delete-button"
+                  disabled={loading}
+                >
+                  <FontAwesomeIcon icon={faTrash} /> מחק
+                </button>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleSubmit}>
-        <label>
-          תמונה
-          <input type="file" onChange={handleFileChange} />
+      </div>
+
+      <form onSubmit={handleSubmit} className="upload-form">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          accept="image/*"
+          id="image-upload"
+          className="file-input"
+        />
+        <label htmlFor="image-upload" className="file-label">
+          <FontAwesomeIcon icon={faImages} /> בחר תמונה
         </label>
-        <button type="submit">שמור</button>
+        {preview && (
+          <div className="preview-container">
+            <img src={preview} alt="Preview" className="image-preview" />
+            <input
+              type="text"
+              value={imageName}
+              onChange={(e) => setImageName(e.target.value)}
+              placeholder="שם התמונה"
+              className="image-name-input"
+            />
+            <div className="button-group">
+              <button
+                type="submit"
+                disabled={!image || loading}
+                className="btn-save"
+              >
+                {loading ? 'טוען...' : 'שמור'}
+              </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="btn-cancel"
+              >
+              ביטול
+              </button>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );
