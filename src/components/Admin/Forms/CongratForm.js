@@ -73,6 +73,9 @@ function CongratForm() {
       } catch (e) {
         console.error("Error updating document: ", e);
       }
+    } else {
+      // Revert changes if the update is canceled
+      setEditCongrat({ id: id, content: originalContent });
     }
   };
 
