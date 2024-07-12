@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { addDoc, collection, updateDoc, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
+// import './ContactForm.css'
 
 function CongratForm() {
   const [congrats, setCongrats] = useState([]);
@@ -55,12 +56,15 @@ function CongratForm() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const docRef = doc(db, "congrats", id);
-      await deleteDoc(docRef);
-      fetchCongrats();
-    } catch (e) {
-      console.error("Error deleting document: ", e);
+    const isConfirmed = window.confirm("האם אתה בטוח שברצונך למחוק איחול זה?");
+    if (isConfirmed) {
+      try {
+        const docRef = doc(db, "congrats", id);
+        await deleteDoc(docRef);
+        fetchCongrats();
+      } catch (e) {
+        console.error("Error deleting document: ", e);
+      }
     }
   };
 
@@ -75,8 +79,8 @@ function CongratForm() {
               type="text"
               onChange={(e) => setEditCongrat({ id: congrat.id, content: e.target.value })}
             />
-            <button onClick={(e) => handleEditSubmit(e, congrat.id)}>Update</button>
-            <button onClick={() => handleDelete(congrat.id)}>Delete</button>
+            <button onClick={(e) => handleEditSubmit(e, congrat.id)}>עדכן</button>
+            <button onClick={() => handleDelete(congrat.id)}>מחק</button>
           </li>
         ))}
       </ul>

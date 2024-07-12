@@ -1,0 +1,99 @@
+.congrat-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .congrat-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .congrat-list, .add-congrat {
+    margin-bottom: 30px;
+  }
+  
+  .congrat-list h3, .add-congrat h3 {
+    color: #444;
+    margin-bottom: 15px;
+  }
+  
+  .congrat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .congrat-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .congrat-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-update {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-add {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+  form {
+    display: flex;
+    gap: 10px;
+  }
+  
+  @media (max-width: 480px) {
+    .congrat-item {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .congrat-actions {
+      margin-top: 10px;
+    }
+  
+    form {
+      flex-direction: column;
+    }
+  
+    .btn {
+      width: 100%;
+    }
+  }

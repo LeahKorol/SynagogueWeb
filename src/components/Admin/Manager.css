@@ -28,15 +28,21 @@
   .manager-content {
     display: flex;
     flex-direction: column;
-    padding: 2vh;
-    width: 50vw;
-    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
   }
   
-
+  .manager-content > * {
+    width: 80%;
+    max-width: 800px;
+  }
+  
   form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   input, textarea, button {
