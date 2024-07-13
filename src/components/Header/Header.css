@@ -10,9 +10,10 @@ header {
     width: 100vw;
     z-index: 1000;
 }
-body {
-  padding-top: 10vh; 
-}
+
+/* body {
+  padding-top: 5vh; 
+} */
 
 .logo img {
     height: 5vh;

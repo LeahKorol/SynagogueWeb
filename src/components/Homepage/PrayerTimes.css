@@ -39,6 +39,10 @@
     margin-bottom: 10px;
     color: black;
   }
+
+  .prayersTime .schedule .sub-title {
+    font-size: 2.5vh;
+  }
   
   .prayersTime .schedule ul {
     list-style-type: none;

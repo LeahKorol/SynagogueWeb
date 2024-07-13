@@ -1,0 +1,83 @@
+.lessons-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .lessons-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .lessons-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+  
+  .lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .lesson-item strong {
+    margin-right: 10px;
+  }
+  
+  .lesson-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .lessons-form-inner .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .lessons-form-inner .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  
+  .btn-save {
+    display: block;
+    width: 100%;
+    background-color: #7fb2d6;
+    color: white;
+  }
+  

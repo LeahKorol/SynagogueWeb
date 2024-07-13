@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { addDoc, collection, updateDoc, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
-import './ContactForm.css';
+import './CongratsForm.css';
 
 function CongratForm() {
   const [congrats, setCongrats] = useState([]);
@@ -13,7 +13,7 @@ function CongratForm() {
     try {
       const querySnapshot = await getDocs(collection(db, "congrats"));
       const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCongrats(data);
+      setCongrats(data.reverse()); // Reverse the order to show newest first
     } catch (e) {
       console.error("Error fetching documents: ", e);
     }
@@ -50,10 +50,15 @@ function CongratForm() {
 
   const handleNewSubmit = async (e) => {
     e.preventDefault();
+    if (congrats.length >= 10) {
+      alert("לא ניתן להוסיף יותר מ-10 איחולים. מחק איחול קיים כדי להוסיף חדש.");
+      return;
+    }
     try {
-      await addDoc(collection(db, "congrats"), { content: newCongrat.content });
+      const docRef = await addDoc(collection(db, "congrats"), { content: newCongrat.content });
+      const newCongratData = { id: docRef.id, content: newCongrat.content };
+      setCongrats(prevCongrats => [newCongratData, ...prevCongrats]);
       setNewCongrat({ content: "" });
-      fetchCongrats();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -69,12 +74,11 @@ function CongratForm() {
         const docRef = doc(db, "congrats", id);
         await updateDoc(docRef, { content: editCongrat.content });
         setEditCongrat({ id: "", content: "" });
-        fetchCongrats();
+        fetchCongrats(); // Fetch updated list after updating congrat
       } catch (e) {
         console.error("Error updating document: ", e);
       }
     } else {
-      // Revert changes if the update is canceled
       setEditCongrat({ id: id, content: originalContent });
     }
   };
@@ -85,7 +89,7 @@ function CongratForm() {
       try {
         const docRef = doc(db, "congrats", id);
         await deleteDoc(docRef);
-        fetchCongrats();
+        fetchCongrats(); // Fetch updated list after deleting congrat
       } catch (e) {
         console.error("Error deleting document: ", e);
       }
@@ -132,10 +136,16 @@ function CongratForm() {
             value={newCongrat.content}
             onChange={handleNewChange}
             placeholder="כתוב איחול חדש"
+            disabled={congrats.length >= 10}
           />
-          <button type="submit" className="btn btn-add">
+          <button type="submit" className="btn btn-add" disabled={congrats.length >= 10}>
             הוסף
           </button>
+          {congrats.length >= 10 && (
+            <p style={{ color: 'red' }}>
+              לא ניתן להוסיף יותר מ-10 איחולים. מחק איחול קיים כדי להוסיף חדש.
+            </p>
+          )}
         </form>
       </div>
     </div>

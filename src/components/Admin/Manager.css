@@ -4,10 +4,10 @@
     background-color: var(--primary-color);
   }
   
-  .manager-header {
+  /* .manager-header {
     padding: 2vh;
     margin-bottom: 30px;
-  }
+  } */
   
   .heading-manager {
     font-size: 3.5vw;
@@ -64,21 +64,29 @@
     background-color: #7fb2d6;
   }
 
-  .home-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 15px;
-  background-color: #f0f0f0;
-  color: #333;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.home-button:hover {
-  background-color: #e0e0e0;
-}
+  .home-button-manager {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .home-button-manager:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .mobile-icon {
+    display: none;
+  }
 
 .admin-login-wrapper {
   position: relative;
@@ -94,5 +102,31 @@ form {
 @media (max-width: 768px) {
   .manager-content {
     grid-template-columns: 1fr;
+  }
+
+  .heading-manager {
+    padding: 1.25vh;
+    font-size: 3.75vh;
+  }
+
+  .desktop-text {
+    display: none;
+  }
+
+  .mobile-icon {
+    display: block;
+    font-size: 2vh;
+  }
+
+  .home-button-manager {
+    padding: 10px;
+    border-radius: 50%;
+    width: 4vh;
+    height: 4vh;
+  }
+
+  .manager-text {
+    font-size: 2vh;
+    text-align: right;
   }
 }
