@@ -2,7 +2,14 @@ import './PrayerTimes.css';
 import React, { useEffect, useState } from 'react';
 import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
 import { processScheduleItems } from '../../utils/timeUtils';
-import { formatCurrentJerusalemDate, getEventsDescriptions, getParasha } from '../../utils/dateFunctions';
+import {
+  formatCurrentJerusalemHebrewDate,
+  formatCurrentJerusalemDay,
+  getEventsDescriptions,
+  getParasha,
+  currentJerusalemDate
+} from '../../utils/dateFunctions';
+
 
 const PrayerTimes = () => {
   // State to hold schedule items
@@ -28,9 +35,16 @@ const PrayerTimes = () => {
     return () => unsubscribe();
   }, []);
 
-  let formatDate = formatCurrentJerusalemDate();
+  // Format the current date and day
+  const currentDay = currentJerusalemDate().getDay();
+  const isMotzaeiShabbat = currentDay === 6; // Saturday
+  const formatDate = formatCurrentJerusalemHebrewDate(isMotzaeiShabbat);
+  const formatDay = formatCurrentJerusalemDay(isMotzaeiShabbat);
 
+  // Get descriptions for events
   const descriptions = getEventsDescriptions();
+
+  // Get the weekly Torah portion (Parasha)
 
   const parasha = getParasha();
   let parashaName = parasha.parashaName;
@@ -44,7 +58,7 @@ const PrayerTimes = () => {
       <div className="box-container">
         <div className="schedule">
           <h2>זמני  חול</h2>
-          <h2>יום {formatDate.day} - {formatDate.hebrewDateGematria}</h2>
+          <h2>יום {formatDay} - {formatDate}</h2>
           <ul>
             {schedule.weekday.map((item, index) => (
               <li key={index}>
@@ -52,14 +66,14 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
-          
+
           <div>
             {descriptions.map((description, index) => (
               <p key={index}>{description}</p>
             ))}
           </div>
         </div>
-        
+
         <div className="schedule">
           <h2> שבת קודש {parashaName}</h2>
           <h2>ערב שבת:</h2>

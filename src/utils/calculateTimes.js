@@ -1,5 +1,5 @@
 import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
-import { currentJerusalemDate } from './JerusalemDate.js';
+import { currentJerusalemDate } from './dateFunctions.js';
 
 const latitude = 31.821240;
 const longitude = 35.253677;
@@ -60,11 +60,12 @@ function getEarliestTzeit(date) {
  * Formats a given date into a HH:mm time format. 
  * If the seconds part of the date is greater than 0, the returned time will be one minute after the original time.
  * @param {Date} date - The date object to format.
+ * @param {boolean} [roundUp=true] - Optional parameter to round up the minutes if the seconds are greater than 0.
  * @returns {string} The formatted time string in HH:mm format.
  */
-function formatTime(date) {
+function formatTime(date, roundUp = true) {
     let tempDate = new Date(date);
-    if (tempDate.getSeconds() > 0) {
+    if (roundUp && tempDate.getSeconds() > 0) {
         tempDate.setMinutes(tempDate.getMinutes() + 1);
     }
     let hours = tempDate.getHours();
@@ -87,7 +88,7 @@ function nextFridayCandleLighting(date) {
     const FridayZmanim = new Zmanim(gloc, CloseFriday, true);// Enable elevation 
 
     // Calculate the candle lighting time in Jerusalem for seen sunset
-    const candleLighting = FridayZmanim.sunsetOffset(-40,true);
+    const candleLighting = FridayZmanim.sunsetOffset(-40, false);
 
     // Log candle lighting and actual sunset times for reference
     console.log("Candle Lighting:", candleLighting.toLocaleTimeString('IL-en'));
@@ -106,8 +107,8 @@ function nextShabbatHavdala(date) {
     const CloseShabbat = new HDate(date).onOrAfter(6);
     const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// able elevation 
     const havdala = ShabbatZmanim.sunsetOffset(40, true);
-    console.log("Sunset:",ShabbatZmanim.shkiah().toLocaleTimeString('IL-en'));
-   return havdala
+    console.log("Sunset:", ShabbatZmanim.shkiah().toLocaleTimeString('IL-en'));
+    return havdala
 }
 
 export {
