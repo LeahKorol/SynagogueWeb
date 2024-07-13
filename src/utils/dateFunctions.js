@@ -1,15 +1,13 @@
 import { HebrewCalendar, HDate, Location, Locale} from '@hebcal/core';
-import { getCurrentJerusalemDate } from './JerusalemDate.js';
+import { currentJerusalemHebrewDate } from './JerusalemDate.js';
 
-const today = getCurrentJerusalemDate();
+const today = currentJerusalemHebrewDate();
 //const today = new HDate(new Date(2024,9,12));//yom kipur 2024
 
 export function formatCurrentJerusalemDate() {
-  const gregorianDate = today.greg().toLocaleDateString('IL-en');  //MUST add .toLocaleDateString('IL-en')!!
   const hebrewDateGematria = today.renderGematriya('he-x-NoNikud');
   const day = convertDayToString(today.getDay());
   return {
-    gregorianDate,
     hebrewDateGematria,
     day
   };
@@ -17,8 +15,6 @@ export function formatCurrentJerusalemDate() {
 
 function convertDayToString(day) {
   const daysOfWeek = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-  
-  // Adjust for JavaScript's 0-indexed array
   return daysOfWeek[day % 7];
 }
 
@@ -34,7 +30,7 @@ export function getEventsDescriptions() {
     omer: true,
     yomKippurKatan: true,
     sedrot: true,
-    candlelighting: true,
+    candlelighting: false,
   };
 
   const events = HebrewCalendar.calendar(options);

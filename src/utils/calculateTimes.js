@@ -1,11 +1,11 @@
 import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
-import { getCurrentJerusalemDate } from './JerusalemDate.js';
+import { currentJerusalemDate } from './JerusalemDate.js';
 
 const latitude = 31.821240;
 const longitude = 35.253677;
 const elevation = 700;
 const tzid = 'Asia/Jerusalem';
-const today = getCurrentJerusalemDate();
+const today = currentJerusalemDate();
 const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
 const zmanim = new Zmanim(gloc, today, false);
 
@@ -24,12 +24,12 @@ function isDaylightSavingTimeForIsrael(date) {
 
 /**
  * finds the earliest tzeit in this week
- * @param {HDate} - The date to check
+ * @param {Date} - The date to check
  * @return {Date} - the date in this week the Zteit is the earliest
  */
-function getEarliestTzeit(hdate) {
-    const currDay = hdate.getDay();
-    let day = hdate.subtract(currDay, "days"); // Start from Sunday
+function getEarliestTzeit(date) {
+    const currDay = date.getDay();
+    let day = new HDate(date).subtract(currDay, "days"); // Start from Sunday
 
     let minTzeit = zmanim.tzeit();
     let tZmanim, tzeit;
@@ -79,15 +79,15 @@ function formatTime(date) {
 
 /**
  * Calculates Candle Lighting time for upcoming Friday based on seen sunset.
- * @param {HDate} hdate 
+ * @param {Date} date 
  * @returns {Date} candleLighting
  */
-function nextFridayCandleLighting(hdate) {
-    const CloseFriday = hdate.onOrAfter(5);
+function nextFridayCandleLighting(date) {
+    const CloseFriday = new HDate(date).onOrAfter(5);
     const FridayZmanim = new Zmanim(gloc, CloseFriday, true);// Enable elevation 
 
     // Calculate the candle lighting time in Jerusalem for seen sunset
-    const candleLighting = FridayZmanim.sunsetOffset(-40, true);
+    const candleLighting = FridayZmanim.sunsetOffset(-40,true);
 
     // Log candle lighting and actual sunset times for reference
     console.log("Candle Lighting:", candleLighting.toLocaleTimeString('IL-en'));
@@ -99,13 +99,14 @@ function nextFridayCandleLighting(hdate) {
 
 /**
  * Calculates Havdala time for upcoming Shabbat: 40 minutes after seen sunset
- * @param {HDate} hdate 
+ * @param {Date} date 
  * @returns {Date} Havdala
  */
-function nextShabbatHavdala(hdate) {
-    const CloseShabbat = hdate.onOrAfter(6);
-    const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// unnable elevation 
+function nextShabbatHavdala(date) {
+    const CloseShabbat = new HDate(date).onOrAfter(6);
+    const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// able elevation 
     const havdala = ShabbatZmanim.sunsetOffset(40, true);
+    console.log("Sunset:",ShabbatZmanim.shkiah().toLocaleTimeString('IL-en'));
    return havdala
 }
 
