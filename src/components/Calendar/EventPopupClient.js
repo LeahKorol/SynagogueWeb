@@ -85,7 +85,7 @@ const EventPopupClient = ({ day, events, onClose, onEventChange, isRangeEvent = 
                                         ) : (
                                             event.startTime && event.endTime && (
                                                 <span className="event-time">
-                                                    <FontAwesomeIcon icon={faClock} /> {event.startTime} - {event.endTime}
+                                                    <FontAwesomeIcon icon={faClock} /> {event.endTime} - {event.startTime} 
                                                 </span>
                                             )
                                         )}

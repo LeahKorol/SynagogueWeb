@@ -3,7 +3,7 @@ import Calendar from '../Calendar/CalendarClient'; // ייבוא הרכיב Cale
 import './Calendar.css';
 function CalenderClient() {
     return (
-        <div>
+        <div className='allTheCalendar'>
             <Calendar /> 
         </div>
     );
