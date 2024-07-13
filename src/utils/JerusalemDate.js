@@ -7,7 +7,7 @@ export function getCurrentJerusalemDate() {
     return today;
 }
 
-export function getCurrentGregJerusalemDate() {
+export function getCurrentJerusalemGregDate() {
     const now = new Date(); // Current system time
     const jerusalemDate = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
     return jerusalemDate;
