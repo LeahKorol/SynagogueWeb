@@ -133,6 +133,16 @@
   .file-label:hover {
     background-color: #e0e0e0;
   }
+
+  .file-label.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .btn-save:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
   
   .file-input {
     display: none;
@@ -200,4 +210,49 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+  }
+
+
+  @media (max-width: 768px) {
+    .image-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .image-item {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: default;
+    }
+  
+    .image-preview {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  
+    .image-preview img {
+      transition: none;
+    }
+  
+    .image-overlay {
+      display: none;
+    }
+  
+    .delete-button {
+      position: static;
+      border-radius: 0;
+      width: 100%;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .image-preview:hover img {
+      transform: none;
+    }
   }

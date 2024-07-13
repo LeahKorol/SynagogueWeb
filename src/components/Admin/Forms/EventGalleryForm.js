@@ -8,6 +8,7 @@ import './EventGalleryForm.css';
 
 function EventGalleryForm() {
   const [eventGallery, setEventGallery] = useState([]);
+  const [isMaxImagesReached, setIsMaxImagesReached] = useState(false);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [imageName, setImageName] = useState('');
@@ -20,13 +21,14 @@ function EventGalleryForm() {
       const querySnapshot = await getDocs(collection(db, "eventGallery"));
       const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setEventGallery(data);
+      setIsMaxImagesReached(data.length >= 10);
     } catch (error) {
       console.error("Error fetching event gallery:", error);
       showAlert('שגיאה בטעינת הגלריה', 'error');
     }
     setLoading(false);
   };
-
+  
   useEffect(() => {
     fetchEventGallery();
   }, []);
@@ -48,6 +50,10 @@ function EventGalleryForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (eventGallery.length >= 10) {
+      showAlert("לא ניתן להוסיף יותר מ-10 תמונות. מחק תמונה קיימת כדי להוסיף חדשה.", 'warning');
+      return;
+    }
     if (!image) {
       showAlert('נא לבחור תמונה להעלאה', 'warning');
       return;
@@ -56,18 +62,19 @@ function EventGalleryForm() {
       showAlert('נא להזין שם לתמונה', 'warning');
       return;
     }
-
+  
     setLoading(true);
     try {
       const imageRef = ref(storage, `eventGallery/${imageName}`);
       await uploadBytes(imageRef, image);
       const url = await getDownloadURL(imageRef);
-      await addDoc(collection(db, "eventGallery"), { url, name: imageName });
+      const docRef = await addDoc(collection(db, "eventGallery"), { url, name: imageName });
+      const newImageData = { id: docRef.id, url, name: imageName };
+      setEventGallery(prevGallery => [newImageData, ...prevGallery]);
       
       setImage(null);
       setPreview(null);
       setImageName('');
-      fetchEventGallery();
       showAlert('התמונה הועלתה בהצלחה', 'success');
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -136,50 +143,63 @@ function EventGalleryForm() {
                 </button>
               </div>
             </div>
+            <button
+              onClick={() => confirmDelete(image.id, image.name)}
+              className="delete-button mobile-delete-button"
+              disabled={loading}
+            >
+              <FontAwesomeIcon icon={faTrash} /> מחק
+            </button>
           </div>
         ))}
       </div>
 
       <form onSubmit={handleSubmit} className="upload-form">
-        <input
-          type="file"
-          onChange={handleFileChange}
-          accept="image/*"
-          id="image-upload"
-          className="file-input"
-        />
-        <label htmlFor="image-upload" className="file-label">
-          <FontAwesomeIcon icon={faImages} /> בחר תמונה
-        </label>
-        {preview && (
-          <div className="preview-container">
-            <img src={preview} alt="Preview" className="image-preview" />
-            <input
-              type="text"
-              value={imageName}
-              onChange={(e) => setImageName(e.target.value)}
-              placeholder="שם התמונה"
-              className="image-name-input"
-            />
-            <div className="button-group">
-              <button
-                type="submit"
-                disabled={!image || loading}
-                className="btn-save"
-              >
-                {loading ? 'טוען...' : 'שמור'}
-              </button>
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="btn-cancel"
-              >
+      <input
+        type="file"
+        onChange={handleFileChange}
+        accept="image/*"
+        id="image-upload"
+        className="file-input"
+        disabled={eventGallery.length >= 10}
+      />
+      <label htmlFor="image-upload" className={`file-label ${eventGallery.length >= 10 ? 'disabled' : ''}`}>
+        <FontAwesomeIcon icon={faImages} /> בחר תמונה
+      </label>
+      {eventGallery.length >= 10 && (
+        <p style={{ color: 'red' }}>
+          לא ניתן להוסיף יותר מ-10 תמונות. מחק תמונה קיימת כדי להוסיף חדשה.
+        </p>
+      )}
+      {preview && (
+        <div className="preview-container">
+          <img src={preview} alt="Preview" className="image-preview" />
+          <input
+            type="text"
+            value={imageName}
+            onChange={(e) => setImageName(e.target.value)}
+            placeholder="שם התמונה"
+            className="image-name-input"
+          />
+          <div className="button-group">
+            <button
+              type="submit"
+              disabled={!image || loading || eventGallery.length >= 10}
+              className="btn-save"
+            >
+              {loading ? 'טוען...' : 'שמור'}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="btn-cancel"
+            >
               ביטול
-              </button>
-            </div>
+            </button>
           </div>
-        )}
-      </form>
+        </div>
+      )}
+    </form>
     </div>
   );
 }
