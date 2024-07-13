@@ -56,10 +56,9 @@ function CongratForm() {
     }
     try {
       const docRef = await addDoc(collection(db, "congrats"), { content: newCongrat.content });
-      const newCongratData = { id: docRef.id, ...docRef.data() }; // Include document data from Firestore
-      setCongrats([newCongratData, ...congrats]);
+      const newCongratData = { id: docRef.id, content: newCongrat.content };
+      setCongrats(prevCongrats => [newCongratData, ...prevCongrats]);
       setNewCongrat({ content: "" });
-      fetchCongrats(); // Fetch updated list after adding new congrat
     } catch (e) {
       console.error("Error adding document: ", e);
     }

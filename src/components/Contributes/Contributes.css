@@ -7,7 +7,7 @@
 
 .heading-contributes {
     color: white;
-    margin-top: 5vh;
+    margin-top: 10vh;
     font-size: 4vw;
 }
 
@@ -110,7 +110,7 @@
 
 @media (max-width: 768px) {
     .heading-contributes {
-        margin-top: 5vh;
+        margin-top: 10vh;
         font-size: 4vh;
     }
 

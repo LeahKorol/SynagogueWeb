@@ -11,9 +11,9 @@ header {
     z-index: 1000;
 }
 
-body {
+/* body {
   padding-top: 5vh; 
-}
+} */
 
 .logo img {
     height: 5vh;
