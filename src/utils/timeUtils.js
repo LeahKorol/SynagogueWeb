@@ -1,29 +1,39 @@
-import { getCurrentJerusalemDate, getCurrentJerusalemGregDate } from './JerusalemDate';
+import { currentJerusalemDate } from './dateFunctions';
 import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala } from './calculateTimes';
 
-const today = getCurrentJerusalemDate();
+const today = currentJerusalemDate();
 
-// Function to calculate hour based on delta and base
-export const calculateHour = (delta, base) => {
+/**
+ * Calculates the hour based on delta and base, adjusting for day modification.
+ * 
+ * @param {number} delta - The delta (in minutes) to add to the base time.
+ * @param {string} base - The base time identifier ('Tzeit', 'Arvit', 'Candle Lighting', 'Havdala').
+ * @param {number} dayModifier - Modifier to adjust the reference day (default is 0).
+ *                               If -1, adjusts to the previous day; if 1, adjusts to the next day.
+ * @returns {string} - The calculated and formatted time (HH:mm).
+ */
+export const calculateHour = (delta, base, dayModifier = 0) => {
+  let baseTime;
+  const referenceDay = new Date(today);
+  referenceDay.setDate(today.getDate() + dayModifier);
+
   if (base === 'Tzeit' || base === 'Arvit') {
-    const tzeit = getEarliestTzeit(today);
-    return calculateFormattedTime(tzeit, delta);
+    baseTime = getEarliestTzeit(referenceDay);
+  } else if (base === 'Candle Lighting') {
+    baseTime = nextFridayCandleLighting(referenceDay);
+  } else if (base === 'Havdala') {
+    baseTime = nextShabbatHavdala(referenceDay);
+  } else {
+    return 'undefined';
   }
-  if (base === 'Candle Lighting') {
-    const candleLighting = nextFridayCandleLighting(today);
-    return calculateFormattedTime(candleLighting, delta);
-  }
-  if (base === 'Havdala') {
-    const havdala = nextShabbatHavdala(today);
-    return calculateFormattedTime(havdala, delta);
-  }
-  return 'undefined';
+
+  return calculateFormattedTime(baseTime, delta);
 };
 
 // Function to check if item belongs to today based on tag or date fields
 export const checkByTagOrDate = (item) => {
   if (item.status === 'recurring') {
-    const currentDate = getCurrentJerusalemGregDate();
+    const currentDate = currentJerusalemDate();
     if (item.tag === 'summer' && isDaylightSavingTimeForIsrael(currentDate)) {
       return true;
     }
@@ -34,12 +44,17 @@ export const checkByTagOrDate = (item) => {
   return false;
 };
 
-// Function to process and sort schedule items
+/**
+ * Processes and sorts schedule items based on status and day, considering Motzaei Shabbat adjustments.
+ * 
+ * @param {Array} items - Array of schedule items to process.
+ * @returns {Object} - Object containing processed schedule items categorized by day.
+ */
 export const processScheduleItems = (items) => {
   const processedItems = items.filter(item => item.status === 'default' || checkByTagOrDate(item))
     .map(item => ({
       title: item.title,
-      hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base),
+      hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
       day: item.day
     }))
     .sort((a, b) => {
@@ -57,12 +72,46 @@ export const processScheduleItems = (items) => {
   return scheduleByDay;
 };
 
-const calculateFormattedTime = (baseTime, delta) => {
-  const calculatedTime = new Date(baseTime.getTime() + delta * 60000);
-  return formatTime(calculatedTime, 'HH:mm');
+/**
+ * Determines the day modifier based on whether it's Motzaei Shabbat (Saturday night).
+ * 
+ * @param {string} eventDay - The day of the event ('Friday', 'Shabbat', etc.).
+ * @returns {number} - Modifier: -1 for previous day, 1 for next day, or 0 for no modification.
+ */
+const dayModifier = (eventDay) => {
+  if (eventDay === 'Friday' && today.getDay() === 6) {
+    return -1;
+  } else if (eventDay !== 'Shabbat' && today.getDay() === 6) {
+    return 1;
+  } else {
+    return 0; // Not Motzaei Shabbat
+  }
 };
 
-// Helper function to convert hour string to minutes since midnight
+/**
+ * Calculates and formats a new time based on the base time and delta (in minutes).
+ * 
+ * @param {Date} baseTime - The base time for calculation.
+ * @param {number} delta - The delta (in minutes) to add to the base time.
+ * @returns {string} - The formatted time string in HH:mm format.
+ *  
+ * Note: The marker roundUp is set to true in order to be stringent (לחומרה).
+ */
+const calculateFormattedTime = (baseTime, delta) => {
+  const calculatedTime = new Date(baseTime.getTime() + delta * 60000);
+  let roundUp = true;
+  if (delta <= 0) {
+    roundUp = false;
+  }
+  return formatTime(calculatedTime, roundUp);
+};
+
+/**
+ * Helper function to convert hour string to minutes since midnight.
+ * 
+ * @param {string} hour - The hour string in HH:mm format.
+ * @returns {number} - The total minutes since midnight.
+ */
 const convertHourToMinutes = (hour) => {
   const [hours, minutes] = hour.split(':').map(Number);
   return hours * 60 + (minutes || 0); // Handle cases where minutes might be undefined

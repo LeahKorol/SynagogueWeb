@@ -1,25 +1,19 @@
-import { HebrewCalendar, HDate, Location, Locale} from '@hebcal/core';
-import { getCurrentJerusalemDate } from './JerusalemDate.js';
+import { HebrewCalendar, HDate, Location, Locale } from '@hebcal/core';
 
-const today = getCurrentJerusalemDate();
+const today = currentJerusalemHebrewDate();
 //const today = new HDate(new Date(2024,9,12));//yom kipur 2024
 
-export function formatCurrentJerusalemDate() {
-  const gregorianDate = today.greg().toLocaleDateString('IL-en');  //MUST add .toLocaleDateString('IL-en')!!
-  const hebrewDateGematria = today.renderGematriya('he-x-NoNikud');
-  const day = convertDayToString(today.getDay());
-  return {
-    gregorianDate,
-    hebrewDateGematria,
-    day
-  };
+export function formatCurrentJerusalemHebrewDate(useNextDay = false) {
+  const referenceDay = useNextDay ? today.add(1, 'days') : today;
+
+  const hebrewDateGematria = referenceDay.renderGematriya('he-x-NoNikud');
+  return hebrewDateGematria;
 }
 
-function convertDayToString(day) {
+export function formatCurrentJerusalemDay(useNextDay = false) {
+  const referenceDay = useNextDay ? today.add(1, 'days') : today;
   const daysOfWeek = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
-  
-  // Adjust for JavaScript's 0-indexed array
-  return daysOfWeek[day % 7];
+  return daysOfWeek[referenceDay.getDay() % 7];
 }
 
 export function getEventsDescriptions() {
@@ -34,7 +28,7 @@ export function getEventsDescriptions() {
     omer: true,
     yomKippurKatan: true,
     sedrot: true,
-    candlelighting: true,
+    candlelighting: false,
   };
 
   const events = HebrewCalendar.calendar(options);
@@ -62,3 +56,15 @@ export function getHallel() {
   const hallel = HebrewCalendar.hallel(today, true);
   return hallel;
 }
+
+export function currentJerusalemHebrewDate() {
+  const jerusalemDate = currentJerusalemDate();
+  const today = new HDate(jerusalemDate);
+  return today;
+}
+export function currentJerusalemDate() { //includes hours, minutes and seconds as well
+  const now = new Date(); // Current system time
+  const jerusalemDate = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
+  return jerusalemDate;
+}
+
