@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getHebrewDate } from '../utils/calendar';
+import { getHebrewDate } from '../../utils/calendar';
 import EventPopup from './EventPopupClient';
-import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
+import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
 
 const sortEvents = (events) => {
     return events.sort((a, b) => {
@@ -31,7 +31,7 @@ const DayClient = ({ day, month, events, isPreviousMonth, isNextMonth, onEventCh
     const dayEvents = sortEvents(events.filter(event => event.hebrewDate === hebrewDate));
 
     const gregorianDay = gregorianDate.getDate();
-    const isToday = getCurrentGregJerusalemDate().toDateString() === gregorianDate.toDateString();
+    const isToday = getCurrentJerusalemGregDate().toDateString() === gregorianDate.toDateString();
 
     const handleDayClick = (e) => {
         e.stopPropagation();

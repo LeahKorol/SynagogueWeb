@@ -4,6 +4,8 @@
     flex-wrap: wrap;
     justify-content: space-around;
     text-align: center;
+    direction: ltr;
+    color: #333;
 }
 
 .month {
@@ -93,6 +95,7 @@
 
 
 .calendar-container {
+    direction: ltr;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -465,6 +468,8 @@ input:checked + .slider:before {
     unicode-bidi: plaintext;
 }
 .month-title {
+    color: #ffffff;
+    background: #212032;
     text-align: right;
     font-size: 1.8em;
     margin: 0;
@@ -482,6 +487,8 @@ input:checked + .slider:before {
 .add-range-event-button,
 .arrow-button,
 .today-button {
+    color: #212032;
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;

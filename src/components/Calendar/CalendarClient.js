@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
-import { db } from '../firebase';
-import { getEventsCalendar, getHebrewDate } from '../utils/calendar';
-import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
+import { db } from '../../firebase';
+import { getEventsCalendar, getHebrewDate } from '../../utils/calendar';
+import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
 import Month from './MonthClient';
-import '../styles.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {  faChevronLeft, faChevronRight, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
-import './stylesCalendar.css';
 
 const CalendarClient = () => {
     const [events, setEvents] = useState([]);
-    const [currentMonth, setCurrentMonth] = useState(getCurrentGregJerusalemDate());
+    const [currentMonth, setCurrentMonth] = useState(getCurrentJerusalemGregDate());
     const [selectedDay, setSelectedDay] = useState(null);
 
     const currentYear = currentMonth.getFullYear();
@@ -52,7 +50,7 @@ const CalendarClient = () => {
     };
 
     const goToToday = () => {
-        setCurrentMonth(getCurrentGregJerusalemDate());
+        setCurrentMonth(getCurrentJerusalemGregDate());
     };
     
     const getMonthTitle = (month) => {
