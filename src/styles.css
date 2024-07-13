@@ -465,7 +465,7 @@ input:checked + .slider:before {
     order: -1;
 }
 .title{
-    
+    direction: rtl;
     display: flex;
 }
 
@@ -511,9 +511,78 @@ input:checked + .slider:before {
     align-items: center;
 }
 
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+
+    .today-button span {
+        display: none;
+    }
+    
+    .title {
+        display: block;
+    }
+    
+    .today-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    .month-title {
+        font-size: 1.3em;
+        margin: 0;
+    }
+    
+    .day {
+        width: calc(100% / 7);
+        height: 15vh; 
+        padding: 0.2vw;
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .more-events {
+        display: none;
+    }
+
+    .add-range-event-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .add-range-event-button span {
+        display: none;
+    }
+
+    .add-range-event-button .fa-plus {
+        margin: 0;
+    }
+    .today .gregorian-date {
+        background-color: #212032;
+        color: white;
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        position: absolute;
+        top: 3px;
+        right: 2px;
+       
+    }
+}
+
 
 /* התאמות למסכים קטנים */
 @media (max-width: 768px) {
+    
     .today-button span {
         display: none;
     }
@@ -542,6 +611,7 @@ input:checked + .slider:before {
         overflow: hidden;
     }
     .event {
+        
         white-space: nowrap;
         overflow: hidden;
         text-overflow: clip;
@@ -573,6 +643,3 @@ input:checked + .slider:before {
 
 }
 
-@media (max-width: 480px) {
-    
-}

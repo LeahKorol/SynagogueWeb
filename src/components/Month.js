@@ -6,10 +6,15 @@ const daysOfWeek = ['שבת', 'שישי', 'חמישי', 'רביעי', 'שליש�
 const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
     const startDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
     const daysInMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+    const endDay = new Date(month.getFullYear(), month.getMonth(), daysInMonth).getDay();
+    const daysFromNextMonth = endDay === 6 ? 0 : 6 - endDay;
 
-    const monthEvents = events.filter(event => {
+    const startOfVisibleCalendar = new Date(month.getFullYear(), month.getMonth(), 1 - startDay);
+    const endOfVisibleCalendar = new Date(month.getFullYear(), month.getMonth() + 1, daysFromNextMonth);
+
+    const visibleEvents = events.filter(event => {
         const eventDate = new Date(event.date);
-        return eventDate.getMonth() === month.getMonth() && eventDate.getFullYear() === month.getFullYear();
+        return eventDate >= startOfVisibleCalendar && eventDate <= endOfVisibleCalendar;
     });
 
     const previousMonthDays = Array.from(
@@ -17,9 +22,17 @@ const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
         (_, i) => new Date(month.getFullYear(), month.getMonth(), -(startDay - i - 1))
     );
 
-    const days = previousMonthDays.concat(
-        Array.from({ length: daysInMonth }, (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1))
+    const currentMonthDays = Array.from(
+        { length: daysInMonth },
+        (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1)
     );
+
+    const nextMonthDays = Array.from(
+        { length: daysFromNextMonth },
+        (_, i) => new Date(month.getFullYear(), month.getMonth() + 1, i + 1)
+    );
+
+    const days = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
 
     return (
         <div className="month">
@@ -34,8 +47,9 @@ const Month = ({ month, events, onEventChange, onDayClick, selectedDay }) => {
                         key={index} 
                         day={day} 
                         month={month} 
-                        events={monthEvents} 
+                        events={visibleEvents} 
                         isPreviousMonth={index < startDay}
+                        isNextMonth={index >= startDay + daysInMonth}
                         onEventChange={onEventChange}
                         onDayClick={onDayClick}
                         isSelected={selectedDay && day.toDateString() === selectedDay.toDateString()}

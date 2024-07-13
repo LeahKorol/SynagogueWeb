@@ -19,7 +19,7 @@ const sortEvents = (events) => {
     });
 };
 
-const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, isSelected }) => {
+const Day = ({ day, month, events, isPreviousMonth, isNextMonth, onEventChange, onDayClick, isSelected }) => {
     const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const Day = ({ day, month, events, isPreviousMonth, onEventChange, onDayClick, i
 
     return (
         <div 
-            className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
+            className={`day ${isPreviousMonth ? 'previous-month' : ''} ${isNextMonth ? 'next-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
             onClick={handleDayClick}
         >
             {day && (
