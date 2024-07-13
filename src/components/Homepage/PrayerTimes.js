@@ -58,7 +58,7 @@ const PrayerTimes = () => {
       <div className="box-container">
         <div className="schedule">
           <h2>זמני  חול</h2>
-          <h2 className='sub-title'>יום {formatDate.day} - {formatDate.hebrewDateGematria}</h2>
+          <h2 className='sub-title'>יום {formatDay} - {formatDate}</h2>
           <ul>
             {schedule.weekday.map((item, index) => (
               <li key={index}>
