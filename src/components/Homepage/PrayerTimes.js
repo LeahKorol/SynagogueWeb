@@ -44,7 +44,7 @@ const PrayerTimes = () => {
       <div className="box-container">
         <div className="schedule">
           <h2>זמני  חול</h2>
-          <h2>יום {formatDate.day} - {formatDate.hebrewDateGematria}</h2>
+          <h2 className='sub-title'>יום {formatDate.day} - {formatDate.hebrewDateGematria}</h2>
           <ul>
             {schedule.weekday.map((item, index) => (
               <li key={index}>
@@ -62,7 +62,7 @@ const PrayerTimes = () => {
         
         <div className="schedule">
           <h2> שבת קודש {parashaName}</h2>
-          <h2>ערב שבת:</h2>
+          <h2 className='sub-title'>ערב שבת:</h2>
           <ul>
             {schedule.Friday.map((item, index) => (
               <li key={index}>
@@ -70,7 +70,7 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
-          <h2>שבת:</h2>
+          <h2 className='sub-title'>שבת:</h2>
           <ul>
             {schedule.Shabbat.map((item, index) => (
               <li key={index}>
