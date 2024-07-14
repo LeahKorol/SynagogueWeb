@@ -1,4 +1,4 @@
-import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
+import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate, HebrewDateEvent } from '@hebcal/core';
 import { currentJerusalemDate } from './dateFunctions.js';
 
 const latitude = 31.821240;
@@ -7,7 +7,7 @@ const elevation = 700;
 const tzid = 'Asia/Jerusalem';
 const today = currentJerusalemDate();
 const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
-const zmanim = new Zmanim(gloc, today, false);
+const zmanim = new Zmanim(gloc, today, true); //use elevation
 
 
 /**
@@ -30,8 +30,9 @@ function isDaylightSavingTimeForIsrael(date) {
 function getEarliestTzeit(date) {
     const currDay = date.getDay();
     let day = new HDate(date).subtract(currDay, "days"); // Start from Sunday
+    const degrees = 7;
 
-    let minTzeit = zmanim.tzeit();
+    let minTzeit = zmanim.tzeit(degrees);
     let tZmanim, tzeit;
 
     function getTimeAsNumber(date) {
@@ -41,8 +42,9 @@ function getEarliestTzeit(date) {
     let minTzeitInSeconds = getTimeAsNumber(minTzeit);
 
     for (let i = 0; i < 7; i++) {
-        tZmanim = new Zmanim(gloc, day, false);
-        tzeit = tZmanim.tzeit();
+        tZmanim = new Zmanim(gloc, day, true);
+        tzeit = tZmanim.tzeit(degrees);
+        console.log(tzeit);
 
         let tzeitInSeconds = getTimeAsNumber(tzeit);
 
@@ -91,8 +93,8 @@ function nextFridayCandleLighting(date) {
     const candleLighting = FridayZmanim.sunsetOffset(-40, false);
 
     // Log candle lighting and actual sunset times for reference
-    console.log("Candle Lighting:", candleLighting.toLocaleTimeString('IL-en'));
-    console.log("Sunset:", FridayZmanim.shkiah().toLocaleTimeString('IL-en'));
+    // console.log("Candle Lighting:", candleLighting.toLocaleTimeString('IL-en'));
+    // console.log("Sunset:", FridayZmanim.shkiah().toLocaleTimeString('IL-en'));
 
     return candleLighting;
 }
@@ -107,9 +109,30 @@ function nextShabbatHavdala(date) {
     const CloseShabbat = new HDate(date).onOrAfter(6);
     const ShabbatZmanim = new Zmanim(gloc, CloseShabbat, true);// able elevation 
     const havdala = ShabbatZmanim.sunsetOffset(40, true);
-    console.log("Sunset:", ShabbatZmanim.shkiah().toLocaleTimeString('IL-en'));
+    // console.log("Sunset:", ShabbatZmanim.shkiah().toLocaleTimeString('IL-en'));
     return havdala
 }
+
+function isEventDay(date, flag) {
+    const events = HebrewCalendar.getHolidaysOnDate(new HDate(date), true);
+    if(!events){
+        return false;
+    }
+    const flagValue = flags[flag.toUpperCase()];
+
+    // console.log(flag.toUpperCase()); // Check the uppercase value of flag
+    // console.log(flagValue); // Check the value of flagValue
+
+    for (const event of events) {
+        if (event.getFlags() & flagValue) {
+            // console.log('found a matchhhhhhhhhh');
+            return true;
+        }
+    }
+    return false;
+}
+
+
 
 export {
     formatTime,
@@ -117,4 +140,5 @@ export {
     nextShabbatHavdala,
     nextFridayCandleLighting,
     isDaylightSavingTimeForIsrael,
+    isEventDay
 };
