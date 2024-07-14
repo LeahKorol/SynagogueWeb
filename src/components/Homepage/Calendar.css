@@ -1,9 +1,21 @@
-.calendar {
+.allTheCalendar {
     height: 100%;
-    width: 100%;
+    width: 90%;
+    text-align: center;
+    margin: auto; /* מרכז בצורה אופקית */
+    display: flex;
+    align-items: center; /* מרכז בצורה אנכית */
+    justify-content: center; /* מרכז בצורה אופקית */
+}
+
+.calendar {
+    border: 1.5px solid white;
+    border-radius: 5px;
     flex-wrap: wrap;
     justify-content: space-around;
     text-align: center;
+    direction: ltr;
+    color: #333;
 }
 
 .month {
@@ -30,7 +42,7 @@
 
 .day {
     width: calc(100% / 7);
-    height: 20vh; 
+    height: 21vh; 
     padding: 0.5vw;
     box-sizing: border-box;
     border: 1px solid #eee;
@@ -93,6 +105,7 @@
 
 
 .calendar-container {
+    direction: ltr;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -465,6 +478,8 @@ input:checked + .slider:before {
     unicode-bidi: plaintext;
 }
 .month-title {
+    color: #ffffff;
+    background: #212032;
     text-align: right;
     font-size: 1.8em;
     margin: 0;
@@ -482,6 +497,8 @@ input:checked + .slider:before {
 .add-range-event-button,
 .arrow-button,
 .today-button {
+    color: #212032;
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;

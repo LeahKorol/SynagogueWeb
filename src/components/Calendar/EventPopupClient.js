@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getHebrewDate } from '../utils/calendar';
+import { getHebrewDate } from '../../utils/calendar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faClock,faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { getCurrentGregJerusalemDate } from '../utils/JerusalemDate';
+import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
 
 const EventPopupClient = ({ day, events, onClose, onEventChange, isRangeEvent = false }) => {
     const [showAddEvent, setShowAddEvent] = useState(false);
@@ -23,7 +23,7 @@ const EventPopupClient = ({ day, events, onClose, onEventChange, isRangeEvent = 
     };
 
     useEffect(() => {
-        const now = getCurrentGregJerusalemDate();
+        const now = getCurrentJerusalemGregDate();
         const roundedHour = Math.ceil(now.getHours());
         const defaultStartTime = `${roundedHour.toString().padStart(2, '0')}:00`;
         const defaultEndTime = `${(roundedHour + 1).toString().padStart(2, '0')}:00`;
@@ -85,7 +85,7 @@ const EventPopupClient = ({ day, events, onClose, onEventChange, isRangeEvent = 
                                         ) : (
                                             event.startTime && event.endTime && (
                                                 <span className="event-time">
-                                                    <FontAwesomeIcon icon={faClock} /> {event.startTime} - {event.endTime}
+                                                    <FontAwesomeIcon icon={faClock} /> {event.endTime} - {event.startTime} 
                                                 </span>
                                             )
                                         )}
