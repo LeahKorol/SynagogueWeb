@@ -1,5 +1,5 @@
 import { currentJerusalemDate } from './dateFunctions';
-import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala } from './calculateTimes';
+import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala, isEventDay } from './calculateTimes';
 
 const today = currentJerusalemDate();
 
@@ -17,7 +17,7 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
   const referenceDay = new Date(today);
   referenceDay.setDate(today.getDate() + dayModifier);
 
-  if (base === 'Tzeit' || base === 'Arvit') {
+  if (base === 'Tzeit') {
     baseTime = getEarliestTzeit(referenceDay);
   } else if (base === 'Candle Lighting') {
     baseTime = nextFridayCandleLighting(referenceDay);
@@ -40,8 +40,10 @@ export const checkByTagOrDate = (item) => {
     if (item.tag === 'winter' && !isDaylightSavingTimeForIsrael(currentDate)) {
       return true;
     }
+    if (item.tag) {
+      return isEventDay(today, item.tag);
+    }
   }
-  return false;
 };
 
 /**
@@ -51,22 +53,55 @@ export const checkByTagOrDate = (item) => {
  * @returns {Object} - Object containing processed schedule items categorized by day.
  */
 export const processScheduleItems = (items) => {
+  // Initial filtering and processing of items
   const processedItems = items.filter(item => item.status === 'default' || checkByTagOrDate(item))
-    .map(item => ({
-      title: item.title,
-      hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
-      day: item.day
-    }))
-    .sort((a, b) => {
-      const minutesA = convertHourToMinutes(a.hour);
-      const minutesB = convertHourToMinutes(b.hour);
-      return minutesA - minutesB;
+    .map(item => {
+      return {
+        title: item.title,
+        hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
+        day: item.day,
+        deleted: item.deleted|| false, // Include the deleted field for further processing
+      };
     });
 
-  const scheduleByDay = {
-    weekday: processedItems.filter(item => item.day === 'weekday'),
-    Friday: processedItems.filter(item => item.day === 'Friday'),
-    Shabbat: processedItems.filter(item => item.day === 'Shabbat')
+  // Sort the items
+  const sortedItems = processedItems.sort((a, b) => {
+    const minutesA = convertHourToMinutes(a.hour);
+    const minutesB = convertHourToMinutes(b.hour);
+    return minutesA - minutesB;
+  });
+
+  // Group items by day
+  let scheduleByDay = {
+    weekday: sortedItems.filter(item => item.day === 'weekday'),
+    Friday: sortedItems.filter(item => item.day === 'Friday'),
+    Shabbat: sortedItems.filter(item => item.day === 'Shabbat')
+  };
+
+  // Remove items with the same title and day if one of them is marked as deleted
+  const removeDeletedPairs = (items) => {
+    const itemsToKeep = [];
+    const titlesWithDeleted = new Set();
+
+    items.forEach(item => {
+      if (item.deleted) {
+        titlesWithDeleted.add(item.title);
+      }
+    });
+
+    items.forEach(item => {
+      if (!titlesWithDeleted.has(item.title) || item.deleted) {
+        itemsToKeep.push(item);
+      }
+    });
+
+    return itemsToKeep.filter(item => !titlesWithDeleted.has(item.title));
+  };
+
+  scheduleByDay = {
+    weekday: removeDeletedPairs(scheduleByDay.weekday),
+    Friday: removeDeletedPairs(scheduleByDay.Friday),
+    Shabbat: removeDeletedPairs(scheduleByDay.Shabbat)
   };
 
   return scheduleByDay;
@@ -116,3 +151,6 @@ const convertHourToMinutes = (hour) => {
   const [hours, minutes] = hour.split(':').map(Number);
   return hours * 60 + (minutes || 0); // Handle cases where minutes might be undefined
 };
+
+
+
