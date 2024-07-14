@@ -52,7 +52,7 @@
 }
 .title{
     display: flex;
-    gap: 10px;
+    gap: 0px;
 }
 .add-range-event-button{
     color: #ffffff;
@@ -465,10 +465,15 @@ input:checked + .slider:before {
     unicode-bidi: plaintext;
 }
 .month-title {
+  
     text-align: right;
     font-size: 1.8em;
     margin: 0;
     order: -1;
+}
+.activitymonth{
+    background-color: #fff;
+    color: #212032;
 }
 .title{
     direction: rtl;
@@ -538,7 +543,9 @@ input:checked + .slider:before {
         font-size: 1.3em;
         margin: 0;
     }
-    
+    .activitymonth{
+        font-size: 0.8em;
+    }
     .day {
         width: calc(100% / 7);
         height: 15vh; 

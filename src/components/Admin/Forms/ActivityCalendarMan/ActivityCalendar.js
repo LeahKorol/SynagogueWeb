@@ -126,10 +126,10 @@ const Calendar = () => {
                         </button>
                     </div>
                     <div className='title'>
-                        <h2 className="month-title month-year">
+                        <h2 className="month-title month-year activitymonth">
                             {getYearTitle(currentMonth)}
                         </h2>
-                        <h2 className="month-title">
+                        <h2 className="month-title activitymonth">
                             {getMonthTitle(currentMonth)}
                         </h2>
                     </div>
