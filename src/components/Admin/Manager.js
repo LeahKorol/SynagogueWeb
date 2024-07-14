@@ -6,6 +6,7 @@ import EventGalleryForm from './Forms/EventGalleryForm';
 import ContactForm from './Forms/ContactForm';
 import AboutForm from './Forms/AboutForm';
 import ContributesForm from './Forms/ContributesForm';
+import ActivityCalendarForm from './Forms/ActivityCalendarForm';
 import { Link } from'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
@@ -27,13 +28,15 @@ function Manager() {
         <p>שים לב! לא לשכוח למחוק אירועים / פירסומים / איחולים וכו' שכבר לא רלוונטים כדי שלא יהיה עומס על האתר.</p>
       </div>
 
-
       <main className="manager-content">
         <CollapsibleSection title="עדכון איחולים">
           <CongratForm />
         </CollapsibleSection>
         <CollapsibleSection title="ניהול שיעורים">
           <LessonsForm />
+        </CollapsibleSection>
+        <CollapsibleSection title="ניהול יומן פעילות">
+          <ActivityCalendarForm />
         </CollapsibleSection>
         <CollapsibleSection title="גלריית אירועים">
           <EventGalleryForm />
