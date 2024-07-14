@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 // import './ContributesForm.css';
@@ -14,6 +14,8 @@ function ContributesForm() {
   const [editData, setEditData] = useState({ ...contributesData });
   const [originalData, setOriginalData] = useState({ ...contributesData });
   const [editMode, setEditMode] = useState(false);
+  const formRef = useRef(null);
+  const submitButtonRef = useRef(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +55,12 @@ function ContributesForm() {
     fetchContributesData();
 
     const handleClickOutside = (event) => {
-      if (editMode && !event.target.closest('.contributes-form')) {
+      if (
+        formRef.current && 
+        !formRef.current.contains(event.target) &&
+        submitButtonRef.current && 
+        !submitButtonRef.current.contains(event.target)
+      ) {
         setEditData(originalData);
         setEditMode(false);
       }
@@ -71,7 +78,7 @@ function ContributesForm() {
   };
 
   return (
-    <div className="contributes-form">
+    <div className="contributes-form" ref={formRef}>
       <h3>פרטים לתרומות</h3>
       <form onSubmit={handleSubmit}>
         <label>
@@ -129,7 +136,7 @@ function ContributesForm() {
           />
         </label>
         <br />
-        <button type="submit">{editMode ? 'עדכן' : 'הוסף'}</button>
+        <button type="submit" ref={submitButtonRef}>הוסף</button>
       </form>
     </div>
   );
