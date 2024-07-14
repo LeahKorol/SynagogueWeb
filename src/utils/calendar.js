@@ -11,6 +11,8 @@ export function getEventsCalendar() {
         isHebrewYear: true,
         location: Location.lookup('Jerusalem'),
         il: true,
+        useElevation: true,
+        havdalahMins: 40,
         shabbatMevarchim: true,
         omer: true,
         sedrot: true,
