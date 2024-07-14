@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
+// import './ContributesForm.css';
 
 function ContributesForm() {
   const [contributesData, setContributesData] = useState({
@@ -10,20 +11,23 @@ function ContributesForm() {
     accountHolderName: '',
     phoneNumber: ''
   });
-
+  const [editData, setEditData] = useState({ ...contributesData });
+  const [originalData, setOriginalData] = useState({ ...contributesData });
   const [editMode, setEditMode] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setContributesData({ ...contributesData, [name]: value });
+    setEditData({ ...editData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const docRef = doc(db, 'contributes', 'contributes-data');
-      await setDoc(docRef, contributesData);
-      setEditMode(true);
+      await setDoc(docRef, editData);
+      setContributesData(editData);
+      setOriginalData(editData);
+      setEditMode(false);
     } catch (error) {
       console.error('Error updating document: ', error);
     }
@@ -34,8 +38,11 @@ function ContributesForm() {
       const docRef = doc(db, 'contributes', 'contributes-data');
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setContributesData(docSnap.data());
-        setEditMode(true);
+        const data = docSnap.data();
+        setContributesData(data);
+        setEditData(data);
+        setOriginalData(data);
+        setEditMode(false);
       }
     } catch (error) {
       console.error('Error fetching document: ', error);
@@ -44,19 +51,37 @@ function ContributesForm() {
 
   useEffect(() => {
     fetchContributesData();
-  }, []);
+
+    const handleClickOutside = (event) => {
+      if (editMode && !event.target.closest('.contributes-form')) {
+        setEditData(originalData);
+        setEditMode(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [editMode, originalData]);
+
+  const handleEditFocus = () => {
+    setEditMode(true);
+  };
 
   return (
-    <div>
+    <div className="contributes-form">
       <h3>פרטים לתרומות</h3>
       <form onSubmit={handleSubmit}>
         <label>
-          מסםר חשבון בנק
+          מספר חשבון בנק
           <input
             type="text"
             name="accountNumber"
-            value={contributesData.accountNumber}
+            value={editData.accountNumber}
             onChange={handleInputChange}
+            onFocus={handleEditFocus}
           />
         </label>
         <br />
@@ -65,8 +90,9 @@ function ContributesForm() {
           <input
             type="text"
             name="bankNumber"
-            value={contributesData.bankNumber}
+            value={editData.bankNumber}
             onChange={handleInputChange}
+            onFocus={handleEditFocus}
           />
         </label>
         <br />
@@ -75,8 +101,9 @@ function ContributesForm() {
           <input
             type="text"
             name="branchNumber"
-            value={contributesData.branchNumber}
+            value={editData.branchNumber}
             onChange={handleInputChange}
+            onFocus={handleEditFocus}
           />
         </label>
         <br />
@@ -85,8 +112,9 @@ function ContributesForm() {
           <input
             type="text"
             name="accountHolderName"
-            value={contributesData.accountHolderName}
+            value={editData.accountHolderName}
             onChange={handleInputChange}
+            onFocus={handleEditFocus}
           />
         </label>
         <br />
@@ -95,8 +123,9 @@ function ContributesForm() {
           <input
             type="text"
             name="phoneNumber"
-            value={contributesData.phoneNumber}
+            value={editData.phoneNumber}
             onChange={handleInputChange}
+            onFocus={handleEditFocus}
           />
         </label>
         <br />
