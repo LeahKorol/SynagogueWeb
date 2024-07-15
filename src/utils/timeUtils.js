@@ -7,7 +7,7 @@ const today = currentJerusalemDate();
  * Calculates the hour based on delta and base, adjusting for day modification.
  * 
  * @param {number} delta - The delta (in minutes) to add to the base time.
- * @param {string} base - The base time identifier ('Tzeit', 'Arvit', 'Candle Lighting', 'Havdala').
+ * @param {string} base - The base time identifier ('week earliest tzeit', 'tzeit', 'candle lighting', 'sunset', 'havdala').
  * @param {number} dayModifier - Modifier to adjust the reference day (default is 0).
  *                               If -1, adjusts to the previous day; if 1, adjusts to the next day.
  * @returns {string} - The calculated and formatted time (HH:mm).
@@ -17,11 +17,11 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
   const referenceDay = new Date(today);
   referenceDay.setDate(today.getDate() + dayModifier);
 
-  if (base === 'Tzeit') {
+  if (base === 'week earliest tzeit') {
     baseTime = getEarliestTzeit(referenceDay);
-  } else if (base === 'Candle Lighting') {
+  } else if (base === 'candle lighting') {
     baseTime = nextFridayCandleLighting(referenceDay);
-  } else if (base === 'Havdala') {
+  } else if (base === 'havdala') {
     baseTime = nextShabbatHavdala(referenceDay);
   } else {
     return 'undefined';
