@@ -2,12 +2,12 @@ import './PrayerTimes.css';
 import React, { useEffect, useState } from 'react';
 import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
 import { processScheduleItems } from '../../utils/timeUtils';
+import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate.js';
 import {
   formatCurrentJerusalemHebrewDate,
   formatCurrentJerusalemDay,
   getEventsDescriptions,
   getParasha,
-  currentJerusalemDate
 } from '../../utils/dateFunctions';
 
 
@@ -36,7 +36,7 @@ const PrayerTimes = () => {
   }, []);
 
   // Format the current date and day
-  const currentDay = currentJerusalemDate().getDay();
+  const currentDay = getCurrentJerusalemGregDate().getDay();
   const isMotzaeiShabbat = currentDay === 6; // Saturday
   const formatDate = formatCurrentJerusalemHebrewDate(isMotzaeiShabbat);
   const formatDay = formatCurrentJerusalemDay(isMotzaeiShabbat);

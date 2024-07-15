@@ -1,13 +1,13 @@
-import { currentJerusalemDate } from './dateFunctions';
+import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala, isEventDay } from './calculateTimes';
 
-const today = currentJerusalemDate();
+const today = getCurrentJerusalemGregDate();
 
 /**
  * Calculates the hour based on delta and base, adjusting for day modification.
  * 
  * @param {number} delta - The delta (in minutes) to add to the base time.
- * @param {string} base - The base time identifier ('Tzeit', 'Arvit', 'Candle Lighting', 'Havdala').
+ * @param {string} base - The base time identifier ('week earliest tzeit', 'tzeit', 'candle lighting', 'sunset', 'havdala').
  * @param {number} dayModifier - Modifier to adjust the reference day (default is 0).
  *                               If -1, adjusts to the previous day; if 1, adjusts to the next day.
  * @returns {string} - The calculated and formatted time (HH:mm).
@@ -17,11 +17,11 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
   const referenceDay = new Date(today);
   referenceDay.setDate(today.getDate() + dayModifier);
 
-  if (base === 'Tzeit') {
+  if (base === 'week earliest tzeit') {
     baseTime = getEarliestTzeit(referenceDay);
-  } else if (base === 'Candle Lighting') {
+  } else if (base === 'candle lighting') {
     baseTime = nextFridayCandleLighting(referenceDay);
-  } else if (base === 'Havdala') {
+  } else if (base === 'havdala') {
     baseTime = nextShabbatHavdala(referenceDay);
   } else {
     return 'undefined';
@@ -31,9 +31,9 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
 };
 
 // Function to check if item belongs to today based on tag or date fields
-export const checkByTagOrDate = (item) => {
+export const checkByTag = (item) => {
   if (item.status === 'recurring') {
-    const currentDate = currentJerusalemDate();
+    const currentDate = getCurrentJerusalemGregDate();
     if (item.tag === 'summer' && isDaylightSavingTimeForIsrael(currentDate)) {
       return true;
     }
@@ -45,6 +45,37 @@ export const checkByTagOrDate = (item) => {
     }
   }
 };
+export const checkByDate = (item) => {
+  if (item.status === 'special') {
+
+    console.log(item.displayTo);
+    console.log(item.displayFrom)
+
+    // Convert the strings to Date objects
+    const fromDate = setTimeToMidnight(new Date(item.displayFrom));
+    const toDate = setTimeToMidnight(new Date(item.displayTo));
+    const todayCopy = setTimeToMidnight(today);
+
+    console.log(fromDate);
+    console.log(toDate);
+
+    // Check if today is between fromDate and toDate (inclusive)
+    if (todayCopy >= fromDate && todayCopy <= toDate) {
+      console.log("Today is between the specified dates.");
+      return true;
+    } else {
+      console.log("Today is not between the specified dates.");
+      return false;
+    }
+  }
+}
+
+// Helper function to set the time to midnight
+function setTimeToMidnight(date) {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
+}
 
 /**
  * Processes and sorts schedule items based on status and day, considering Motzaei Shabbat adjustments.
@@ -54,13 +85,13 @@ export const checkByTagOrDate = (item) => {
  */
 export const processScheduleItems = (items) => {
   // Initial filtering and processing of items
-  const processedItems = items.filter(item => item.status === 'default' || checkByTagOrDate(item))
+  const processedItems = items.filter(item => item.status === 'default' || checkByTag(item) || checkByDate(item))
     .map(item => {
       return {
         title: item.title,
         hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
         day: item.day,
-        deleted: item.deleted|| false, // Include the deleted field for further processing
+        deleted: item.deleted || false, // Include the deleted field for further processing
       };
     });
 

@@ -1,11 +1,11 @@
-import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate, HebrewDateEvent } from '@hebcal/core';
-import { currentJerusalemDate } from './dateFunctions.js';
+import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
+import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 
 const latitude = 31.821240;
 const longitude = 35.253677;
 const elevation = 700;
 const tzid = 'Asia/Jerusalem';
-const today = currentJerusalemDate();
+const today = getCurrentJerusalemGregDate();
 const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
 const zmanim = new Zmanim(gloc, today, true); //use elevation
 
@@ -115,7 +115,7 @@ function nextShabbatHavdala(date) {
 
 function isEventDay(date, flag) {
     const events = HebrewCalendar.getHolidaysOnDate(new HDate(date), true);
-    if(!events){
+    if (!events) {
         return false;
     }
     const flagValue = flags[flag.toUpperCase()];

@@ -1,4 +1,5 @@
 import { HebrewCalendar, HDate, Location, Locale } from '@hebcal/core';
+import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 
 const today = currentJerusalemHebrewDate();
 //const today = new HDate(new Date(2024,9,12));//yom kipur 2024
@@ -58,15 +59,9 @@ export function getHallel() {
 }
 
 export function currentJerusalemHebrewDate() {
-  const jerusalemDate = currentJerusalemDate();
+  const jerusalemDate = getCurrentJerusalemGregDate();
   const today = new HDate(jerusalemDate);
   return today;
 }
-export function currentJerusalemDate() { //includes hours, minutes and seconds as well
-  const now = new Date(); // Current system time
-  const jerusalemDate = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jerusalem' }));
-  // const jerusalemDate = new Date(2024, 1, 1); //winter time
-  // const jerusalemDate = new Date(2024,6,23);//יז בתמוז
-  return jerusalemDate;
-}
+
 

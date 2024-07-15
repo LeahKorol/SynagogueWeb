@@ -1,4 +1,7 @@
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
 import './HallDetails.css';
 
 // import images
@@ -7,6 +10,22 @@ import kitchenImage from '../../images/kitchen-icon.png';
 import eventsImage from '../../images/events-icon.png';
 
 function HallDetails() {
+  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
+
+  const fetchHallDetails = async () => {
+    const querySnapshot = await getDocs(collection(db, "hallDetails"));
+    if (!querySnapshot.empty) {
+      const data = querySnapshot.docs[0].data();
+      setPhone(data.phone);
+      setName(data.name);
+    }
+  };
+
+  useEffect(() => {
+    fetchHallDetails();
+  }, []);
+
   return (
     <main>
         <div className="details-hall">
@@ -28,8 +47,8 @@ function HallDetails() {
             </div>
             </div>
 
-            <a className="more-details" href="tel:0506277146">
-                לפרטים נוספים שלומי לוי: 0506277146
+            <a className="more-details" href={`tel:${phone}`}>
+                לפרטים נוספים {name}: {phone}
             </a>
       </div>
     </main>
