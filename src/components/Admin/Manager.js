@@ -8,6 +8,7 @@ import AboutForm from './Forms/AboutForm';
 import ContributesForm from './Forms/ContributesForm';
 import ActivityCalendarForm from './Forms/ActivityCalendarForm';
 import HallDetailsForm from './Forms/HallDetailsForm';
+import PrayerTimesForm from './Forms/PrayerTimesForm';
 import { Link } from'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
@@ -53,6 +54,9 @@ function Manager() {
         </CollapsibleSection>
         <CollapsibleSection title="ניהול פרטים נוספים">
           <HallDetailsForm />
+        </CollapsibleSection>
+        <CollapsibleSection title="ניהול זמני תפילות"> 
+          <PrayerTimesForm />
         </CollapsibleSection>
       </main>
     </div>
