@@ -31,7 +31,7 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
 };
 
 // Function to check if item belongs to today based on tag or date fields
-export const checkByTagOrDate = (item) => {
+export const checkByTag = (item) => {
   if (item.status === 'recurring') {
     const currentDate = getCurrentJerusalemGregDate();
     if (item.tag === 'summer' && isDaylightSavingTimeForIsrael(currentDate)) {
@@ -45,6 +45,37 @@ export const checkByTagOrDate = (item) => {
     }
   }
 };
+export const checkByDate = (item) => {
+  if (item.status === 'special') {
+
+    console.log(item.displayTo);
+    console.log(item.displayFrom)
+
+    // Convert the strings to Date objects
+    const fromDate = setTimeToMidnight(new Date(item.displayFrom));
+    const toDate = setTimeToMidnight(new Date(item.displayTo));
+    const todayCopy = setTimeToMidnight(today);
+
+    console.log(fromDate);
+    console.log(toDate);
+
+    // Check if today is between fromDate and toDate (inclusive)
+    if (todayCopy >= fromDate && todayCopy <= toDate) {
+      console.log("Today is between the specified dates.");
+      return true;
+    } else {
+      console.log("Today is not between the specified dates.");
+      return false;
+    }
+  }
+}
+
+// Helper function to set the time to midnight
+function setTimeToMidnight(date) {
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
+}
 
 /**
  * Processes and sorts schedule items based on status and day, considering Motzaei Shabbat adjustments.
@@ -54,7 +85,7 @@ export const checkByTagOrDate = (item) => {
  */
 export const processScheduleItems = (items) => {
   // Initial filtering and processing of items
-  const processedItems = items.filter(item => item.status === 'default' || checkByTagOrDate(item))
+  const processedItems = items.filter(item => item.status === 'default' || checkByTag(item) || checkByDate(item))
     .map(item => {
       return {
         title: item.title,
