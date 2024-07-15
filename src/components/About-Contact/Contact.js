@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
-import './Contact.css'
+import './Contact.css';
 
 function Contact() {
   const [contactDetails, setContactDetails] = useState({});
@@ -23,7 +23,7 @@ function Contact() {
   }, []);
 
   return (
-    <div id="contact-div" className="contact-div">
+    <div id="contact" className="contact-div">
       <h1 className="heading-contact">צור קשר</h1>
       <div className="contact-details">
         <div className="box">
@@ -51,15 +51,3 @@ function Contact() {
 }
 
 export default Contact;
-
-
-
-
-
-
-
-
-
-
-
-
