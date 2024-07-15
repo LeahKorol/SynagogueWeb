@@ -1,97 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { addDoc, collection, getDoc, doc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../../firebase';
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faFileAlt, faFileImage } from '@fortawesome/free-solid-svg-icons';
+import './AboutForm.css';
 
 function AboutForm() {
-  const [aboutData, setAboutData] = useState({});
-  const [editMode, setEditMode] = useState(false);
-  const [files, setFiles] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAboutData({ ...aboutData, [name]: value });
-  };
+  const [files, setFiles] = useState({
+    friendsList: null,
+    rules: null,
+  });
 
   const handleFileChange = (e, fileType) => {
     setFiles({ ...files, [fileType]: e.target.files[0] });
   };
 
-  const handleSubmit = async (e) => {
+  const handleFileRemove = (fileType) => {
+    setFiles({ ...files, [fileType]: null });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      let updatedData = { ...aboutData };
-
-      for (const fileType in files) {
-        const file = files[fileType];
-        if (file) {
-          const storageRef = ref(storage, `about/${file.name}`);
-          await uploadBytes(storageRef, file);
-          const downloadURL = await getDownloadURL(storageRef);
-          updatedData[fileType] = downloadURL;
-        }
-      }
-
-      if (editMode) {
-        const docRef = doc(db, 'about', 'about-data');
-        await updateDoc(docRef, updatedData);
-      } else {
-        await addDoc(collection(db, 'about'), { ...updatedData, id: 'about-data' });
-      }
-      setAboutData({});
-      setFiles({});
-    } catch (error) {
-      console.error('Error adding/updating document: ', error);
-    }
+    // Handle form submission, for example, logging the file data to the console.
+    console.log('Files:', files);
+    // Reset form
+    setFiles({
+      friendsList: null,
+      rules: null,
+    });
   };
 
-  const fetchAboutData = async () => {
-    try {
-      const docRef = doc(db, 'about', 'about-data');
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setAboutData(docSnap.data());
-        setEditMode(true);
-      }
-    } catch (error) {
-      console.error('Error fetching document: ', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAboutData();
-  }, []);
+  const renderFilePreview = (file, fileType) => (
+    <div className="image-item" key={fileType}>
+      <div className="image-preview">
+        {file.type.startsWith('image/') ? (
+          <img src={URL.createObjectURL(file)} alt={file.name} />
+        ) : (
+          <div className="file-icon">
+            <FontAwesomeIcon icon={faFileAlt} size="4x" />
+            <p>{file.name}</p>
+          </div>
+        )}
+        <div className="image-overlay">
+          <button className="delete-button" onClick={() => handleFileRemove(fileType)}>
+            <FontAwesomeIcon icon={faTrash} /> מחק
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div>
-      <h3>אודות הקהילה</h3>
+    <div className="event-gallery-form">
+      <h3 className="form-title">אודות הקהילה</h3>
       <form onSubmit={handleSubmit}>
-        <label>
-          אודות - טקסט
-          <textarea
-            name="about"
-            value={aboutData.about || ''}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          טופס חברי הקהילה
+        <div className="image-grid">
+          {files.friendsList && renderFilePreview(files.friendsList, 'friendsList')}
+          {files.rules && renderFilePreview(files.rules, 'rules')}
+        </div>
+        <label className="file-label">
+          <FontAwesomeIcon icon={faFileImage} /> טופס חברי הקהילה
           <input
             type="file"
+            className="file-input"
             onChange={(e) => handleFileChange(e, 'friendsList')}
+            disabled={!!files.friendsList}
           />
         </label>
         <br />
-        <label>
-          טופס תקנון הקהילה
+        <label className="file-label">
+          <FontAwesomeIcon icon={faFileAlt} /> טופס תקנון הקהילה
           <input
             type="file"
+            className="file-input"
             onChange={(e) => handleFileChange(e, 'rules')}
+            disabled={!!files.rules}
           />
         </label>
         <br />
-        <button type="submit">{editMode ? 'עדכן' : 'הוסף'}</button>
+        <button type="submit" className="btn-save">שלח</button>
       </form>
     </div>
   );

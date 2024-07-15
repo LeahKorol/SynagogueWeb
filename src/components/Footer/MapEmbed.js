@@ -1,5 +1,5 @@
 import React from 'react';
-import './MapEmbed.css'
+import './MapEmbed.css';
 
 const MapEmbed = () => {
   return (
@@ -27,8 +27,14 @@ const MapEmbed = () => {
           </a>
         </div>
       </div>
+      
       <div className="footer">
-        <p> © כל הזכויות שמורות לבית הכנסת "פאתי מזרח" </p>
+        <p>© כל הזכויות שמורות לבית הכנסת "פאתי מזרח"</p>
+        <p>
+          Jewish holidays and candle-lighting times are provided by 
+          <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer"> Hebcal.com </a> 
+           with a CC BY 4.0 International License.
+        </p>
       </div>
     </div>
   );

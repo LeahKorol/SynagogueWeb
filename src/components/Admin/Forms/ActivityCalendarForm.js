@@ -1,11 +1,12 @@
-import React from 'react';
-
-function ActivityCalendarForm() {
-  return (
-    <div>
-      {/* Avigail content */}
-    </div>
-  );
+import React, { useEffect, useState } from 'react';
+import ActivityCalendar from '../Forms/ActivityCalendarMan/ActivityCalendar'; 
+import './ActivityCalendarForm.css';
+function CalendarActivity() {
+    return (
+        <div>
+            <ActivityCalendar /> 
+        </div>
+    );
 }
 
-export default ActivityCalendarForm;
+export default CalendarActivity;

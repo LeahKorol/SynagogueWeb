@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { addDoc, collection, updateDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../../firebase';
-// import './ContactForm.css';
 
 function ContactForm() {
   const [contactDetails, setContactDetails] = useState({ address: '', email: '', phone: '' });
@@ -40,26 +39,25 @@ function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setContactDetails((prevDetails) => ({
+    setEditContact((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
   };
 
-  const handleEditFocus = (contact) => {
-    setOriginalDetails(contact);
-    setEditContact({ id: contact.id, address: contact.address, email: contact.email, phone: contact.phone });
+  const handleEditFocus = () => {
+    setEditContact({ ...contactDetails, id: contactDetails.id || '' });
+    setOriginalDetails(contactDetails);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!contactDetails.address || !contactDetails.email || !contactDetails.phone) {
+  const handleUpdate = async () => {
+    if (!editContact.address || !editContact.email || !editContact.phone) {
       alert('נא למלא את כל השדות');
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(contactDetails.email)) {
+    if (!emailRegex.test(editContact.email)) {
       alert('נא להזין כתובת אימייל תקינה');
       return;
     }
@@ -69,9 +67,9 @@ function ContactForm() {
       try {
         if (editContact.id) {
           const docRef = doc(db, "contact", editContact.id);
-          await updateDoc(docRef, contactDetails);
+          await updateDoc(docRef, editContact);
         } else {
-          await addDoc(collection(db, "contact"), contactDetails);
+          await addDoc(collection(db, "contact"), editContact);
         }
         fetchContactDetails();
         setEditContact({ id: '', address: '', email: '', phone: '' });
@@ -79,23 +77,22 @@ function ContactForm() {
         console.error("Error saving contact details: ", e);
       }
     } else {
-      setContactDetails(originalDetails);
-      setEditContact({ id: '', address: '', email: '', phone: '' });
+      setEditContact({ ...originalDetails, id: originalDetails.id || '' });
     }
   };
 
   return (
     <div>
       <h2>ניהול פרטי צור קשר</h2>
-      <form onSubmit={handleSubmit} ref={formRef}>
+      <div ref={formRef}>
         <label>
           כתובת:
           <input
             type="text"
             name="address"
-            value={contactDetails.address}
+            value={editContact.id ? editContact.address : contactDetails.address}
             onChange={handleChange}
-            onFocus={() => handleEditFocus(contactDetails)}
+            onFocus={handleEditFocus}
             required
           />
         </label>
@@ -104,9 +101,9 @@ function ContactForm() {
           <input
             type="email"
             name="email"
-            value={contactDetails.email}
+            value={editContact.id ? editContact.email : contactDetails.email}
             onChange={handleChange}
-            onFocus={() => handleEditFocus(contactDetails)}
+            onFocus={handleEditFocus}
             required
           />
         </label>
@@ -115,14 +112,14 @@ function ContactForm() {
           <input
             type="text"
             name="phone"
-            value={contactDetails.phone}
+            value={editContact.id ? editContact.phone : contactDetails.phone}
             onChange={handleChange}
-            onFocus={() => handleEditFocus(contactDetails)}
+            onFocus={handleEditFocus}
             required
           />
         </label>
-        <button type="submit">שמור</button>
-      </form>
+        <button onClick={handleUpdate}>עדכן</button>
+      </div>
     </div>
   );
 }

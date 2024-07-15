@@ -1,1 +1,657 @@
-/* Avigail design of the calendar */
+.calendar {
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.month {
+    flex: 1 0 30%;    
+    background-color: #f9f9f9;
+}
+
+.week-day {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+.week-days {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.day {
+    width: calc(100% / 7);
+    height: 20vh; 
+    padding: 0.5vw;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    position: relative;
+}
+
+.day .date {
+    font-size: 16px;
+    color: #333;
+    display: block;
+}
+
+.day .event {
+    background-color: #212032;
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box;
+    border: none; 
+}
+.title{
+    display: flex;
+    gap: 0px;
+}
+.add-range-event-button{
+    color: #ffffff;
+    background-color: #212032;
+    border-radius: 5px;
+    border: none;
+    height: 7vh ;
+    gap: 8px;
+
+}
+
+.day.empty {
+    background-color: #f0f0f0;
+    border: none;
+}
+
+.datehebrewandforeign {
+    display: flex;
+    justify-content: space-between;
+}
+
+.day.previous-month,
+.day.next-month,
+.previous-month .date,
+.previous-month .gregorian-date,
+.next-month .date,
+.next-month .gregorian-date {
+    color: gray;
+}
+.day.previous-month .event,
+.day.next-month .event {
+    opacity: 0.7;
+}
+.today {
+    border: 2px solid #212032;
+}
+
+
+
+.calendar-container {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.icon {
+    color: #212032;
+    font-size: 25px;
+}
+
+.arrow-button {
+    font-size: 1.5em;
+    background-color: #f0f0f0;
+    color: #212032;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10; 
+    position: static;
+   
+
+}
+
+
+.event-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+
+.event-popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    direction: rtl;
+    text-align: right;
+    
+}
+
+.event-popup h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.4em;
+    color: #212032;
+}
+
+.event-popup form {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-popup input,
+.event-popup select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.event-popup .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.event-popup button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.event-popup button[type="submit"] {
+    background-color: #212032;
+    color: white;
+}
+
+.event-popup button[type="button"] {
+    background-color: #212032;
+    color: white;
+}
+
+.event-popup button:hover {
+    opacity: 0.8;
+}
+
+.add-event-icon {
+    color: #212032;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.day:hover .add-event-icon {
+    opacity: 1;
+}
+.event-popup h4 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+.weekdays {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f0f0f0;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+.weekday {
+    width: 14.28%;
+    text-align: center;
+}
+
+.event-popup label {
+    margin-bottom: 10px;
+}
+
+.event-popup .button-group button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+.event-popup .event-select-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.event-popup .event-select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.event-popup .new-event-button {
+    margin-left: 10px;
+}
+
+.event-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    flex-direction: column;
+
+}
+
+.event-item button {
+    margin-left: 5px;
+}
+
+.more-events {
+    background-color: #6c757d;
+    color: white;
+    padding: 1% 2%;
+    border-radius: 3px;
+    font-size: 0.8em;
+    text-align: center;
+}
+.event {
+    background-color: #212032;
+    color: white;
+    padding: 1% 2%;
+    margin-bottom: 2px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.time-inputs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.event-clock {
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+.all-day-toggle {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 2.5px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #212032;
+    
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #212032;
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+.event-input, 
+.date-time-inputs input[type="date"],
+.date-time-inputs input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+
+.all-day-toggle .switch {
+    margin-right: 10px;
+}
+
+.all-day-label {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-event-button,
+.save-button,
+.cancel-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cancel-button{
+    float: left;
+}
+.event-item:last-child {
+    border-bottom: none;
+}
+
+.date-time-inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-direction: row-reverse;
+}
+
+.date-time-inputs input[type="date"] {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.date-time-inputs input[type="time"] {
+    width: 35%;
+}
+.input-container {
+    position: relative;
+}
+.input-container .icon {
+    position: absolute;
+    left: 10px;
+    top: 32%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+.truncate-right {
+    direction: rtl;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.event-description {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event-actions {
+    display: flex;
+    justify-content: space-between;
+}
+.description {
+    direction: rtl;
+    unicode-bidi: plaintext;
+}
+.month-title {
+  
+    text-align: right;
+    font-size: 1.8em;
+    margin: 0;
+    order: -1;
+}
+.activitymonth{
+    background-color: #fff;
+    color: #212032;
+}
+.title{
+    direction: rtl;
+    display: flex;
+}
+
+.controls {
+    display: flex;
+}
+
+.add-range-event-button,
+.arrow-button,
+.today-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+
+}
+
+
+.today-button .fa-calendar-day {
+    margin-right: 5px;
+    font-size: 24px;
+}
+
+.hebrew-date-picker input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1vh;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+}
+
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+
+    .today-button span {
+        display: none;
+    }
+    
+    .title {
+        display: block;
+    }
+    
+    .today-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    .month-title {
+        font-size: 1.3em;
+        margin: 0;
+    }
+    .activitymonth{
+        font-size: 0.8em;
+    }
+    .day {
+        width: calc(100% / 7);
+        height: 15vh; 
+        padding: 0.2vw;
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .more-events {
+        display: none;
+    }
+
+    .add-range-event-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .add-range-event-button span {
+        display: none;
+    }
+
+    .add-range-event-button .fa-plus {
+        margin: 0;
+    }
+    .today .gregorian-date {
+        background-color: #212032;
+        color: white;
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        position: absolute;
+        top: 3px;
+        right: 2px;
+       
+    }
+}
+
+
+/* התאמות למסכים קטנים */
+@media (max-width: 768px) {
+    
+    .today-button span {
+        display: none;
+    }
+    .title{
+       
+        display: block;
+    }
+    .today-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
+
+    .month-title {
+        font-size: 1.3em;
+        margin: 0;
+    }
+    
+    .day {
+        width: calc(100% / 7);
+        height: 15vh; 
+        padding: 0.2vw;
+        box-sizing: border-box;
+        border: 1px solid #eee;
+        position: relative;
+        overflow: hidden;
+    }
+    .event {
+        
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+        direction: rtl;
+        text-align: right;
+    }
+
+    .more-events {
+        display: none;
+    }
+   
+  
+
+    .add-range-event-button {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .add-range-event-button span {
+        display: none;
+    }
+
+    .add-range-event-button .fa-plus {
+        margin: 0;
+    }
+
+}
