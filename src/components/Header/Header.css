@@ -1,164 +1,134 @@
 header {
-    background-color: var(--primary-color);
-    padding: 2.5vh 2.5vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    position: fixed;
-    top:0;
-    width: 100vw;
-    z-index: 1000;
+  background-color: var(--primary-color);
+  padding: 1.5vh 2.5vw;
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 1000;
 }
 
-/* body {
-  padding-top: 5vh; 
-} */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .logo img {
-    height: 5vh;
+  height: 5vh;
 }
-  
-.hamburger-menu {
-    cursor: pointer;
-    display: none;
-    flex-direction: column;
-    gap: 2vh;
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-  
-.hamburger-menu .bar {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-}
-  
+
 .nav-links {
-    display: flex;
-    gap: 20px;
-    list-style: none;
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin-bottom: 1vh;
 }
-  
+
 .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5vw;
+  font-weight: bolder;
+  padding: 1vw;
 }
 
 .nav-links a.active {
-  color: white;
+  color: #7fb2d6;
   background-color: var(--primary-color);
 }
-  
+
 .nav-links a:hover {
-    color: #7fb2d6;
-    transition: 0.3s;
+  color: #7fb2d6;
+  transition: 0.3s;
 }
-  
+
+.date-info {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.date-info i {
+  margin-right: 5px;
+}
+
 .manager {
-    color: white;
-    text-decoration: none;
-    border: 2px solid white;
-    padding: 2vh 2vw;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  padding: 1.5vh 2vw;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
-  
+
 .manager:hover {
-    background-color: white;
-    color: var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
 }
 
+.hamburger-menu {
+  cursor: pointer;
+  display: none;
+  flex-direction: column;
+  gap: 2vh;
+}
 
-  @media (max-width: 768px) {
-    .nav-links {
-      display: none;
-      flex-direction: column;
-      background-color: var(--primary-color);
-      position: absolute;
-      top: 60px;
-      right: 0;
-      width: 100%;
-      text-align: center;
-    }
-  
-    .nav-links.open {
-      display: flex;
-    }
-  
-    .hamburger-menu {
-      display: flex;
-    }
-  }
-  
-  .hamburger-menu {
-    display: none;
-    cursor: pointer;
+.hamburger-menu .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+
+@media (max-width: 768px) {
+  .header-content {
     flex-direction: column;
-    justify-content: space-between;
-    height: 24px;
+    align-items: flex-start;
   }
-  
-  .hamburger-menu .bar {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 2px 0;
+
+  .center-content {
+    width: 100%;
   }
-  
+
   .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links.open {
     display: flex;
-    list-style: none;
-    padding: 0;
   }
-  
-  .nav-links li {
-    margin: 0 1vw; 
-  }
-  
+
   .nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 1.5vw;
-    font-weight: bolder;
-    padding: 1vw;
+    font-size: 18px;
   }
-  
+
+  .date-info {
+    margin-top: 1vh;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: white; 
+  }
+
+  .hamburger-menu {
+    display: flex;
+    position: absolute;
+    top: 1.5vh;
+    right: 2.5vw;
+  }
+
   .manager {
-    text-decoration: none;
-    color: white;
-    border: 1px solid white;
-    padding: 5px 10px;
-    border-radius: 5px;
+    margin-top: 1vh;
+    align-self: center;
   }
-  
-  @media (max-width: 768px) {
-    .App {
-      width: 100vw;
-      height: auto;
-      overflow-x: hidden;
-      background-color: var(--primary-color);
-    }
-  
-    .hamburger-menu {
-      display: flex;
-    }
-  
-    .nav-links {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      width: 100%;
-      flex-direction: column;
-      background-color: var(--primary-color);
-    }
-  
-    .nav-links.open {
-      display: flex;
-    }
-  
-    .nav-links li {
-      margin: 10px 0;
-    }
-  }
-  
+}

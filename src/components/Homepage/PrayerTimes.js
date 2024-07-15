@@ -42,7 +42,7 @@ const PrayerTimes = () => {
   const formatDay = formatCurrentJerusalemDay(isMotzaeiShabbat);
 
   // Get descriptions for events
-  const descriptions = getEventsDescriptions();
+  const descriptions = getEventsDescriptions().map(desc => desc.description);
 
   // Get the weekly Torah portion (Parasha)
 
