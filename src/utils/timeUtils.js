@@ -1,7 +1,7 @@
-import { currentJerusalemDate } from './dateFunctions';
+import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala, isEventDay } from './calculateTimes';
 
-const today = currentJerusalemDate();
+const today = getCurrentJerusalemGregDate();
 
 /**
  * Calculates the hour based on delta and base, adjusting for day modification.
@@ -33,7 +33,7 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
 // Function to check if item belongs to today based on tag or date fields
 export const checkByTagOrDate = (item) => {
   if (item.status === 'recurring') {
-    const currentDate = currentJerusalemDate();
+    const currentDate = getCurrentJerusalemGregDate();
     if (item.tag === 'summer' && isDaylightSavingTimeForIsrael(currentDate)) {
       return true;
     }
@@ -60,7 +60,7 @@ export const processScheduleItems = (items) => {
         title: item.title,
         hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
         day: item.day,
-        deleted: item.deleted|| false, // Include the deleted field for further processing
+        deleted: item.deleted || false, // Include the deleted field for further processing
       };
     });
 
