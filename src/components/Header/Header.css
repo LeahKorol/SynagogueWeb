@@ -49,11 +49,13 @@ header {
   transition: 0.3s;
 }
 
+
 .date-info {
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: white;
 }
 
 .date-info i {
@@ -64,7 +66,7 @@ header {
   color: white;
   text-decoration: none;
   border: 2px solid white;
-  padding: 2vh 2vw;
+  padding: 1.5vh 2vw;
   border-radius: 5px;
   transition: background-color 0.3s;
 }
@@ -116,6 +118,7 @@ header {
     margin-top: 1vh;
     flex-wrap: wrap;
     justify-content: center;
+    color: white; 
   }
 
   .hamburger-menu {

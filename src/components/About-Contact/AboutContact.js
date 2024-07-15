@@ -7,43 +7,40 @@ import About from './About';
 import Contact from './Contact';
 
 function AboutContact() {
+  const location = useLocation();
 
-    const location = useLocation();
-
-    useEffect(() => {
-      if (location.state && location.state.scrollTo) {
-        const element = document.getElementById(location.state.scrollTo);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
       }
-    }, [location]);
+    }
+  }, [location]);
 
+  return (
+    <div>
+      <main>
+        <HelmetProvider>
+          <Helmet>
+            <title>פאתי מזרח | אודות</title>
+          </Helmet>
 
-    return (
-        <div>
-            <main>
-                <HelmetProvider>
-                    <Helmet>
-                        <title>פאתי מזרח | אודות</title>
-                    </Helmet>
+          <Header />
 
-                    <Header />
+          <About />
 
-                    <About />
-                    
+          <div id="contact-section" className="contact">
+            <Contact />
+          </div>
 
-                    <div className='contact'>
-                        <Contact />
-                    </div>
-                    
-                    <div className="App">
-                        <MapEmbed />
-                    </div>
-                </HelmetProvider>
-            </main>
-        </div>
-    );
+          <div className="App">
+            <MapEmbed />
+          </div>
+        </HelmetProvider>
+      </main>
+    </div>
+  );
 }
 
 export default AboutContact;

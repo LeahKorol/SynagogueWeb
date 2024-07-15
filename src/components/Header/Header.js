@@ -72,7 +72,14 @@ function Header() {
     if (section) {
       return location.pathname === path && activeSection === section;
     }
-    return location.pathname === path;
+    if (location.pathname === path) {
+      // If we're on the homepage and a section is active, return false
+      if (path === '/' && activeSection) {
+        return false;
+      }
+      return true;
+    }
+    return false;
   };
 
   const handleCalendarClick = (e) => {
@@ -102,14 +109,54 @@ function Header() {
           <img src="logo.svg" alt="logo" />
         </div>
         <div className="center-content">
-          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-            <li><NavLink to="/" className={isActive('/') ? 'active' : ''}>בית</NavLink></li>
-            <li><a href="/#calendar" onClick={handleCalendarClick} className={isActive('/', 'calendar') ? 'active' : ''}>יומן פעילות</a></li>
-            <li><NavLink to="/event-hall" className={isActive('/event-hall') ? 'active' : ''}>אולם</NavLink></li>
-            <li><NavLink to="/about-contact" className={isActive('/about-contact') ? 'active' : ''}>אודות</NavLink></li>
-            <li><a href="/about-contact?section=contact" onClick={handleContactClick} className={isActive('/about-contact', 'contact') ? 'active' : ''}>צור קשר</a></li>
-            <li><NavLink to="/contributes" className={isActive('/contributes') ? 'active' : ''}>תרומות</NavLink></li>
-          </ul>
+        <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+          <li>
+            <NavLink to="/" className={({ isActive }) => 
+                isActive && !activeSection ? 'active' : ''
+              }
+            >
+              בית
+            </NavLink>
+          </li>
+          <li>
+            <a href="/#calendar" 
+              onClick={handleCalendarClick} 
+              className={isActive('/', 'calendar') ? 'active' : ''}
+            >
+              יומן פעילות
+            </a>
+          </li>
+          <li>
+            <NavLink to="/event-hall" className={({ isActive }) => 
+              isActive ? 'active' : ''}
+            >
+              אולם
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/about-contact" className={({ isActive }) => 
+                isActive && !activeSection ? 'active' : ''
+              }
+            >
+              אודות
+            </NavLink>
+          </li>
+          <li>
+            <a href="/about-contact?section=contact" onClick={handleContactClick} 
+              className={isActive('/about-contact', 'contact') ? 'active' : ''}
+            >
+              צור קשר
+            </a>
+          </li>
+          <li>
+            <NavLink to="/contributes" className={({ isActive }) => 
+              isActive ? 'active' : ''
+            }
+            >
+              תרומות
+            </NavLink>
+          </li>
+        </ul>
           <div className="date-info">
             <i className="fas fa-calendar"></i> {dateInfo.hebrewDate} - {' '}
             {dateInfo.gregorianDate} |{' '}
