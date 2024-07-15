@@ -33,8 +33,12 @@ export function getEventsDescriptions() {
   };
 
   const events = HebrewCalendar.calendar(options);
-  const descriptions = events.map(ev => ev.render('he-x-NoNikud'));
-
+  const descriptions = events.map(ev => {
+    return {
+      description: ev.render('he-x-NoNikud'),
+      emoji: ev.getEmoji()
+    };
+  });
   return descriptions;
 }
 
