@@ -9,7 +9,6 @@ import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate.js';
 import {
   formatCurrentJerusalemHebrewDate,
   formatCurrentJerusalemDay,
-  getEventsDescriptions,
   getParasha,
 } from '../../utils/dateFunctions';
 
@@ -46,11 +45,7 @@ const PrayerTimes = () => {
   const formatDate = formatCurrentJerusalemHebrewDate(isMotzaeiShabbat);
   const formatDay = formatCurrentJerusalemDay(isMotzaeiShabbat);
 
-  // Get descriptions for events
-  const descriptions = getEventsDescriptions().map(desc => desc.description);
-
   // Get the weekly Torah portion (Parasha)
-
   const parasha = getParasha();
   let parashaName = parasha.parashaName;
   if (!parasha.chag) {
@@ -71,12 +66,6 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
-
-          <div>
-            {descriptions.map((description, index) => (
-              <p key={index}>{description}</p>
-            ))}
-          </div>
         </div>
 
         <div className="schedule">
