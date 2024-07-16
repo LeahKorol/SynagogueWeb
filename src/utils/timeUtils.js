@@ -1,5 +1,5 @@
 import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
-import { getEarliestTzeit, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala, isEventDay } from './calculateTimes';
+import { getEarliestTzeit, getTzeit, getSunset, formatTime, nextFridayCandleLighting, isDaylightSavingTimeForIsrael, nextShabbatHavdala, isEventDay } from './calculateTimes';
 
 const today = getCurrentJerusalemGregDate();
 
@@ -19,6 +19,10 @@ export const calculateHour = (delta, base, dayModifier = 0) => {
 
   if (base === 'week earliest tzeit') {
     baseTime = getEarliestTzeit(referenceDay);
+  } else if (base === 'tzeit') {
+    baseTime = getTzeit(referenceDay);
+  } else if (base === 'sunset') {
+    baseTime = getSunset(referenceDay);
   } else if (base === 'candle lighting') {
     baseTime = nextFridayCandleLighting(referenceDay);
   } else if (base === 'havdala') {
