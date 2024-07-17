@@ -1,80 +1,91 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
-// import './ContributesForm.css';
 
 function ContributesForm() {
-  const [contributesData, setContributesData] = useState({
+  const [formData, setFormData] = useState({
     accountNumber: '',
     bankNumber: '',
     branchNumber: '',
     accountHolderName: '',
     phoneNumber: ''
   });
-  const [editData, setEditData] = useState({ ...contributesData });
-  const [originalData, setOriginalData] = useState({ ...contributesData });
-  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    id: '',
+    accountNumber: '',
+    bankNumber: '',
+    branchNumber: '',
+    accountHolderName: '',
+    phoneNumber: ''
+  });
+  const [originalData, setOriginalData] = useState({});
   const formRef = useRef(null);
-  const submitButtonRef = useRef(null);
 
-  const handleInputChange = (e) => {
+  useEffect(() => {
+    const fetchContributesData = async () => {
+      try {
+        const docRef = doc(db, 'contributes', 'contributes-data');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = { id: docSnap.id, ...docSnap.data() };
+          setFormData(data);
+          setOriginalData(data);
+        }
+      } catch (error) {
+        console.error('Error fetching document: ', error);
+      }
+    };
+
+    fetchContributesData();
+
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target) && editData.id) {
+        setFormData(originalData);
+        setEditData({ id: '', accountNumber: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [editData, originalData]);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
+    setEditData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleEditFocus = () => {
+    setEditData({ ...formData, id: formData.id || '' });
+    setOriginalData(formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const docRef = doc(db, 'contributes', 'contributes-data');
-      await setDoc(docRef, editData);
-      setContributesData(editData);
-      setOriginalData(editData);
-      setEditMode(false);
-    } catch (error) {
-      console.error('Error updating document: ', error);
+    if (!editData.accountNumber || !editData.bankNumber || !editData.branchNumber || !editData.accountHolderName || !editData.phoneNumber) {
+      alert('נא למלא את כל השדות');
+      return;
     }
-  };
 
-  const fetchContributesData = async () => {
-    try {
-      const docRef = doc(db, 'contributes', 'contributes-data');
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setContributesData(data);
-        setEditData(data);
-        setOriginalData(data);
-        setEditMode(false);
+    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לשמור את השינויים?");
+    if (isConfirmed) {
+      try {
+        const docRef = doc(db, 'contributes', editData.id);
+        await updateDoc(docRef, editData);
+        setFormData(editData);
+        setEditData({ id: '', accountNumber: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
+        alert('הנתונים עודכנו בהצלחה');
+      } catch (error) {
+        console.error('Error updating document: ', error);
+        alert('אירעה שגיאה בעדכון הנתונים');
       }
-    } catch (error) {
-      console.error('Error fetching document: ', error);
+    } else {
+      setEditData({ ...originalData, id: originalData.id || '' });
     }
-  };
-
-  useEffect(() => {
-    fetchContributesData();
-
-    const handleClickOutside = (event) => {
-      if (
-        formRef.current && 
-        !formRef.current.contains(event.target) &&
-        submitButtonRef.current && 
-        !submitButtonRef.current.contains(event.target)
-      ) {
-        setEditData(originalData);
-        setEditMode(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [editMode, originalData]);
-
-  const handleEditFocus = () => {
-    setEditMode(true);
   };
 
   return (
@@ -86,9 +97,10 @@ function ContributesForm() {
           <input
             type="text"
             name="accountNumber"
-            value={editData.accountNumber}
-            onChange={handleInputChange}
+            value={editData.id ? editData.accountNumber : formData.accountNumber}
+            onChange={handleChange}
             onFocus={handleEditFocus}
+            required
           />
         </label>
         <br />
@@ -97,9 +109,10 @@ function ContributesForm() {
           <input
             type="text"
             name="bankNumber"
-            value={editData.bankNumber}
-            onChange={handleInputChange}
+            value={editData.id ? editData.bankNumber : formData.bankNumber}
+            onChange={handleChange}
             onFocus={handleEditFocus}
+            required
           />
         </label>
         <br />
@@ -108,9 +121,10 @@ function ContributesForm() {
           <input
             type="text"
             name="branchNumber"
-            value={editData.branchNumber}
-            onChange={handleInputChange}
+            value={editData.id ? editData.branchNumber : formData.branchNumber}
+            onChange={handleChange}
             onFocus={handleEditFocus}
+            required
           />
         </label>
         <br />
@@ -119,9 +133,10 @@ function ContributesForm() {
           <input
             type="text"
             name="accountHolderName"
-            value={editData.accountHolderName}
-            onChange={handleInputChange}
+            value={editData.id ? editData.accountHolderName : formData.accountHolderName}
+            onChange={handleChange}
             onFocus={handleEditFocus}
+            required
           />
         </label>
         <br />
@@ -130,13 +145,14 @@ function ContributesForm() {
           <input
             type="text"
             name="phoneNumber"
-            value={editData.phoneNumber}
-            onChange={handleInputChange}
+            value={editData.id ? editData.phoneNumber : formData.phoneNumber}
+            onChange={handleChange}
             onFocus={handleEditFocus}
+            required
           />
         </label>
         <br />
-        <button type="submit" ref={submitButtonRef}>הוסף</button>
+        <button type="submit">עדכן</button>
       </form>
     </div>
   );

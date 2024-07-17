@@ -17,7 +17,6 @@ export function getEventsCalendar() {
         omer: true,
         sedrot: true,
         candlelighting: true,
-        holidays: true,
     };
 
     const events = HebrewCalendar.calendar(options);

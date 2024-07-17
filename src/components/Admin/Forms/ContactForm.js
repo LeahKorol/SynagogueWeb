@@ -84,7 +84,7 @@ function ContactForm() {
   return (
     <div>
       <h2>ניהול פרטי צור קשר</h2>
-      <div ref={formRef}>
+      <div ref={formRef} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <label>
           כתובת:
           <input
