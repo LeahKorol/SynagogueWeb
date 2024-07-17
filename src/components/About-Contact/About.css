@@ -17,7 +17,6 @@
 .about-div {
     display: flex;
     flex-direction: row;
-    gap: 3rem;
     width: 85vw;
     height: fit-content;
     align-items: center;
