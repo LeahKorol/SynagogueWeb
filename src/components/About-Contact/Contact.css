@@ -17,14 +17,14 @@
 
 .contact-details {
     margin-top: 7%;
-    align-items: center;
     justify-content: center;
     display: flex;
+    align-items: center;
     flex-direction: row;
     gap: 10rem;
 }
 
-.box {
+.box-contact {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -32,24 +32,28 @@
     align-items: center;
 }
 
-.box:hover {
+.box-contact:hover {
     transform: scale(1.1);
     transition: 0.5s;
     cursor: pointer;
 }
 
-.box i {
+.box-contact i {
     font-size: 34px;
     color: var(--primary-color);
 }
 
-.box p {
+.box-contact p {
     text-align: center;
+    color: #555;
 }
 
-.box .detail-phone {
-    font-size: 28px;
-}
+.box-contact .details {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 0;
+}  
 
 
 

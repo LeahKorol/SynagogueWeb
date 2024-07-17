@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -24,6 +25,10 @@ function AdminLogin() {
   };
 
   return (
+    <HelmetProvider>
+      <Helmet>
+          <title>פאתי מזרח | כניסת מנהל</title>
+      </Helmet>
     <div className="admin-login-wrapper">
       <Link to="/" className="home-button">חזרה לדף הבית</Link>
       <div className="admin-login-container">
@@ -46,6 +51,7 @@ function AdminLogin() {
         {error && <p>{error}</p>}
       </div>
     </div>
+    </HelmetProvider>
   );
 }
 

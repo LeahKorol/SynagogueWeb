@@ -3,8 +3,8 @@ import { addDoc, collection, updateDoc, doc, getDocs } from 'firebase/firestore'
 import { db } from '../../../firebase';
 
 function ContactForm() {
-  const [contactDetails, setContactDetails] = useState({ address: '', email: '', phone: '' });
-  const [editContact, setEditContact] = useState({ id: '', address: '', email: '', phone: '' });
+  const [contactDetails, setContactDetails] = useState({ address: '', email: '', name: '', phone: '' });
+  const [editContact, setEditContact] = useState({ id: '', address: '', email: '', name: '', phone: '' });
   const [originalDetails, setOriginalDetails] = useState({});
   const formRef = useRef(null);
 
@@ -27,7 +27,7 @@ function ContactForm() {
     const handleClickOutside = (event) => {
       if (formRef.current && !formRef.current.contains(event.target) && editContact.id) {
         setContactDetails(originalDetails);
-        setEditContact({ id: '', address: '', email: '', phone: '' });
+        setEditContact({ id: '', address: '', email: '', name: '', phone: '' });
       }
     };
 
@@ -51,7 +51,7 @@ function ContactForm() {
   };
 
   const handleUpdate = async () => {
-    if (!editContact.address || !editContact.email || !editContact.phone) {
+    if (!editContact.address || !editContact.email || !editContact.name || !editContact.phone) {
       alert('נא למלא את כל השדות');
       return;
     }
@@ -72,7 +72,7 @@ function ContactForm() {
           await addDoc(collection(db, "contact"), editContact);
         }
         fetchContactDetails();
-        setEditContact({ id: '', address: '', email: '', phone: '' });
+        setEditContact({ id: '', address: '', email: '', name: '', phone: '' });
       } catch (e) {
         console.error("Error saving contact details: ", e);
       }
@@ -102,6 +102,17 @@ function ContactForm() {
             type="email"
             name="email"
             value={editContact.id ? editContact.email : contactDetails.email}
+            onChange={handleChange}
+            onFocus={handleEditFocus}
+            required
+          />
+        </label>
+        <label>
+          שם:
+          <input
+            type="text"
+            name="name"
+            value={editContact.id ? editContact.name : contactDetails.name}
             onChange={handleChange}
             onFocus={handleEditFocus}
             required
