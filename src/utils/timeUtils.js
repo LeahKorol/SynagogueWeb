@@ -52,23 +52,15 @@ export const checkByTag = (item) => {
 export const checkByDate = (item) => {
   if (item.status === 'special') {
 
-    console.log(item.displayTo);
-    console.log(item.displayFrom)
-
     // Convert the strings to Date objects
     const fromDate = setTimeToMidnight(new Date(item.displayFrom));
     const toDate = setTimeToMidnight(new Date(item.displayTo));
     const todayCopy = setTimeToMidnight(today);
 
-    console.log(fromDate);
-    console.log(toDate);
-
     // Check if today is between fromDate and toDate (inclusive)
     if (todayCopy >= fromDate && todayCopy <= toDate) {
-      console.log("Today is between the specified dates.");
       return true;
     } else {
-      console.log("Today is not between the specified dates.");
       return false;
     }
   }
