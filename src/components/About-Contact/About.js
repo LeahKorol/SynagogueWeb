@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import aboutImage from '../../images/1.jfif';
 import './About.css';
 
 function AboutUs() {
@@ -26,7 +27,7 @@ function AboutUs() {
     <main className='about-section'>
       <h1 className="heading-about">מי אנחנו?</h1>
       <div className="about-div">
-        <img src={aboutData.image || ''} alt="" />
+        <img src={aboutImage} alt="" />
         <div className="side">
         <p>
             עמותת פאתי מזרח קמה על מנת לבנות קהילה שהיא מרכז רוחני דתי ציוני בפסגת זאב -
