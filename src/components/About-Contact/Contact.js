@@ -79,24 +79,25 @@ function Contact() {
     <div id="contact" className="contact-div">
       <h1 className="heading-contact">צור קשר</h1>
       <div className="contact-details">
-        <div className="box">
+        <div className="box-contact">
           <i className="fas fa-map-marker-alt"></i>
           <h3 className="header-box">כתובת</h3>
           <p className="detail">
             {contactDetails.address}
           </p>
         </div>
-        <div className="box">
+        <div className="box-contact">
           <i className="fas fa-envelope-open"></i>
           <h3 className="header-box">מייל</h3>
           <p className="detail">{contactDetails.email}</p>
         </div>
-        <div className="box">
+        <div className="box-contact">
           <i className="fas fa-phone"></i>
           <h3 className="header-box">טלפון</h3>
-          <p className="detail-phone">
-            {contactDetails.name ? `${contactDetails.name} - ` : ''}{contactDetails.phone}
-          </p>
+          <div className="details">
+            <p className="detail-name">{`${contactDetails.name}`}</p>
+            <p className="detail-phone">{contactDetails.phone}</p>
+          </div>
         </div>
       </div>
     </div>

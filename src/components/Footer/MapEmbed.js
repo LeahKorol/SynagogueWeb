@@ -31,10 +31,10 @@ const MapEmbed = () => {
       <div className="footer">
         <p>© כל הזכויות שמורות לבית הכנסת "פאתי מזרח"</p>
         <p>
-          Jewish holidays and candle-lighting times are provided by 
+          Powered by
           <a href="https://www.hebcal.com/" target="_blank" rel="noopener noreferrer"> Hebcal.com </a> 
-           with a CC BY 4.0 International License.
-        </p>
+          for Hebrew calendar functionalities.
+       </p>
       </div>
     </div>
   );

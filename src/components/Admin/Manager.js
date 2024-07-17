@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import CollapsibleSection from './Forms/CollapsibleSection';
 import CongratForm from './Forms/CongratForm';
 import LessonsForm from './Forms/LessonsForm';
@@ -16,6 +17,11 @@ import './Manager.css';
 
 function Manager() {
   return (
+    <HelmetProvider>
+      <Helmet>
+          <title>פאתי מזרח | עמוד מנהל</title>
+      </Helmet>
+
     <div className="manager-container">
       <Link to="/" className="home-button-manager">
         <span className="desktop-text">חזרה לדף הבית</span>
@@ -60,6 +66,7 @@ function Manager() {
         </CollapsibleSection>
       </main>
     </div>
+    </HelmetProvider>
   );
 }
 

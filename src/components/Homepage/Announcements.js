@@ -42,7 +42,7 @@ function Announcements() {
       }
     };
 
-    const interval = setInterval(showSlides, 2000);
+    const interval = setInterval(showSlides, 5000);
     return () => clearInterval(interval);
   }, [slideIndex]);
 

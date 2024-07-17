@@ -6,6 +6,12 @@
     color: white;
   }
   
+  .announcements p {
+    color: white;
+    padding: 5vh 3vw;
+    font-size: 4vh;
+  }
+  
   .slideshow-container {
     position: relative;
     margin: auto;
