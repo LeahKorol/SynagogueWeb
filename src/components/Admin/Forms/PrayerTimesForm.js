@@ -126,7 +126,7 @@ function PrayerTimesForm() {
             </label>
           ) : (
             <label>
-              הפרש זמן (שעות)
+              הפרש זמן (דקות)
               <input
                 type="number"
                 value={form.delta}
