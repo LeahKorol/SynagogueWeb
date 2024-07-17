@@ -49,6 +49,8 @@
     font-size: 14px;
     box-sizing: border-box;
     border: none; 
+    direction: rtl;
+    /* text-overflow: clip; */
 }
 .title{
     display: flex;
@@ -59,7 +61,7 @@
     background-color: #212032;
     border-radius: 5px;
     border: none;
-    height: 7vh ;
+    height: 39.5px ;
     gap: 8px;
 
 }
@@ -508,7 +510,9 @@ input:checked + .slider:before {
     margin-left: 10px;
 
 }
-
+.today-button{
+    background-color: #f0f0f0;
+}
 
 .today-button .fa-calendar-day {
     margin-right: 5px;
