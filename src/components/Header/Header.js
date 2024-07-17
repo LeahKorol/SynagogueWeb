@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { format } from 'date-fns';
-import { he } from 'date-fns/locale';
-import { HebrewCalendar, HDate, Location } from '@hebcal/core';
+import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
+import { formatCurrentJerusalemHebrewDate, getParasha, getEventsDescriptions } from '../../utils/dateFunctions';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,10 +59,11 @@ function Header() {
     }
 
     setDateInfo({
-      hebrewDate: hebrewDate.renderGematriya(),
-      gregorianDate: format(now, 'dd.MM.yyyy', { locale: he }),
-      parasha: parashaEvent ? parashaEvent.render('he') : '',
-      specialDay: specialDayEvent ? specialDayEvent.render('he') : ''
+      hebrewDate: hebrewDate,
+      gregorianDate: formatDate,
+      parasha: parashaName,
+      specialDay: specialDayEvent ? specialDayEvent.description : '',
+      specialDayEmoji: specialDayEvent ? specialDayEvent.emoji :''
     });
   };
 
