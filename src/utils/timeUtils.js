@@ -109,21 +109,26 @@ export const processScheduleItems = (items) => {
   const removeCancelledPairs = (items) => {
     const itemsToKeep = [];
     const titlesWithCancelled = new Set();
+    
+  // Identify titles marked as cancelled
+  items.forEach(item => {
+    if (item.title.endsWith(' מבוטלת')) {
+      const originalTitle = item.title.replace(' מבוטלת', '').trim();
+      titlesWithCancelled.add(originalTitle);
+    }
+  });
 
-    items.forEach(item => {
-      if (item.cancelled) {
-        titlesWithCancelled.add(item.title);
-      }
-    });
+  // Filter items, keeping only those that are not cancelled
+  items.forEach(item => {
+    const originalTitle = item.title.replace(' מבוטלת', '').trim();
+    if (!titlesWithCancelled.has(originalTitle) || item.title.endsWith(' מבוטלת')) {
+      itemsToKeep.push(item);
+    }
+  });
 
-    items.forEach(item => {
-      if (!titlesWithCancelled.has(item.title) || item.cancelled) {
-        itemsToKeep.push(item);
-      }
-    });
-
-    return itemsToKeep.filter(item => !titlesWithCancelled.has(item.title));
-  };
+  // Ensure no item with the original title exists
+  return itemsToKeep.filter(item => !titlesWithCancelled.has(item.title.replace(' מבוטלת', '').trim()));
+};
 
   scheduleByDay = {
     weekday: removeCancelledPairs(scheduleByDay.weekday),
