@@ -111,18 +111,20 @@ export const processScheduleItems = (items) => {
     const titlesWithCancelled = new Set();
 
     items.forEach(item => {
-      if (item.cancelled) {
-        titlesWithCancelled.add(item.title);
+      if (item.title.endsWith(' מבוטלת')) {
+        const originalTitle = item.title.replace(' מבוטלת', '');
+        titlesWithCancelled.add(originalTitle);
       }
     });
-
+  
     items.forEach(item => {
-      if (!titlesWithCancelled.has(item.title) || item.cancelled) {
+      const originalTitle = item.title.replace(' מבוטלת', '');
+      if (!titlesWithCancelled.has(originalTitle) || item.title.endsWith(' מבוטלת')) {
         itemsToKeep.push(item);
       }
     });
-
-    return itemsToKeep.filter(item => !titlesWithCancelled.has(item.title));
+  
+    return itemsToKeep.filter(item => !titlesWithCancelled.has(item.title.replace(' מבוטלת', '')));
   };
 
   scheduleByDay = {
