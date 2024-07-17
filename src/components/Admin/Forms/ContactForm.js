@@ -62,6 +62,13 @@ function ContactForm() {
       return;
     }
 
+    const phoneRegex = /^\d+$/;
+    if (!phoneRegex.test(editContact.phone)) {
+      alert('נא להזין מספרי טלפון בלבד');
+      return;
+    }
+    
+
     const isConfirmed = window.confirm("האם אתה בטוח שברצונך לשמור את השינויים?");
     if (isConfirmed) {
       try {
@@ -121,7 +128,8 @@ function ContactForm() {
         <label>
           טלפון:
           <input
-            type="text"
+            maxLength="10"
+            type="tel"
             name="phone"
             value={editContact.id ? editContact.phone : contactDetails.phone}
             onChange={handleChange}
