@@ -41,7 +41,7 @@ function Contact() {
         <div className="box-contact">
           <i className="fas fa-phone"></i>
           <h3 className="header-box">טלפון</h3>
-          <div className="details">
+          <div className="details-contact-phone">
             <p className="detail-name">{`${contactDetails.name}`}</p>
             <p className="detail-phone">{contactDetails.phone}</p>
           </div>

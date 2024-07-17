@@ -48,7 +48,7 @@
     color: #555;
 }
 
-.box-contact .details {
+.box-contact .details-contact-phone {
     display: flex;
     flex-direction: column; 
     justify-content: flex-start; 
