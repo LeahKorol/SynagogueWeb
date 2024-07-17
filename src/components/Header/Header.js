@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
-// import { format } from 'date-fns';
-// import { he } from 'date-fns/locale';
+import { format } from 'date-fns';
+import { he } from 'date-fns/locale';
 import { HebrewCalendar, HDate, Location } from '@hebcal/core';
 
 function Header() {
@@ -12,7 +12,8 @@ function Header() {
     hebrewDate: '',
     gregorianDate: '',
     parasha: '',
-    specialDay: ''
+    specialDay: '',
+    specialDayEmoji:''
   });
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,22 +48,20 @@ function Header() {
   }, []);
 
   const updateDateInfo = () => {
-    const now = new Date();
-    const hebrewDate = new HDate(now);
-    const location = Location.lookup('Jerusalem');
-    const events = HebrewCalendar.calendar({
-      start: now,
-      end: now,
-      sedrot: true,
-      location: location,
-    });
+    const formatDate = Intl.DateTimeFormat('en-GB').format(getCurrentJerusalemGregDate());
+    const hebrewDate = formatCurrentJerusalemHebrewDate();
+    const eventsDesc = getEventsDescriptions();
 
-    const parashaEvent = events.find(ev => ev.getDesc().includes('Parashat'));
-    const specialDayEvent = events.find(ev => ev.getDesc() && !ev.getDesc().includes('Parashat'));
+    const specialDayEvent = eventsDesc.find(desc => !desc.description.includes('פרשת'));
+    const parasha = getParasha();
+    let parashaName = 'פרשת ' + parasha.parashaName;
+    if (parasha.chag) {
+      parashaName = 'שבת ' + parasha.parashaName;
+    }
 
     setDateInfo({
       hebrewDate: hebrewDate.renderGematriya(),
-      // gregorianDate: format(now, 'dd.MM.yyyy', { locale: he }),
+      gregorianDate: format(now, 'dd.MM.yyyy', { locale: he }),
       parasha: parashaEvent ? parashaEvent.render('he') : '',
       specialDay: specialDayEvent ? specialDayEvent.render('he') : ''
     });
@@ -72,14 +71,7 @@ function Header() {
     if (section) {
       return location.pathname === path && activeSection === section;
     }
-    if (location.pathname === path) {
-      // If we're on the homepage and a section is active, return false
-      if (path === '/' && activeSection) {
-        return false;
-      }
-      return true;
-    }
-    return false;
+    return location.pathname === path;
   };
 
   const handleCalendarClick = (e) => {
@@ -109,61 +101,21 @@ function Header() {
           <img src="logo.svg" alt="logo" />
         </div>
         <div className="center-content">
-        <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
-          <li>
-            <NavLink to="/" className={({ isActive }) => 
-                isActive && !activeSection ? 'active' : ''
-              }
-            >
-              בית
-            </NavLink>
-          </li>
-          <li>
-            <a href="/#calendar" 
-              onClick={handleCalendarClick} 
-              className={isActive('/', 'calendar') ? 'active' : ''}
-            >
-              יומן פעילות
-            </a>
-          </li>
-          <li>
-            <NavLink to="/event-hall" className={({ isActive }) => 
-              isActive ? 'active' : ''}
-            >
-              אולם
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/about-contact" className={({ isActive }) => 
-                isActive && !activeSection ? 'active' : ''
-              }
-            >
-              אודות
-            </NavLink>
-          </li>
-          <li>
-            <a href="/about-contact?section=contact" onClick={handleContactClick} 
-              className={isActive('/about-contact', 'contact') ? 'active' : ''}
-            >
-              צור קשר
-            </a>
-          </li>
-          <li>
-            <NavLink to="/contributes" className={({ isActive }) => 
-              isActive ? 'active' : ''
-            }
-            >
-              תרומות
-            </NavLink>
-          </li>
-        </ul>
+          <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
+            <li><NavLink to="/" className={isActive('/') ? 'active' : ''}>בית</NavLink></li>
+            <li><a href="/#calendar" onClick={handleCalendarClick} className={isActive('/', 'calendar') ? 'active' : ''}>יומן פעילות</a></li>
+            <li><NavLink to="/event-hall" className={isActive('/event-hall') ? 'active' : ''}>אולם</NavLink></li>
+            <li><NavLink to="/about-contact" className={isActive('/about-contact') ? 'active' : ''}>אודות</NavLink></li>
+            <li><a href="/about-contact?section=contact" onClick={handleContactClick} className={isActive('/about-contact', 'contact') ? 'active' : ''}>צור קשר</a></li>
+            <li><NavLink to="/contributes" className={isActive('/contributes') ? 'active' : ''}>תרומות</NavLink></li>
+          </ul>
           <div className="date-info">
             <i className="fas fa-calendar"></i> {dateInfo.hebrewDate} - {' '}
             {dateInfo.gregorianDate} |{' '}
-            <i className="fas fa-scroll"></i> {dateInfo.parasha} |{' '}
+            <i className="fas fa-scroll"></i> {dateInfo.parasha} 
             {dateInfo.specialDay && (
               <>
-                <i className="fas fa-star"></i> {dateInfo.specialDay}
+                  {' '}|<span>{dateInfo.specialDayEmoji}</span> {dateInfo.specialDay}
               </>
             )}
           </div>

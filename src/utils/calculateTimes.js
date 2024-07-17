@@ -1,13 +1,12 @@
 import { GeoLocation, Zmanim, HebrewCalendar, flags, HDate } from '@hebcal/core';
-import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 
+//params to initialise 'Zmanim' for each date. The values are according to the synagogue location
 const latitude = 31.821240;
 const longitude = 35.253677;
 const elevation = 700;
 const tzid = 'Asia/Jerusalem';
-const today = getCurrentJerusalemGregDate();
 const gloc = new GeoLocation(null, latitude, longitude, elevation, tzid);
-const zmanim = new Zmanim(gloc, today, true); //use elevation
+// const zmanim = new Zmanim(gloc, today, true); //use elevation
 
 
 /**
@@ -16,10 +15,20 @@ const zmanim = new Zmanim(gloc, today, true); //use elevation
  * @returns {boolean} True if the date is during daylight saving time in Israel, false otherwise.
  */
 function isDaylightSavingTimeForIsrael(date) {
-    const SDT = '+02:00';
     const DST = '+03:00';
     const offset = Zmanim.timeZoneOffset(tzid, date);
     return offset === DST;
+}
+
+/**
+ * Calculates tzeit (when there are 3 stars in the sky)
+ * @param {Date} date 
+ * @returns {Date} - date's tzeit
+ */
+function getTzeit(date) {
+    const degrees = 7.2;
+    const zmanim = new Zmanim(gloc, date, true); //use elevation
+    return zmanim.tzeit(degrees);
 }
 
 /**
@@ -30,22 +39,16 @@ function isDaylightSavingTimeForIsrael(date) {
 function getEarliestTzeit(date) {
     const currDay = date.getDay();
     let day = new HDate(date).subtract(currDay, "days"); // Start from Sunday
-    const degrees = 7;
 
-    let minTzeit = zmanim.tzeit(degrees);
-    let tZmanim, tzeit;
+    let tzeit, minTzeit = getTzeit(date);
+    let minTzeitInSeconds = getTimeAsNumber(minTzeit);
 
     function getTimeAsNumber(date) {
         return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds(); // Convert time to seconds
     }
 
-    let minTzeitInSeconds = getTimeAsNumber(minTzeit);
-
     for (let i = 0; i < 7; i++) {
-        tZmanim = new Zmanim(gloc, day, true);
-        tzeit = tZmanim.tzeit(degrees);
-        console.log(tzeit);
-
+        tzeit = getTzeit(day);
         let tzeitInSeconds = getTimeAsNumber(tzeit);
 
         if (tzeitInSeconds < minTzeitInSeconds) {
@@ -54,7 +57,6 @@ function getEarliestTzeit(date) {
         }
         day = day.add(1, "days"); // Move to the next day
     }
-
     return minTzeit;
 }
 
@@ -132,13 +134,20 @@ function isEventDay(date, flag) {
     return false;
 }
 
+function getSunset(date){
+const zmanim= new Zmanim(gloc, date, true); //use elevation
+return zmanim.sunset();
+}
+
 
 
 export {
     formatTime,
+    getTzeit,
     getEarliestTzeit,
     nextShabbatHavdala,
     nextFridayCandleLighting,
     isDaylightSavingTimeForIsrael,
-    isEventDay
+    isEventDay,
+    getSunset,
 };

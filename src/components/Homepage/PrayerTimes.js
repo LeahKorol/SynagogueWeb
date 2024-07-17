@@ -1,22 +1,35 @@
 import './PrayerTimes.css';
+
 import React, { useEffect, useState } from 'react';
-import { fetchScheduleItems, listenToScheduleItems } from '../../utils/timeService';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
+
 import { processScheduleItems } from '../../utils/timeUtils';
 import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate.js';
 import {
   formatCurrentJerusalemHebrewDate,
   formatCurrentJerusalemDay,
-  getEventsDescriptions,
   getParasha,
 } from '../../utils/dateFunctions';
 
 
+// Function to fetch schedule items from Firestore
+const fetchScheduleItems = async () => {
+  try {
+    const timesCollection = collection(db, 'times');
+    const timesSnapshot = await getDocs(timesCollection);
+    const itemsToShow = timesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return itemsToShow;
+  } catch (error) {
+    console.error('Error fetching schedule items: ', error);
+    return [];
+  }
+};
+
 const PrayerTimes = () => {
-  // State to hold schedule items
   const [schedule, setSchedule] = useState({ weekday: [], Friday: [], Shabbat: [] });
 
   useEffect(() => {
-    // Function to fetch and process items
     const fetchItems = async () => {
       const items = await fetchScheduleItems(); // Fetch schedule items from the server
       const processedSchedule = processScheduleItems(items); // Process the fetched items
@@ -24,15 +37,6 @@ const PrayerTimes = () => {
     };
 
     fetchItems(); // Initial fetch of items
-
-    // Set up real-time listener for schedule updates
-    const unsubscribe = listenToScheduleItems((updatedItems) => {
-      const processedSchedule = processScheduleItems(updatedItems); // Process the updated items
-      setSchedule(processedSchedule); // Update state with processed schedule
-    });
-
-    // Clean up the listener on component unmount
-    return () => unsubscribe();
   }, []);
 
   // Format the current date and day
@@ -41,11 +45,7 @@ const PrayerTimes = () => {
   const formatDate = formatCurrentJerusalemHebrewDate(isMotzaeiShabbat);
   const formatDay = formatCurrentJerusalemDay(isMotzaeiShabbat);
 
-  // Get descriptions for events
-  const descriptions = getEventsDescriptions();
-
   // Get the weekly Torah portion (Parasha)
-
   const parasha = getParasha();
   let parashaName = parasha.parashaName;
   if (!parasha.chag) {
@@ -66,12 +66,6 @@ const PrayerTimes = () => {
               </li>
             ))}
           </ul>
-
-          <div>
-            {descriptions.map((description, index) => (
-              <p key={index}>{description}</p>
-            ))}
-          </div>
         </div>
 
         <div className="schedule">

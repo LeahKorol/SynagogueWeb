@@ -20,23 +20,7 @@ function HomePage() {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }
-    }, [location]);
-
-    const weekdayTimes = {
-        shacharit: "06:15",
-        mincha_gedola: "13:15",
-        mincha: "19:33",
-        arvit_1: "20:08",
-        arvit_2: "21:50",
-    };
-
-    const shabbatTimes = {
-        mincha_erev_shabbat: "19:08",
-        arvit_shabbat: "19:38",
-        shacharit_shabbat: "08:30",
-        mincha_gedola_shבת: "12:30",
-        mincha_ketana_shבת: "19:10",
-    };
+    });
 
     return (
         <main>
@@ -47,7 +31,7 @@ function HomePage() {
     
             <AppHeader />
             <Hero />
-            <PrayerTimes weekdayTimes={weekdayTimes} shabbatTimes={shabbatTimes} />
+            <PrayerTimes />
             <LessonsActivities />
             <div id="calendar">
               <Calendar />

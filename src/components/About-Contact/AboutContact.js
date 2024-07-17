@@ -16,7 +16,7 @@ function AboutContact() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [location]);
+  });
 
   return (
     <div>
