@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { format } from 'date-fns';
-import { he } from 'date-fns/locale';
+// import { format } from 'date-fns';
+// import { he } from 'date-fns/locale';
 import { HebrewCalendar, HDate, Location } from '@hebcal/core';
 
 function Header() {
@@ -62,7 +62,7 @@ function Header() {
 
     setDateInfo({
       hebrewDate: hebrewDate.renderGematriya(),
-      gregorianDate: format(now, 'dd.MM.yyyy', { locale: he }),
+      // gregorianDate: format(now, 'dd.MM.yyyy', { locale: he }),
       parasha: parashaEvent ? parashaEvent.render('he') : '',
       specialDay: specialDayEvent ? specialDayEvent.render('he') : ''
     });
