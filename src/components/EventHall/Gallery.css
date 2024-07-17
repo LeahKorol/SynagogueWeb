@@ -103,6 +103,7 @@
   @media (max-width: 768px) {
     .heading {
         font-size: 5vh;
+        margin-top: 6vh;
     }
 
     .mySlides img {
