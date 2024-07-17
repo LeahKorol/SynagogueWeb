@@ -49,6 +49,8 @@
     font-size: 14px;
     box-sizing: border-box;
     border: none; 
+    direction: rtl;
+    /* text-overflow: clip; */
 }
 .title{
     display: flex;
@@ -59,7 +61,7 @@
     background-color: #212032;
     border-radius: 5px;
     border: none;
-    height: 7vh ;
+    height: 39.5px ;
     gap: 8px;
 
 }
@@ -172,6 +174,7 @@
     box-sizing: border-box;
 }
 .event-popup .button-group {
+    
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
@@ -313,7 +316,9 @@
     margin-right: 5px;
     font-size: 0.8em;
 }
+
 .all-day-toggle {
+    width: 100%;
     justify-content: space-between;
     display: flex;
     align-items: center;
@@ -380,6 +385,7 @@ input:checked + .slider:before {
 .event-input, 
 .date-time-inputs input[type="date"],
 .date-time-inputs input[type="time"] {
+    
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -414,6 +420,7 @@ input:checked + .slider:before {
 }
 
 .date-time-inputs {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -430,7 +437,12 @@ input:checked + .slider:before {
     width: 35%;
 }
 .input-container {
+    width: 100%;
     position: relative;
+}
+.form-buttons{
+    width: 100%;
+    justify-content: space-between;
 }
 .input-container .icon {
     position: absolute;
@@ -457,6 +469,7 @@ input:checked + .slider:before {
 }
 
 .event-actions {
+
     display: flex;
     justify-content: space-between;
 }
@@ -497,7 +510,9 @@ input:checked + .slider:before {
     margin-left: 10px;
 
 }
-
+.today-button{
+    background-color: #f0f0f0;
+}
 
 .today-button .fa-calendar-day {
     margin-right: 5px;

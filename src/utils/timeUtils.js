@@ -87,7 +87,7 @@ export const processScheduleItems = (items) => {
         title: item.title,
         hour: item.base === 'constant' ? item.hour : calculateHour(item.delta, item.base, dayModifier(item.day)),
         day: item.day,
-        deleted: item.deleted || false, // Include the deleted field for further processing
+        cancelled: item.cancelled || false, // Include the 'cancelled' field for further processing
       };
     });
 
@@ -105,30 +105,30 @@ export const processScheduleItems = (items) => {
     Shabbat: sortedItems.filter(item => item.day === 'Shabbat')
   };
 
-  // Remove items with the same title and day if one of them is marked as deleted
-  const removeDeletedPairs = (items) => {
+  // Remove items with the same title and day if one of them is marked as cancelled
+  const removeCancelledPairs = (items) => {
     const itemsToKeep = [];
-    const titlesWithDeleted = new Set();
+    const titlesWithCancelled = new Set();
 
     items.forEach(item => {
-      if (item.deleted) {
-        titlesWithDeleted.add(item.title);
+      if (item.cancelled) {
+        titlesWithCancelled.add(item.title);
       }
     });
 
     items.forEach(item => {
-      if (!titlesWithDeleted.has(item.title) || item.deleted) {
+      if (!titlesWithCancelled.has(item.title) || item.cancelled) {
         itemsToKeep.push(item);
       }
     });
 
-    return itemsToKeep.filter(item => !titlesWithDeleted.has(item.title));
+    return itemsToKeep.filter(item => !titlesWithCancelled.has(item.title));
   };
 
   scheduleByDay = {
-    weekday: removeDeletedPairs(scheduleByDay.weekday),
-    Friday: removeDeletedPairs(scheduleByDay.Friday),
-    Shabbat: removeDeletedPairs(scheduleByDay.Shabbat)
+    weekday: removeCancelledPairs(scheduleByDay.weekday),
+    Friday: removeCancelledPairs(scheduleByDay.Friday),
+    Shabbat: removeCancelledPairs(scheduleByDay.Shabbat)
   };
 
   return scheduleByDay;
