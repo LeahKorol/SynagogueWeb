@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
 import { formatCurrentJerusalemHebrewDate, getParasha, getEventsDescriptions } from '../../utils/dateFunctions';
-
+import logo from '../../images/logo.png';
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
@@ -98,7 +98,7 @@ function Header() {
     <header>
       <div className="header-content">
         <div className="logo">
-          <img src="logo.svg" alt="logo" />
+          <img src={logo} alt="logo" />
         </div>
         <div className="center-content">
           <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
