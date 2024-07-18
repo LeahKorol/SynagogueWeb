@@ -318,7 +318,6 @@ const formatDate = (dateString) => {
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 };
-
 export default PrayerTimesForm;*/
 
 
@@ -474,25 +473,55 @@ function PrayerTimesForm() {
     resetForm();
   };
 
-  const handleCancelClick = (prayer) => {
-    if (!cancelDates.from || !cancelDates.to) {
+
+
+  const handleCancelClickWrapper = (prayer) => {
+    const dates = cancelDates[prayer.id];
+    if (!dates?.from || !dates?.to) {
       alert('אנא הזן את כל התאריכים הנדרשים.');
     } else {
-      handleCancelForDates(prayer);
+      handleCancelForDates(prayer, dates);
     }
   };
 
-  const handleCancelForDates = async (prayer) => {
+  // const handleCancelClick = (prayer) => {
+  //   if (!cancelDates.from || !cancelDates.to) {
+  //     alert('אנא הזן את כל התאריכים הנדרשים.');
+  //   } else {
+  //     handleCancelForDates(prayer);
+  //   }
+  // };
+
+  const handleCancelForDates = async (prayer, dates) => {
     const updatedPrayer = {
       ...prayer,
       title: `${prayer.title} מבוטלת`,
       status: 'special',
-      displayFrom: cancelDates.from,
-      displayTo: cancelDates.to,
+      displayFrom: dates.from,
+      displayTo: dates.to,
       cancelled: true,
     };
     await addDoc(collection(db, "times"), updatedPrayer);
     fetchPrayerTimes();
+  };
+
+  const [showCancelFields, setShowCancelFields] = useState({});
+
+  const toggleCancelFields = (id) => {
+    setShowCancelFields((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
+  const handleDateChange = (id, field, value) => {
+    setCancelDates((prevState) => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        [field]: value,
+      },
+    }));
   };
 
   return (
@@ -623,25 +652,32 @@ function PrayerTimesForm() {
             <button onClick={() => handleDelete(prayer.id)}>מחק</button>
             {(prayer.status === 'recurring' || prayer.status === 'default') && (
               <>
-                <label>
-                  ביטול לתאריכים
-                  <input
-                    type="date"
-                    value={cancelDates.from}
-                    onChange={(e) => setCancelDates({ ...cancelDates, from: e.target.value })}
-                    required
-                  />
-                  עד
-                  <input
-                    type="date"
-                    value={cancelDates.to}
-                    onChange={(e) => setCancelDates({ ...cancelDates, to: e.target.value })}
-                    required
-                  />
-                </label>
-                <button onClick={() => handleCancelClick(prayer)}>
-                  בטל לתאריכים
+                <button onClick={() => toggleCancelFields(prayer.id)}>
+                  + ביטול לתאריכים
                 </button>
+                {showCancelFields[prayer.id] && (
+                  <>
+                    <label>
+                      מ
+                      <input
+                        type="date"
+                        value={cancelDates[prayer.id]?.from || ''}
+                        onChange={(e) => handleDateChange(prayer.id, 'from', e.target.value)}
+                        required
+                      />
+                      עד
+                      <input
+                        type="date"
+                        value={cancelDates[prayer.id]?.to || ''}
+                        onChange={(e) => handleDateChange(prayer.id, 'to', e.target.value)}
+                        required
+                      />
+                    </label>
+                    <button onClick={() => handleCancelClickWrapper(prayer)}>
+                      בטל לתאריכים
+                    </button>
+                  </>
+                )}
               </>
             )}
           </li>
