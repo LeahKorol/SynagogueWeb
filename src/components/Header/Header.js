@@ -4,6 +4,8 @@ import './Header.css';
 import { getCurrentJerusalemGregDate } from '../../utils/JerusalemDate';
 import { formatCurrentJerusalemHebrewDate, getParasha, getEventsDescriptions } from '../../utils/dateFunctions';
 import logo from '../../images/logo.png';
+import icon from '../../images/icon.png';
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
@@ -100,6 +102,11 @@ function Header() {
         <div className="logo">
           <img src={logo} alt="logo" />
         </div>
+
+        <div className="logo-mobile">
+          <img src={icon} alt="logo" />
+        </div>
+
         <div className="center-content">
           <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
             <li><NavLink to="/" className={isActive('/') ? 'active' : ''}>בית</NavLink></li>
@@ -119,13 +126,17 @@ function Header() {
               </>
             )}
           </div>
+
         </div>
+
         <NavLink className="manager" to="/admin-login">כניסת מנהל</NavLink>
-      </div>
-      <div className="hamburger-menu" onClick={toggleMenu}>
-        <div className="bar"></div>
-        <div className="bar"></div>
-        <div className="bar"></div>
+
+        <div className="hamburger-menu" onClick={toggleMenu}>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
+
       </div>
     </header>
   );
