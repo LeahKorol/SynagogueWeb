@@ -976,18 +976,45 @@ function PrayerTimesForm() {
         <button type="submit">שמור</button>
       </form>
 
-      <h3>זמני תפילות</h3>
+      <h2>תפילות שמורות במערכת</h2>
       <ul className="prayer-list">
         {prayerTimes.map((prayer) => (
           <li key={prayer.id} className="prayer-item">
             <div className="prayer-content">
-              <span>
-                {prayer.title} - {translateDay(prayer.day)} - {translateBase(prayer.base)} - 
-                {prayer.base === 'constant' ? prayer.hour : `${prayer.delta} דקות`} - 
-                {translateStatus(prayer.status)}
-                {prayer.status === 'recurring' && ` - ${translateTag(prayer.tag)}`}
-                {prayer.status === 'special' && ` - ${prayer.displayFrom} עד ${prayer.displayTo}`}
+            <span style={{ textAlign: 'right', display: 'block' }}>
+              <span style={{ textDecoration: prayer.title.includes('מבוטלת') ? 'line-through' : 'none' }}>
+                <strong>תפילה:</strong>
+                <span style={{ color: prayer.title.includes('מבוטלת') ? 'red' : 'inherit' }}>
+                {prayer.title.split(' ').map((word, index) => 
+                  word === 'מבוטלת' ? <span key={index} style={{ color: 'red' }}> {word}</span> : ` ${word}`
+                )}
               </span>
+              </span><br />
+              <span>
+                <strong>יום:</strong> {translateDay(prayer.day)}<br />
+                <strong>בסיס:</strong> {translateBase(prayer.base)}<br />
+                {prayer.base === 'constant' ? (
+                  <>
+                    <strong>שעה:</strong> {prayer.hour}<br />
+                  </>
+                ) : (
+                  <>
+                    <strong>הפרש:</strong> {`${prayer.delta} דקות`}<br />
+                  </>
+                )}
+                <strong>סטטוס:</strong> {translateStatus(prayer.status)}<br />
+                {prayer.status === 'recurring' && (
+                  <>
+                    <strong>תג:</strong> {translateTag(prayer.tag)}<br />
+                  </>
+                )}
+                {prayer.status === 'special' && (
+                  <>
+                    <strong>מתאריך:</strong> {prayer.displayFrom} <strong>עד תאריך:</strong> {prayer.displayTo}<br />
+                  </>
+                )}
+              </span>
+            </span>
               <div className="prayer-actions">
                 <button className="btn btn-update" onClick={() => handleEdit(prayer)}>
                   <i className="fas fa-edit"></i>
@@ -1000,7 +1027,7 @@ function PrayerTimesForm() {
             {(prayer.status === 'recurring' || prayer.status === 'default') && (
               <div className="cancel-section">
                 <button onClick={() => toggleCancelFields(prayer.id)}>
-                  + ביטול לתאריכים
+                  + ביטול לתאריכים מסוימים 
                 </button>
                 {showCancelFields[prayer.id] && (
                   <div className="cancel-fields">
