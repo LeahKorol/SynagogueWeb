@@ -199,6 +199,7 @@ function LessonsForm() {
               name="showEndTime"
               checked={lesson.showEndTime}
               onChange={updateForm}
+              required
             />
             הוסף שעת סיום
           </label>
@@ -212,6 +213,7 @@ function LessonsForm() {
                 onChange={updateForm}
                 className="form-input"
                 step="1"
+                required
               />
             </div>
           )}
@@ -240,6 +242,7 @@ function LessonsForm() {
                   setSelectedOption(e.target.value);
                   setLesson({ ...lesson, daysOfWeek: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] });
                 }}
+                required
               />
               כל יום
             </label>
@@ -253,6 +256,7 @@ function LessonsForm() {
                   setSelectedOption(e.target.value);
                   setLesson({ ...lesson, daysOfWeek: [] });
                 }}
+                required
               />
               ימים ספציפיים
             </label>
@@ -268,6 +272,7 @@ function LessonsForm() {
                     value={day}
                     checked={lesson.daysOfWeek.includes(day)}
                     onChange={updateForm}
+                    required
                   />
                   {getDayName(day)}
                 </label>
