@@ -19,7 +19,7 @@
 
 //     fetchLessons();
 //   }, []);
-  
+
 //   return (
 //     <section className="lessons-activities">
 //       <h1 className="heading">שיעורים קבועים</h1>
@@ -81,6 +81,8 @@ function LessonsActivities() {
     if (daysOfWeek.length === 1) return `יום ${getDayName(daysOfWeek[0])}`;
     return `ימים: ${daysOfWeek.map(day => getDayName(day, true)).join(', ')}`;
   };
+
+  const dafYomi = getDafYomi();
 
   return (
     <section className="lessons-activities">
