@@ -112,7 +112,7 @@ function CongratForm() {
             />
             <div className="congrat-actions">
               <button
-                className="btn btn-update"
+                className="btn-congrats btn-update"
                 onClick={(e) => handleEditSubmit(e, congrat.id)}
               >
                 <i className="fas fa-edit"></i>
