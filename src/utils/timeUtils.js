@@ -109,7 +109,7 @@ export const processScheduleItems = (items) => {
   const removeCancelledPairs = (items) => {
     const itemsToKeep = [];
     const titlesWithCancelled = new Set();
-    
+
   // Identify titles marked as cancelled
   items.forEach(item => {
     if (item.title.endsWith(' מבוטלת')) {

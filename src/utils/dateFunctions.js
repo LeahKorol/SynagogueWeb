@@ -1,4 +1,5 @@
-import { HebrewCalendar, HDate, Location, Locale } from '@hebcal/core';
+import { HebrewCalendar, HDate, Location, Locale ,DailyLearning} from '@hebcal/core';
+import '@hebcal/learning';
 import { getCurrentJerusalemGregDate } from './JerusalemDate.js';
 
 const today = currentJerusalemHebrewDate();
@@ -62,10 +63,18 @@ export function getHallel() {
   return hallel;
 }
 
+// Function to get today's Daf Yomi
+export function getDafYomi() {
+  const ev = DailyLearning.lookup('dafYomi', today);
+  return ev.render('he-x-NoNikud');
+}
+
 export function currentJerusalemHebrewDate() {
   const jerusalemDate = getCurrentJerusalemGregDate();
   const today = new HDate(jerusalemDate);
   return today;
 }
+
+
 
 

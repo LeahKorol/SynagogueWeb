@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { getDafYomi } from '../../utils/dateFunctions';
 import './LessonsActivities.css'
 
 function LessonsActivities() {
@@ -19,10 +20,13 @@ function LessonsActivities() {
 
     fetchLessons();
   }, []);
+
+  const dafYomi = getDafYomi();
   
   return (
     <section className="lessons-activities">
       <h1 className="heading">שיעורים קבועים</h1>
+      <h3>{dafYomi}</h3>
       <div className="lessons-container">
         {lessons.map((lesson, index) => (
           <div className="lesson" key={lesson.id}>
