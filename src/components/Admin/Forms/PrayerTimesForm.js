@@ -865,7 +865,14 @@ function PrayerTimesForm() {
       [id]: { ...prev[id], [field]: value },
     }));
   };
+  const [showCancelledDates, setShowCancelledDates] = useState({});
 
+  const PrayersAreCanceledForCertainDates = (prayerId) => {
+    setShowCancelledDates((prevState) => ({
+      ...prevState,
+      [prayerId]: !prevState[prayerId], // Toggle visibility
+    }));
+  };
   return (
     <div className="prayer-times-form">
       <h2 ref={formHeadingRef}>ניהול זמני תפילות</h2>
@@ -978,8 +985,8 @@ function PrayerTimesForm() {
 
       <h2>תפילות שמורות במערכת</h2>
       <ul className="prayer-list">
-        {prayerTimes.map((prayer) => (
-          <li key={prayer.id} className="prayer-item">
+      {prayerTimes.filter(prayer => !prayer.title.includes('מבוטלת')).map((prayer) => (
+            <li key={prayer.id} className="prayer-item">
             <div className="prayer-content">
             <span style={{ textAlign: 'right', display: 'block' }}>
               <span style={{ textDecoration: prayer.title.includes('מבוטלת') ? 'line-through' : 'none' }}>
@@ -1015,6 +1022,18 @@ function PrayerTimesForm() {
                 )}
               </span>
             </span>
+            <div>
+                {prayer.title.includes('מבוטלת') ? (
+                  <div style={{ color: 'white',background:'red',borderRadius: '5px',padding: '5px'}}>
+                    <span>התפילה לא מוצגת באתר</span>
+                    <span style={{ marginLeft: '5px' }}>
+                      <i className="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
+            </div>
               <div className="prayer-actions">
                 <button className="btn btn-update" onClick={() => handleEdit(prayer)}>
                   <i className="fas fa-edit"></i>
@@ -1029,6 +1048,7 @@ function PrayerTimesForm() {
                 <button onClick={() => toggleCancelFields(prayer.id)}>
                   + ביטול לתאריכים מסוימים 
                 </button>
+                
                 {showCancelFields[prayer.id] && (
                   <div className="cancel-fields">
                     <label>
@@ -1054,7 +1074,84 @@ function PrayerTimesForm() {
                     </button>
                   </div>
                 )}
+                {prayerTimes.some(cancelledPrayer => 
+                  cancelledPrayer.title.includes('מבוטלת') &&
+                  cancelledPrayer.day === prayer.day &&
+                  cancelledPrayer.base === prayer.base &&
+                  cancelledPrayer.hour === prayer.hour &&
+                  cancelledPrayer.status === 'special'
+                ) && (
+                  <button onClick={() => setShowCancelledDates(prev => ({...prev, [prayer.id]: !prev[prayer.id]}))}>
+                    {showCancelledDates[prayer.id] ? 'הסתר תפילות מבוטלות' : 'הצג תפילות מבוטלות'}
+                  </button>
+                )}
+
+                {showCancelledDates[prayer.id] && (
+                  <div className="cancelled-dates">
+                  <ul>
+                  <div style={{ color: 'white', background: 'red', borderRadius: '5px', padding: '5px', marginTop: '10px' }}>
+                    <span>התפילות לא מוצגת באתר בתאריכים אלו</span>
+                    <span style={{ marginLeft: '5px' }}>
+                        <i className="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </div>
+                  <h4>תפילות מבוטלות:</h4>
+                  
+                    {prayerTimes
+                      .filter(cancelledPrayer => 
+                        cancelledPrayer.title.includes('מבוטלת') &&
+                        cancelledPrayer.day === prayer.day &&
+                        cancelledPrayer.base === prayer.base &&
+                        cancelledPrayer.hour === prayer.hour &&
+                        cancelledPrayer.status === 'special'
+                      )
+                      .map(cancelledPrayer => (
+                        <li key={cancelledPrayer.id} style={{ listStyleType: 'none'}}>
+                          <div className="prayer-content">
+                            <span style={{ textAlign: 'right', display: 'block' }}>
+                              <span>
+                                <strong>תפילה:</strong> {cancelledPrayer.title}
+                              </span><br />
+                              <span>
+                                <strong>יום:</strong> {translateDay(cancelledPrayer.day)}<br />
+                                <strong>בסיס:</strong> {translateBase(cancelledPrayer.base)}<br />
+                                {cancelledPrayer.base === 'constant' ? (
+                                  <>
+                                    <strong>שעה:</strong> {cancelledPrayer.hour}<br />
+                                  </>
+                                ) : (
+                                  <>
+                                    <strong>הפרש:</strong> {`${cancelledPrayer.delta} דקות`}<br />
+                                  </>
+                                )}
+                                {prayer.status === 'recurring' && (
+                                    <>
+                                      <strong>תג:</strong> {translateTag(prayer.tag)}<br />
+                                    </>
+                                  )}
+                                <strong>מבוטלת מתאריך:</strong> {cancelledPrayer.displayFrom} <strong>עד תאריך:</strong> {cancelledPrayer.displayTo}<br />
+
+                              </span>
+                            </span>
+                            
+                            <div className="prayer-actions">
+                              <button className="btn btn-update" onClick={() => handleEdit(cancelledPrayer)}>
+                                <i className="fas fa-edit"></i>
+                              </button>
+                              <button className="btn btn-delete" onClick={() => handleDelete(cancelledPrayer.id)}>
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div style={{ borderTop: '1px solid black', margin: '20px 0' }}></div>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+              )}
               </div>
+              
             )}
           </li>
         ))}
