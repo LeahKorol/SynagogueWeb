@@ -18,6 +18,9 @@ src/utils/test.js
 .env.test.local
 .env.production.local
 
+# ignore the base .env file
+.env
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
