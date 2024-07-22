@@ -1012,7 +1012,7 @@ function PrayerTimesForm() {
                 <strong>סטטוס:</strong> {translateStatus(prayer.status)}<br />
                 {prayer.status === 'recurring' && (
                   <>
-                    <strong>תג:</strong> {translateTag(prayer.tag)}<br />
+                    <strong>תקופה:</strong> {translateTag(prayer.tag)}<br />
                   </>
                 )}
                 {prayer.status === 'special' && (
@@ -1126,7 +1126,7 @@ function PrayerTimesForm() {
                                 )}
                                 {prayer.status === 'recurring' && (
                                     <>
-                                      <strong>תג:</strong> {translateTag(prayer.tag)}<br />
+                                      <strong>תקופה:</strong> {translateTag(prayer.tag)}<br />
                                     </>
                                   )}
                                 <strong>מבוטלת מתאריך:</strong> {cancelledPrayer.displayFrom} <strong>עד תאריך:</strong> {cancelledPrayer.displayTo}<br />
