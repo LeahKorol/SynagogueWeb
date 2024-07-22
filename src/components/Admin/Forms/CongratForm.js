@@ -50,6 +50,10 @@ function CongratForm() {
 
   const handleNewSubmit = async (e) => {
     e.preventDefault();
+    if (!newCongrat.content.trim()) {
+      alert('לא ניתן להוסיף איחול ריק');
+      return;
+    }
     if (congrats.length >= 10) {
       alert("לא ניתן להוסיף יותר מ-10 איחולים. מחק איחול קיים כדי להוסיף חדש.");
       return;
