@@ -58,6 +58,13 @@ function LessonsForm() {
     return `${hours.toString().padStart(2, '0')}:${minutes}`;
   };
 
+  const formatDays = (daysOfWeek) => {
+    if (!daysOfWeek || daysOfWeek.length === 0) return 'כל יום';
+    if (daysOfWeek.length === 7) return 'כל יום';
+    if (daysOfWeek.length === 1) return `יום ${getDayName(daysOfWeek[0])}`;
+    return daysOfWeek.map(day => getDayName(day, true)).join(', ');
+  };
+
   const parseTime = (timeString) => {
     const [hours, minutes] = timeString.split(':').map(Number);
     return { hours: hours === 24 ? 0 : hours, minutes };
@@ -79,6 +86,11 @@ function LessonsForm() {
   
     if (!lesson.title || !lesson.time || !lesson.location) {
       setErrorMessage("יש למלא את כל השדות החובה: כותרת, זמן התחלה ומיקום.");
+      return;
+    }
+
+    if (selectedOption === 'specific' && lesson.daysOfWeek.length === 0) {
+      setErrorMessage("יש לבחור לפחות יום אחד כאשר נבחרת האפשרות 'ימים ספציפיים'.");
       return;
     }
   
@@ -128,13 +140,13 @@ function LessonsForm() {
 
   const getDayName = (day, short = false) => {
     const dayNames = {
-      sunday: short ? 'א\'' : 'יום ראשון',
-      monday: short ? 'ב\'' : 'יום שני',
-      tuesday: short ? 'ג\'' : 'יום שלישי',
-      wednesday: short ? 'ד\'' : 'יום רביעי',
-      thursday: short ? 'ה\'' : 'יום חמישי',
-      friday: short ? 'ו\'' : 'יום שישי',
-      saturday: short ? 'ש\'' : 'יום שבת'
+      sunday: short ? 'א\'' : 'ראשון',
+      monday: short ? 'ב\'' : 'שני',
+      tuesday: short ? 'ג\'' : 'שלישי',
+      wednesday: short ? 'ד\'' : 'רביעי',
+      thursday: short ? 'ה\'' : 'חמישי',
+      friday: short ? 'ו\'' : 'שישי',
+      saturday: short ? 'ש\'' : 'שבת'
     };
     return dayNames[day];
   };
@@ -144,28 +156,19 @@ function LessonsForm() {
       <h2>שיעורים קבועים</h2>
       <ul className="lessons-list">
         {lessons.map(lesson => (
-          <li key={lesson.id} className="lesson-item">
-            <strong>{lesson.title}</strong>: {' '}
-            {lesson.daysOfWeek && lesson.daysOfWeek.length ? (
-              lesson.daysOfWeek.length === 7 ? (
-                <>כל יום</>
-              ) : (
-                <>ימים: {lesson.daysOfWeek.map(day => getDayName(day, true)).join(', ')}</>
-              )
-            ) : (
-              <>יום לא צוין</>
-            )}
-            {' '}בשעה {formatTime(lesson.time)}
-            {lesson.endTime && ` עד שעה ${formatTime(lesson.endTime)}`} - {lesson.location}
-            <div className="lesson-actions">
-              <button className="btn-lessons btn-update" onClick={() => handleEdit(lesson)}>
-                <i className="fas fa-edit"></i>
-              </button>
-              <button className="btn-lessons btn-delete" onClick={() => handleDelete(lesson.id)}>
-                <i className="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </li>
+           <li key={lesson.id} className="lesson-item">
+           <strong>{lesson.title}:</strong> {' '}
+           {formatDays(lesson.daysOfWeek)} בשעה {lesson.time}
+           {lesson.endTime && ` עד שעה ${lesson.endTime}`} - {lesson.location}
+           <div className="lesson-actions">
+             <button className="btn-lessons btn-update" onClick={() => handleEdit(lesson)}>
+               <i className="fas fa-edit"></i>
+             </button>
+             <button className="btn-lessons btn-delete" onClick={() => handleDelete(lesson.id)}>
+               <i className="fas fa-trash-alt"></i>
+             </button>
+           </div>
+         </li>
         ))}
       </ul>
       <form className="lessons-form-inner" onSubmit={handleSubmit}>
@@ -189,7 +192,6 @@ function LessonsForm() {
             onChange={updateForm}
             className="form-input"
             required
-            step="1"
           />
         </div>
         <div className="form-group">
@@ -199,7 +201,6 @@ function LessonsForm() {
               name="showEndTime"
               checked={lesson.showEndTime}
               onChange={updateForm}
-              required
             />
             הוסף שעת סיום
           </label>
@@ -212,8 +213,6 @@ function LessonsForm() {
                 type="time"
                 onChange={updateForm}
                 className="form-input"
-                step="1"
-                required
               />
             </div>
           )}
@@ -272,7 +271,6 @@ function LessonsForm() {
                     value={day}
                     checked={lesson.daysOfWeek.includes(day)}
                     onChange={updateForm}
-                    required
                   />
                   {getDayName(day)}
                 </label>
@@ -282,7 +280,7 @@ function LessonsForm() {
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit" className="btn-lessons btn-save">
-          {editingLesson ? "עדכן" : "הוסף"}
+          {editingLesson ? "הוסף" : "עדכן"}
         </button>
       </form>
     </div>

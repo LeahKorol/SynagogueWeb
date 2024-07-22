@@ -1035,10 +1035,10 @@ function PrayerTimesForm() {
                 )}
             </div>
               <div className="prayer-actions">
-                <button className="btn btn-update" onClick={() => handleEdit(prayer)}>
+                <button className="btn-prayer btn-update-prayer" onClick={() => handleEdit(prayer)}>
                   <i className="fas fa-edit"></i>
                 </button>
-                <button className="btn btn-delete" onClick={() => handleDelete(prayer.id)}>
+                <button className="btn-prayer btn-delete-prayer" onClick={() => handleDelete(prayer.id)}>
                   <i className="fas fa-trash-alt"></i>
                 </button>
               </div>

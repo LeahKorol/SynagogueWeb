@@ -165,6 +165,15 @@ function ContactForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "name" && /\d/.test(value)) {
+      alert('לא ניתן להזין מספרים בשם');
+      return;
+    }
+    if (name=== "phone" && !/^\d+$/.test(value)) {
+      alert('מספר טלפון חייב להכיל ספרות בלבד');
+      return;
+    }
+
     setEditContact((prevDetails) => ({
       ...prevDetails,
       [name]: value,
@@ -187,14 +196,7 @@ function ContactForm() {
       alert('נא להזין כתובת אימייל תקינה');
       return;
     }
-
-    const phoneRegex = /^\d+$/;
-    if (!phoneRegex.test(editContact.phone)) {
-      alert('נא להזין מספרי טלפון בלבד');
-      return;
-    }
     
-
     const isConfirmed = window.confirm("האם אתה בטוח שברצונך לשמור את השינויים?");
     if (isConfirmed) {
       try {
