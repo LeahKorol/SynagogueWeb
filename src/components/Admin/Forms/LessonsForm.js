@@ -280,7 +280,7 @@ function LessonsForm() {
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit" className="btn-lessons btn-save">
-          {editingLesson ? "הוסף" : "עדכן"}
+          {editingLesson ? "עדכן" : "הוסף"}
         </button>
       </form>
     </div>
