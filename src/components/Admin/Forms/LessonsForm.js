@@ -59,7 +59,7 @@ function LessonsForm() {
   };
 
   const formatDays = (daysOfWeek) => {
-    if (!daysOfWeek || daysOfWeek.length === 0) return 'יום לא צוין';
+    if (!daysOfWeek || daysOfWeek.length === 0) return 'כל יום';
     if (daysOfWeek.length === 7) return 'כל יום';
     if (daysOfWeek.length === 1) return `יום ${getDayName(daysOfWeek[0])}`;
     return daysOfWeek.map(day => getDayName(day, true)).join(', ');
