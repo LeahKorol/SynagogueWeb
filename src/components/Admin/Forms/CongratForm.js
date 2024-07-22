@@ -50,6 +50,10 @@ function CongratForm() {
 
   const handleNewSubmit = async (e) => {
     e.preventDefault();
+    if (!newCongrat.content.trim()) {
+      alert('לא ניתן להוסיף איחול ריק');
+      return;
+    }
     if (congrats.length >= 10) {
       alert("לא ניתן להוסיף יותר מ-10 איחולים. מחק איחול קיים כדי להוסיף חדש.");
       return;
@@ -112,7 +116,7 @@ function CongratForm() {
             />
             <div className="congrat-actions">
               <button
-                className="btn btn-update"
+                className="btn-congrats btn-update"
                 onClick={(e) => handleEditSubmit(e, congrat.id)}
               >
                 <i className="fas fa-edit"></i>

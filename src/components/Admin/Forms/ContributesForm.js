@@ -5,6 +5,7 @@ import { db } from '../../../firebase';
 function ContributesForm() {
   const [formData, setFormData] = useState({
     accountNumber: '',
+    bankName: '',
     bankNumber: '',
     branchNumber: '',
     accountHolderName: '',
@@ -13,6 +14,7 @@ function ContributesForm() {
   const [editData, setEditData] = useState({
     id: '',
     accountNumber: '',
+    bankName: '',
     bankNumber: '',
     branchNumber: '',
     accountHolderName: '',
@@ -41,7 +43,7 @@ function ContributesForm() {
     const handleClickOutside = (event) => {
       if (formRef.current && !formRef.current.contains(event.target) && editData.id) {
         setFormData(originalData);
-        setEditData({ id: '', accountNumber: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
+        setEditData({ id: '', accountNumber: '',bankName: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
       }
     };
 
@@ -53,6 +55,46 @@ function ContributesForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    switch (name) {
+      case 'accountNumber':
+        if (!/^\d+$/.test(value)) {
+          alert('מספר חשבון בנק חייב להכיל ספרות בלבד');
+          return;
+        }
+        break;
+        case 'bankName':
+          if (/\d/.test(value)) {
+            alert('שם הבנק לא יכול להכיל מספרים');
+            return;
+          }
+          break;
+      case 'bankNumber':
+        if (!/^\d+$/.test(value)) {
+          alert('מספר בנק חייב להכיל ספרות בלבד');
+          return;
+        }
+        break;
+      case 'branchNumber':
+        if (!/^\d+$/.test(value)) {
+          alert('מספר סניף חייב להכיל ספרות בלבד');
+          return;
+        }
+        break;
+      case 'accountHolderName':
+        if (/\d/.test(value)) {
+          alert('שם בעל החשבון לא יכול להכיל מספרים');
+          return;
+        }
+        break;
+      case 'phoneNumber':
+        if (!/^\d+$/.test(value)) {
+          alert('מספר טלפון חייב להכיל ספרות בלבד');
+          return;
+        }
+        break;
+      default:
+        break;
+    }
     setEditData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -66,7 +108,7 @@ function ContributesForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!editData.accountNumber || !editData.bankNumber || !editData.branchNumber || !editData.accountHolderName || !editData.phoneNumber) {
+    if (!editData.accountNumber || !editData.bankName|| !editData.bankNumber || !editData.branchNumber || !editData.accountHolderName || !editData.phoneNumber) {
       alert('נא למלא את כל השדות');
       return;
     }
@@ -77,7 +119,7 @@ function ContributesForm() {
         const docRef = doc(db, 'contributes', editData.id);
         await updateDoc(docRef, editData);
         setFormData(editData);
-        setEditData({ id: '', accountNumber: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
+        setEditData({ id: '', accountNumber: '', bankName: '', bankNumber: '', branchNumber: '', accountHolderName: '', phoneNumber: '' });
         alert('הנתונים עודכנו בהצלחה');
       } catch (error) {
         console.error('Error updating document: ', error);
@@ -98,6 +140,18 @@ function ContributesForm() {
             type="text"
             name="accountNumber"
             value={editData.id ? editData.accountNumber : formData.accountNumber}
+            onChange={handleChange}
+            onFocus={handleEditFocus}
+            required
+          />
+        </label>
+        <br />
+        <label>
+           בנק
+          <input
+            type="text"
+            name="bankName"
+            value={editData.id ? editData.bankName : formData.bankName}
             onChange={handleChange}
             onFocus={handleEditFocus}
             required
@@ -143,7 +197,7 @@ function ContributesForm() {
         <label>
           מספר טלפון להעברה ב bit או ב paybox
           <input
-            type="text"
+            type="tel"
             name="phoneNumber"
             value={editData.id ? editData.phoneNumber : formData.phoneNumber}
             onChange={handleChange}

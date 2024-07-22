@@ -46,7 +46,7 @@ function AdminLogin() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-          <button type="submit">Login with Email and Password</button>
+          <button type="submit">כניסה עם מייל וסיסמא</button>
         </form>
         {error && <p>{error}</p>}
       </div>

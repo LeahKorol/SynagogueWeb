@@ -1,6 +1,6 @@
 header {
   background-color: var(--primary-color);
-  padding: 1.5vh 2.5vw;
+  padding: 0 2.5vw;
   color: white;
   position: fixed;
   top: 0;
@@ -22,6 +22,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
 }
 
 .nav-links {
@@ -79,7 +80,7 @@ header {
   cursor: pointer;
   display: none;
   flex-direction: column;
-  gap: 2vh;
+  gap: 0.9vh;
 }
 
 .hamburger-menu .bar {
@@ -88,29 +89,43 @@ header {
   background-color: white;
 }
 
+.logo-mobile img {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    align-items: flex-start;
+  header{
+    padding: 1.5vh 2.5vw;
   }
-
-  .center-content {
-    width: 100%;
-  }
-
   .nav-links {
     display: none;
     flex-direction: column;
-    width: 100%;
+    background: white;
+    position: absolute;
+    right: 0;
     text-align: center;
+    width: 100vw;
+    height: fit-content;
+  }
+
+  .nav-links a {
+    font-size: 3vh;
   }
 
   .nav-links.open {
     display: flex;
+    background-color: var(--primary-color);
+    margin-top: 4vh;
+    padding: 3vw;
   }
 
-  .nav-links a {
-    font-size: 18px;
+  .hamburger-menu {
+    display: block; 
+  }
+
+  .header-content {
+    flex-direction: column-reverse;
+    justify-content: space-between;
   }
 
   .date-info {
@@ -118,6 +133,21 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     color: white; 
+    font-size: 3vw;
+  }
+
+  .logo-mobile img {
+    display: block;
+    width: 10vw; 
+    position: absolute;
+    top: 0.75vh;
+    left: 2.5vw;
+  }
+
+  .hamburger-manager-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .hamburger-menu {
@@ -128,7 +158,11 @@ header {
   }
 
   .manager {
-    margin-top: 1vh;
-    align-self: center;
+    float: left;
+    padding: 0.5vh 2vw;
+  }
+
+  .logo img {
+    display: none; 
   }
 }

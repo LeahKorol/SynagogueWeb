@@ -53,7 +53,7 @@ function Contributes() {
           <p>
             מספר חשבון: {contributesData.accountNumber}
             <br />
-            מספר בנק: {contributesData.bankNumber} (בנק הפועלים)
+            מספר בנק: {contributesData.bankNumber} ({contributesData.bankName})
             <br />
             מספר סניף: {contributesData.branchNumber}
             <br />

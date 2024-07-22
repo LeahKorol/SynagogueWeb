@@ -65,7 +65,7 @@
     margin-bottom: 15px;
   }
   
-  .btn {
+  .btn-lessons {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
@@ -80,4 +80,8 @@
     background-color: #7fb2d6;
     color: white;
   }
-  
+  @media (max-width: 768px) {
+    .lesson-item {
+      flex-direction: column;
+    }
+  }
