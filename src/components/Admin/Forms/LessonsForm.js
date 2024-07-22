@@ -15,6 +15,7 @@ function LessonsForm() {
   });
   const [editingLesson, setEditingLesson] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [originalLesson, setOriginalLesson] = useState(null);
   const [selectedOption, setSelectedOption] = useState('all');
 
   const fetchLessons = async () => {
@@ -88,7 +89,7 @@ function LessonsForm() {
       setErrorMessage("יש למלא את כל השדות החובה: כותרת, זמן התחלה ומיקום.");
       return;
     }
-
+  
     if (selectedOption === 'specific' && lesson.daysOfWeek.length === 0) {
       setErrorMessage("יש לבחור לפחות יום אחד כאשר נבחרת האפשרות 'ימים ספציפיים'.");
       return;
@@ -96,31 +97,49 @@ function LessonsForm() {
   
     setErrorMessage("");
     
-    const lessonToSave = {
-      ...lesson,
-      time: formatTime(lesson.time),
-      endTime: lesson.showEndTime ? formatTime(lesson.endTime) : ""
-    };
-    
-    if (editingLesson) {
-      await updateDoc(doc(db, "lessonsActivities", editingLesson.id), lessonToSave);
-      setEditingLesson(null);
-    } else {
-      await addDoc(collection(db, "lessonsActivities"), lessonToSave);
+    const confirmMessage = editingLesson 
+      ? "האם ברצונך לשמור את השינויים שנעשו בשיעור?"
+      : "האם ברצונך להוסיף את השיעור החדש?";
+  
+    if (window.confirm(confirmMessage)) {
+      const lessonToSave = {
+        ...lesson,
+        time: formatTime(lesson.time),
+        endTime: lesson.showEndTime ? formatTime(lesson.endTime) : ""
+      };
+      
+      if (editingLesson) {
+        await updateDoc(doc(db, "lessonsActivities", editingLesson.id), lessonToSave);
+        setEditingLesson(null);
+      } else {
+        await addDoc(collection(db, "lessonsActivities"), lessonToSave);
+      }
+      setLesson({ title: "", time: "", location: "", endTime: "", showEndTime: false, daysOfWeek: [] });
+      fetchLessons();
     }
-    setLesson({ title: "", time: "", location: "", endTime: "", showEndTime: false, daysOfWeek: [] });
-    fetchLessons();
+
+    else {
+      if (originalLesson) {
+        setLesson(originalLesson);
+        setSelectedOption(originalLesson.daysOfWeek.length === 7 ? 'all' : 'specific');
+      } else {
+        setLesson({ title: "", time: "", location: "", endTime: "", showEndTime: false, daysOfWeek: [] });
+      }
+    }
   };
 
   const handleEdit = (lesson) => {
-    setLesson({
+    const lessonToEdit = {
       title: lesson.title,
       time: lesson.time,
       location: lesson.location,
       endTime: lesson.endTime || "",
       showEndTime: !!lesson.endTime,
       daysOfWeek: lesson.daysOfWeek || []
-    });
+    };
+
+    setLesson(lessonToEdit);
+    setOriginalLesson(lessonToEdit);
     setEditingLesson(lesson);
     setSelectedOption(lesson.daysOfWeek && lesson.daysOfWeek.length === 7 ? 'all' : 'specific');
   };
