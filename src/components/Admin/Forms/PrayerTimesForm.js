@@ -822,6 +822,7 @@ function PrayerTimesForm() {
       });
     }
   };
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleDelete = async (id) => {
     const isConfirmed = window.confirm('האם אתה בטוח שברצונך למחוק פריט זה?');
@@ -830,6 +831,7 @@ function PrayerTimesForm() {
       await deleteDoc(doc(db, "times", id));
       fetchPrayerTimes();
       resetForm();
+      setIsDeleted(true);
     }
   };
 
@@ -1081,7 +1083,7 @@ function PrayerTimesForm() {
                   cancelledPrayer.hour === prayer.hour &&
                   cancelledPrayer.status === 'special'
                 ) && (
-                  <button onClick={() => setShowCancelledDates(prev => ({...prev, [prayer.id]: !prev[prayer.id]}))}>
+                  <button style={{marginRight:'10px'}} onClick={() => setShowCancelledDates(prev => ({...prev, [prayer.id]: !prev[prayer.id]}))}>
                     {showCancelledDates[prayer.id] ? 'הסתר תפילות מבוטלות' : 'הצג תפילות מבוטלות'}
                   </button>
                 )}
@@ -1089,6 +1091,7 @@ function PrayerTimesForm() {
                 {showCancelledDates[prayer.id] && (
                   <div className="cancelled-dates">
                   <ul>
+                  <div className={isDeleted ? 'hidden' : ''}>
                   <div style={{ color: 'white', background: 'red', borderRadius: '5px', padding: '5px', marginTop: '10px' }}>
                     <span>התפילות לא מוצגת באתר בתאריכים אלו</span>
                     <span style={{ marginLeft: '5px' }}>
@@ -1096,6 +1099,7 @@ function PrayerTimesForm() {
                     </span>
                   </div>
                   <h4>תפילות מבוטלות:</h4>
+                  </div>
                   
                     {prayerTimes
                       .filter(cancelledPrayer => 
