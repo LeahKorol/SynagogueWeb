@@ -19,3 +19,13 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ADMINLOGIN_71945 }}
           projectId: adminlogin-71945
+          REACT_APP_FIREBASE_API_KEY: AIzaSyCMvf-0cH5dIMcBAtz6pSuEcZotu7_8r4E
+          REACT_APP_FIREBASE_AUTH_DOMAIN: adminlogin-71945.firebaseapp.com
+          REACT_APP_FIREBASE_PROJECT_ID: adminlogin-71945
+          REACT_APP_FIREBASE_STORAGE_BUCKET: adminlogin-71945.appspot.com
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID: 488007417568
+          REACT_APP_FIREBASE_APP_ID: 1:488007417568:web:0fd503c972c166f4641a85
+          REACT_APP_FIREBASE_MEASUREMENT_ID: G-HH7BFN7Y5Z
+          PUBLIC_URL: .
+          CI: false
+        
