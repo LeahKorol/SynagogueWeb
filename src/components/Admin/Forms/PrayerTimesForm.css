@@ -132,7 +132,9 @@
 .cancel-fields input {
     margin-left: 2vw;
 }
-
+.hidden {
+  display: none;
+}
 @media (max-width: 600px) {
     .prayer-content {
     flex-direction: column;
