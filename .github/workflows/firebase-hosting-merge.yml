@@ -18,3 +18,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ADMINLOGIN_71945 }}
           channelId: live
           projectId: adminlogin-71945
+    env:
+        CI: false
