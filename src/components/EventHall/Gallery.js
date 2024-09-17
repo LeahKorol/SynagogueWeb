@@ -61,8 +61,8 @@ function Gallery() {
               <img src={image.url} alt={`אירוע ${index + 1}`} />
             </div>
           ))}
-          <a className="next" onClick={() => plusSlides(-1)}>❮</a>
-          <a className="prev" onClick={() => plusSlides(1)}>❯</a>
+          <button className="next" onClick={() => plusSlides(-1)}>❮</button>
+          <button className="prev" onClick={() => plusSlides(1)}>❯</button>
         </div>
         <br />
         <div style={{ textAlign: 'center' }}>
