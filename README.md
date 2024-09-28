@@ -1,5 +1,7 @@
 # Synagogue Website
 
+![Website Screenshot](./src/images/homepage.png)
+
 This is a website for a synagogue built using [Create React App](https://github.com/facebook/create-react-app) and [Firebase](https://firebase.google.com/).
 
 ## Getting Started
