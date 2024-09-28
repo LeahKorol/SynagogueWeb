@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# Synagogue Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a website for a synagogue built using [Create React App](https://github.com/facebook/create-react-app) and [Firebase](https://firebase.google.com/).
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### Prerequisites
 
-### `npm start`
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v14 or above)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clone the repository:
 
-### `npm test`
+   ```bash
+   git clone https://github.com/your-username/synagogue-website.git
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Navigate to the project directory:
 
-### `npm run build`
+   ```bash
+   cd synagogue-website
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install the dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Firebase Configuration
 
-### `npm run eject`
+You will need to initialize Firebase for this project. Follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Set up your own Firebase project by visiting the [Firebase Console](https://console.firebase.google.com/).
+   
+2. Check the GitHub Wiki for detailed instructions on what to configure in Firebase, including the specific services needed (e.g., Authentication, Firestore, Hosting). 
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Ensure your Firebase configuration is stored in environment variables. Add a `.env` file in the root of your project with the following content:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   REACT_APP_API_KEY=your-firebase-api-key
+   REACT_APP_AUTH_DOMAIN=your-firebase-auth-domain
+   REACT_APP_PROJECT_ID=your-firebase-project-id
+   REACT_APP_STORAGE_BUCKET=your-firebase-storage-bucket
+   REACT_APP_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+   REACT_APP_APP_ID=your-firebase-app-id
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   The Firebase API keys and other sensitive information are stored as GitHub Secrets for security purposes.
 
-## Learn More
+### Running the App
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To run the development server:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm start
+```
 
-### Code Splitting
+The app will be available at `http://localhost:3000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Building the App
 
-### Analyzing the Bundle Size
+To create an optimized production build:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm run build
+```
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+The build will be stored in the `build` folder.
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The website is deployed using Firebase Hosting. To deploy the app:
 
-### `npm run build` fails to minify
+1. Ensure you have initialized Firebase Hosting for your project by running:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   ```bash
+   firebase init hosting
+   ```
+
+2. Log in to Firebase:
+
+   ```bash
+   firebase login
+   ```
+
+3. Deploy to Firebase:
+
+   ```bash
+   firebase deploy
+   ```
+
+## License
+
+This project is licensed under the MIT License.
